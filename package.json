@@ -56,5 +56,8 @@
 	},
 	"keywords": [
 		"svelte"
-	]
+	],
+	"dependencies": {
+		"flowbite": "^3.1.2"
+	}
 }

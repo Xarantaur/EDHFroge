@@ -1,7 +1,10 @@
-<script lang="ts">
+<script>
 	import '../app.css';
-
-	let { children } = $props();
+	import NavBar from '$lib/components/NavBar.svelte';
 </script>
 
-{@render children()}
+<NavBar >
+	<img src="/edhforgefirst.png" alt="Logo" class="w-10 h-10" slot="logo" />
+  </NavBar>
+
+<slot />
