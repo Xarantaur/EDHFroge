@@ -1,5 +1,5 @@
 <script>
-  export let title = "EDH Forge";
+  export const title = "EDH Forge";
 </script>
 
 <nav class="bg-gray-900 text-white px-6 py-4 shadow-md">

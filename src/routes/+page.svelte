@@ -1,10 +1,9 @@
 <script>
 	import { errorToast } from '$lib/utils/toasters';
-    import { toast } from '@zerodevx/svelte-toast';
 </script>
 
 <p> this will be ... </p>
-
-<button on:click={() => errorToast('Manual test!')}>
-	Show test toast
-</button>
+<div class="flex justify-center items-center">
+<button on:click={() => errorToast('fire in the forge!')} >
+<img src="/latest edhforgelogo.png" alt="EdhForge" class="max-w-md flex justify-center items-center"
+/></button></div>
