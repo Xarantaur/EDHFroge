@@ -1,7 +1,5 @@
 <script lang="ts">
-    let email="";
-    let password="";
-    let confirm="";
+    
     import { successToast, errorToast } from '$lib/utils/toasters';
 	export let form;
 
@@ -11,6 +9,10 @@
 	$: if (form?.error) {
 		errorToast(`❌ ${form.error}`);
 	}
+	
+	let email="";
+    let password="";
+    let confirm="";
 </script>
 
 

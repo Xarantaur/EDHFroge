@@ -1,29 +1,24 @@
 import type { Actions } from './$types';
 import { users } from '$lib/stores/userStore';
 
+
+
+
 export const actions: Actions = {
 	default: async ({ request }) => {
 		const form = await request.formData();
 		const email = form.get('email')?.toString();
 		const password = form.get('password')?.toString();
-		const confirm = form.get('confirm')?.toString();
 
-		if (!email || !password || !confirm) {
+		if (!email || !password) {
 			return { error: 'All fields are required.' };
 		}
 
-		if (password !== confirm) {
-			return { error: 'Passwords do not match.' };
+		const user = users.find((u) => u.email === email && u.password === password);
+		if (!user) {
+			return { error: 'Invalid email or password.' };
 		}
-
-		const existingUser = users.find((u) => u.email === email);
-		if (existingUser) {
-			return { error: 'User already exists.' };
-		}
-
-		users.push({ email, password });
-		console.log(users)
+        console.log(users)
 		return { success: true };
 	}
-	
 };
