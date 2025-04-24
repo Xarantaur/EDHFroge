@@ -6,7 +6,7 @@
 	const options = {
 		duration: 4000,
 		intro: { x: 256 }
-		};
+	}
 </script>
 
 <NavBar >

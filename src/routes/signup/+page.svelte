@@ -2,14 +2,14 @@
     let email="";
     let password="";
     let confirm="";
-	import { toast } from '@zerodevx/svelte-toast';
+    import { successToast, errorToast } from '$lib/utils/toasters';
 	export let form;
 
 	$: if (form?.success) {
-		toast.push('🎉 Signup successful!', { duration: 5000 });
+		successToast('🎉 Signup successful!');
 	}
 	$: if (form?.error) {
-		toast.push(`❌ ${form.error}`, { duration: 5000 });
+		errorToast(`❌ ${form.error}`);
 	}
 </script>
 
