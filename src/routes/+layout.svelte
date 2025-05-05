@@ -3,13 +3,15 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
+	export let data;
+
 	const options = {
 		duration: 4000,
 		intro: { x: 256 }
 	}
 </script>
 
-<NavBar >
+<NavBar {data}>
 	<img src="/latest edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
   </NavBar>
 

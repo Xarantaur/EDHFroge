@@ -1,5 +1,6 @@
-<script>
+<script lang=ts>
   export const title = "EDH Forge";
+  export let data: { user: string | null };
 </script>
 
 <nav class="bg-gray-900 text-white px-6 py-4 shadow-md">
@@ -11,8 +12,20 @@
     </a>
 
     <ul class="flex gap-6 text-sm font-medium">
-      <li><a href="/login" class="hover:text-orange-400">Login</a></li>
-      <li><a href="/signup" class="text-white bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800">Sign Up</a></li>
+      {#if data.user}
+        <li>
+          <form method="POST" action="/logout">
+            <button type="submit" class="hover:text-orange-400">Logout</button>
+          </form>
+        </li>
+      {:else}
+        <li><a href="/login" class="hover:text-orange-400">Login</a></li>
+        <li>
+          <a href="/signup" class="text-white bg-orange-600 hover:bg-orange-400 px-4 py-2 rounded">
+            Sign Up
+          </a>
+        </li>
+      {/if}
     </ul>
   </div>
 </nav>

@@ -1,8 +1,8 @@
 import type { Actions } from './$types';
-import { users } from '$lib/stores/userStore';
+import { prisma } from '$lib/utils/prisma'
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 		const form = await request.formData();
 		const email = form.get('email')?.toString();
 		const password = form.get('password')?.toString();
@@ -16,13 +16,23 @@ export const actions: Actions = {
 			return { error: 'Passwords do not match.' };
 		}
 
-		const existingUser = users.find((u) => u.email === email);
+		const existingUser = await prisma.user.findUnique({
+			where: { email }
+		});
+
 		if (existingUser) {
-			return { error: 'User already exists.' };
+			return { error: 'User Already exists.'}
 		}
 
-		users.push({ email, password });
-		console.log(users)
+		const newUser = await prisma.user.create({
+			data: {
+				email,
+				password
+
+			}}
+		)
+
+		cookies.set('session', newUser.email, { path: '/' })
 		return { success: true };
 	}
 	
