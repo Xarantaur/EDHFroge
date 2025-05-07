@@ -30,3 +30,9 @@ model DeckCard {
   cardName String
   quantity Int
 }
+model PasswordReset {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+}
