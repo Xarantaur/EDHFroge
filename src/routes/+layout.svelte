@@ -1,19 +1,25 @@
 <script>
 	import '../app.css';
 	import NavBar from '$lib/components/NavBar.svelte';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import { Toaster } from 'svelte-french-toast';
+	
 
 	export let data;
 
-	const options = {
-		duration: 4000,
-		intro: { x: 256 }
-	}
+
 </script>
 
 <NavBar {data}>
 	<img src="/latest edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
   </NavBar>
 
-  <SvelteToast {options}/>
+
+
 <slot />
+<Toaster 
+position="top-center"
+	toastOptions={{
+		duration: 4000,
+		style: 'background-color: #333; color: white;'
+	}}
+	/>

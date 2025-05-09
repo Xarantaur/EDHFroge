@@ -1,10 +1,15 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/utils/prisma';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import bcrypt from 'bcrypt'
 
 
-
+export const load: PageServerLoad = ({ cookies }) => {
+	const session = cookies.get('session');
+	if (session) {
+		throw redirect(303, '/profile');
+	}
+};
 
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {

@@ -1,13 +1,12 @@
 <script lang="ts">
-    
-    import { successToast, errorToast } from '$lib/utils/toasters';
+import toast from 'svelte-french-toast';     
 	export let form;
 
 	$: if (form?.success) {
-		successToast('🎉 Signup successful!');
+		toast.success('🎉 Signup successful!');
 	}
 	$: if (form?.error) {
-		errorToast(`❌ ${form.error}`);
+		toast.error(`❌ ${form.error}`);
 	}
 	
 	let email="";
