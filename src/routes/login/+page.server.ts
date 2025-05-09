@@ -28,7 +28,7 @@ export const actions: Actions = {
 				return { error: 'Invalid email or password'}
 			}
 
-			cookies.set('session', user.email, { path: '/' });
+			cookies.set('session', user.id, { path: '/' });
 			throw redirect(303, '/profile');
 				return { success: true };
 	}

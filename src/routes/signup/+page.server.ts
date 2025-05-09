@@ -35,7 +35,7 @@ export const actions: Actions = {
 			}}
 		)
 
-		cookies.set('session', newUser.email, { path: '/' })
+		cookies.set('session', newUser.id, { path: '/' })
 		return { success: true };
 	}
 	

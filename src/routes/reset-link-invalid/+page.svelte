@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50">
+<div class="flex items-start justify-center min-h-screen bg-gray-50 pt-32">
     <div class="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
       <h1 class="text-2xl font-bold text-red-600 mb-4">Invalid Link</h1>
       <p class="text-gray-700 mb-6">
