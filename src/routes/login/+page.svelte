@@ -4,9 +4,6 @@
     import toast from 'svelte-french-toast';
 	export let form;
 
-	$: if (form?.success) {
-		toast.success('🎉 Login successful!');
-	}
 	$: if (form?.error) {
 		toast.error(`❌ ${form.error}`);
 	}
@@ -20,7 +17,6 @@
     
 	<div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
 		<h1 class="text-2xl font-bold mb-6 text-center">Log In</h1>
-
 		<form method="POST" class="flex flex-col gap-4">
 			<input
 				type="email"

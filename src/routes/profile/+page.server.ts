@@ -13,6 +13,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		select: {
 			id: true,
 			email: true,
+			decks: true,
+			createdAt: true, 
 		}
 	});
 
