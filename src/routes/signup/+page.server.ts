@@ -1,6 +1,7 @@
 import type { Actions } from './$types';
 import { prisma } from '$lib/utils/prisma'
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
@@ -35,7 +36,23 @@ export const actions: Actions = {
 			}}
 		)
 
-		cookies.set('session', newUser.id, { path: '/' })
+		const token = crypto.randomBytes(32).toString('hex');
+		const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
+			await prisma.session.create({
+			data: {
+				token,
+				userId: newUser.id,
+				expiresAt: expires
+			}
+		});
+
+		cookies.set('session', token, { 
+			path: '/',
+			sameSite: 'lax',
+			secure: true 
+		});
+
 		return { success: true };
 	}
 	

@@ -2,6 +2,7 @@ import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/utils/prisma';
 import { redirect } from '@sveltejs/kit';
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 
 
 export const load: PageServerLoad = ({ cookies }) => {
@@ -33,8 +34,18 @@ export const actions: Actions = {
 				return { error: 'Invalid email or password'}
 			}
 
-			cookies.set('session', user.id, { path: '/' });
+			const token = crypto.randomBytes(32).toString('hex');
+			const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
+			await prisma.session.create({
+				data: {
+					token,
+					userId: user.id,
+					expiresAt: expires
+				}
+			})
+
+			cookies.set('session', token, { path: '/', sameSite: 'lax', secure: true });
 			throw redirect(303, '/profile');
-				return { success: true };
 	}
 };

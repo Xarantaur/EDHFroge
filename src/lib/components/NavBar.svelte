@@ -18,6 +18,9 @@
             <button type="submit" class="hover:text-orange-400">Logout</button>
           </form>
         </li>
+        <li>
+          <a href="/profile" class="hover:text-orange-400">Profile</a>
+        </li>
       {:else}
         <li><a href="/login" class="hover:text-orange-400">Login</a></li>
         <li>
