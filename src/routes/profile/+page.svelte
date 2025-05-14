@@ -1,15 +1,45 @@
-<p>profile</p>
+<script lang="ts">
+	export let data: {
+		user: {
+			id: string;
+			email: string;
+		};
+	};
+</script>
+
+<p>Profile Management</p>
 <ul>
     <li>
-        profilename
+        Profile Management
+✏️ “Edit profile” (change email, username, etc.)
+
+🔐 Change password
+
+📧 (Optional) Email preferences toggle
     </li>
+    <p>security</p>
     <li>
-        password
+       Security
+🔍 Last login (or recent sessions)
+
+📱 List of active sessions / devices (can log out of others)
+
+🔄 Button to regenerate session (log out from everywhere)
     </li>
+    <p>Personalization</p>
     <li>
-        something something
+        Personalization
+🧙‍♂️ Avatar (Gravatar or uploaded)
+
+🧾 Bio / About me
+
+🎨 Theme or UI preferences (light/dark, card style, etc.)
     </li>
+    <p>6. Danger Zone</p>
     <li>
-        darkmode? i dont know
+        6. Danger Zone
+❌ Delete account (with confirmation)
+
+🚪 Log out of all sessions
     </li>
 </ul>

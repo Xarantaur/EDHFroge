@@ -1,13 +1,20 @@
 import type { PageServerLoad } from './$types'
+import { prisma } from '$lib/utils/prisma'
 import { redirect } from '@sveltejs/kit'
 
 
-export const load: PageServerLoad = ({ cookies }) => {
-	const session = cookies.get('session');
-	if (!session) {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
 		throw redirect(303, '/login');
 	}
-	return {
-		user: session
-	};
+	
+	const user = await prisma.user.findUnique({
+		where: { id: locals.user.id },
+		select: {
+			id: true,
+			email: true,
+		}
+	});
+
+	return { user }
 };
