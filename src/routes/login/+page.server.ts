@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/utils/prisma';
 import { redirect } from '@sveltejs/kit';
-import { comparePassword, hashPassword } from '$lib/server/auth';
+import { comparePassword } from '$lib/server/auth';
 import crypto from 'crypto'
 
 

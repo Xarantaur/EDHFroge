@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { error } from '@sveltejs/kit';
     import toast from 'svelte-french-toast'
 	export let data: {
 		user: {
@@ -13,19 +12,16 @@
     import Dialog from '$lib/components/dialog.svelte'
     let open = false; 
 
-    const handlePasswordSubmit = async (form: FormData) => {
-        await fetch('/profile', {method: 'POST', body: form})
-        open = false;
-    }
     export let form: any;
+    $: if (form?.success) {
+	toast.success(' Password changed!')
+    open = false;
+}
+$: if (form?.error) {
+	toast.error('❌ Something went wrong')
+}
 </script>
 
-{#if form?.success} 
-    {toast.success('Password Changed')}
-{/if}
-{#if form?.error}
-    {toast.error('❌ something went wrong')}
-{/if}
 
 <Dialog
 	bind:open={open}
@@ -34,7 +30,6 @@
 		{ name: 'newPassword', label: 'New Password', type: 'password', required: true },
 		{ name: 'confirm', label: 'Confirm Password', type: 'password', required: true }
 	]}
-	onSubmit={handlePasswordSubmit}
 />
 
 <div class="flex items-start justify-center p-4">

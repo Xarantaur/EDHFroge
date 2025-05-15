@@ -13,21 +13,16 @@
 
     <ul class="flex gap-6 text-sm font-medium">
       {#if data.user}
-        <li>
+      <li><a href="/decks" class="hover:text-orange-400">Decks</a></li>
+      <li><a href="/profile" class="hover:text-orange-400">Profile</a></li>
+      <li>
           <form method="POST" action="/logout">
-            <button type="submit" class="hover:text-orange-400">Logout</button>
+            <button type="submit" class="hover:text-orange-400 cursor-pointer">Logout</button>
           </form>
         </li>
-        <li>
-          <a href="/profile" class="hover:text-orange-400">Profile</a>
-        </li>
       {:else}
-        <li><a href="/login" class="hover:text-orange-400">Login</a></li>
-        <li>
-          <a href="/signup" class="text-white bg-orange-600 hover:bg-orange-400 px-4 py-2 rounded">
-            Sign Up
-          </a>
-        </li>
+      <li><a href="/login" class="hover:text-orange-400">Login</a></li>
+       <li><a href="/signup" class="text-white bg-orange-600 hover:bg-orange-400 px-4 py-2 rounded">Sign Up</a></li>
       {/if}
     </ul>
   </div>
