@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/utils/prisma';
-import bcrypt from 'bcrypt';
+import { hashPassword } from '$lib/server/auth';
 import { redirect, fail } from '@sveltejs/kit';
 
 
@@ -47,7 +47,7 @@ export const actions: Actions = {
       return fail(400, { error: 'Invalid or expired reset link.' });
     }
 
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await hashPassword(password)
 
     await prisma.user.update({
       where: { email: reset.email },

@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { prisma } from '$lib/utils/prisma'
-import bcrypt from 'bcrypt'
+import { hashPassword } from '$lib/server/auth';
 import crypto from 'crypto'
 
 export const actions: Actions = {
@@ -25,13 +25,12 @@ export const actions: Actions = {
 		if (existingUser) {
 			return { error: 'User Already exists.'}
 		}
-		const hashedPassword = await bcrypt.hash(password, 10);
+		const hashed = await hashPassword(password);
 
-		
 		const newUser = await prisma.user.create({
 			data: {
 				email,
-				password: hashedPassword
+				password: hashed
 
 			}}
 		)

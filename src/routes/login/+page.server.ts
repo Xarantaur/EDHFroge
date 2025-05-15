@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/utils/prisma';
 import { redirect } from '@sveltejs/kit';
-import bcrypt from 'bcrypt'
+import { comparePassword, hashPassword } from '$lib/server/auth';
 import crypto from 'crypto'
 
 
@@ -29,8 +29,9 @@ export const actions: Actions = {
 				return { error: 'Invalid email or password'}
 			}
 
-			const passwordMatches = await bcrypt.compare(password, user.password);
-			if(!passwordMatches) {
+
+			const match = await comparePassword(password, user.password);
+			if(!match) {
 				return { error: 'Invalid email or password'}
 			}
 
