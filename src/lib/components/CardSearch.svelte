@@ -1,6 +1,5 @@
 <script lang="ts">
   import { searchCardByName } from '$lib/utils/scryfall';
-  import toast from 'svelte-french-toast';
 	import Button from './Button.svelte';
 
   export let onAddCard: (card: any) => void;

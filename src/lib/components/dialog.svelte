@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
-
     export let open = false;
-
     export let title = 'Form';
     export let fields: {
         name: string;

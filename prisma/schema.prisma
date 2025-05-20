@@ -27,7 +27,7 @@ model Deck {
 
 model DeckCard {
   id       String   @id @default(uuid())
-  deck     Deck     @relation(fields: [deckId], references: [id])
+  deck     Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
   deckId   String
   cardName String
   imageUrl String

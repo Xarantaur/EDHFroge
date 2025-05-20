@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Button from "$lib/components/Button.svelte";
+
 	export let data: {
 		decks: {
 			id: string;
@@ -21,6 +23,9 @@
 				<li class="p-4 bg-white shadow rounded hover:bg-orange-50">
 					<a href={`/decks/${deck.id}`} class="font-semibold text-lg">{deck.name}</a>
 					<p class="text-sm text-gray-500">Created: {new Date(deck.createdAt).toLocaleDateString()}</p>
+					<form method="POST" action={`/decks/delete/${deck.id}`}>
+						<Button type="submit" variant="danger" >Delete Deck</Button>
+					</form>
 				</li>
 			{/each}
 		</ul>
