@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Button from "./Button.svelte";
+
     export let open = false;
 
     export let title = 'Form';
@@ -40,8 +42,8 @@
 	{/each}
 
 	<div class="flex justify-end gap-2 pt-2">
-		<button type="button" on:click={() => (open = false)} class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-		<button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">Submit</button>
+		<Button onClick={() => ( open = false )} type="button" variant="secondary">Cancel</Button>
+		<Button type="submit" variant="primary">Submit</Button>
 	</div>
 </form>
 </div>

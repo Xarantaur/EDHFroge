@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 import toast from 'svelte-french-toast';     
 	export let form;
 
@@ -47,13 +48,7 @@ import toast from 'svelte-french-toast';
 				required
 				class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
 			/>
-
-			<button
-				type="submit"
-				class="bg-orange-600 text-white p-3 rounded hover:bg-orange-700 transition"
-			>
-				Create Account
-			</button>
+			<Button type="submit" variant="primary">Create Account</Button>
 		</form>
 	</div>
 </div>

@@ -30,7 +30,7 @@ model DeckCard {
   deck     Deck     @relation(fields: [deckId], references: [id])
   deckId   String
   cardName String
-  quantity Int
+  imageUrl String
 }
 model PasswordReset {
   id        String   @id @default(uuid())

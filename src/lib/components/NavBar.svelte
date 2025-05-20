@@ -1,4 +1,6 @@
 <script lang=ts>
+	import Button from "./Button.svelte";
+
   export const title = "EDH Forge";
   export let data: { user: string | null };
 </script>
@@ -17,7 +19,7 @@
       <li><a href="/profile" class="hover:text-orange-400">Profile</a></li>
       <li>
           <form method="POST" action="/logout">
-            <button type="submit" class="hover:text-orange-400 cursor-pointer">Logout</button>
+            <Button type="submit" variant="primary">Logout</Button>
           </form>
         </li>
       {:else}

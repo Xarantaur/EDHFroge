@@ -10,6 +10,7 @@
 	};
 
     import Dialog from '$lib/components/dialog.svelte'
+	import Button from '$lib/components/Button.svelte';
     let open = false; 
 
     export let form: any;
@@ -49,7 +50,7 @@ $: if (form?.error) {
         <h1 class="font-bold">security</h1>
        <ul>
              <li class="px-4 py-2 rounded">
-                <button on:click={() => (open = true)} class="text-white bg-orange-600 hover:bg-orange-400 px-4 py-2 rounded">Change password</button>
+                <Button onClick={() => (open = true )} type="button" variant="primary">Change password</Button>
             </li>
             <li class="px-4 py-2 rounded hover:bg-orange-200 hover:text-orange-400">
                 🔄 Button to regenerate session (log out from everywhere)

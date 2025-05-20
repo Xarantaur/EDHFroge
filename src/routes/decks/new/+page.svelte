@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { searchCardByName } from '$lib/utils/scryfall';
-    let deck: any[] = [{
+    import DeckViewer from '$lib/components/DeckViewer.svelte';
+	import toast from 'svelte-french-toast';
+	import CardSearch from '$lib/components/CardSearch.svelte';
+	import Button from '$lib/components/Button.svelte';
+    let deck: any[] = [/* {
     "object": "card",
     "id": "0fdae05f-7bdc-45fb-b9b9-e5ec3766f965",
     "oracle_id": "d7ac4be1-dcca-49b6-8ddb-d1b0e6cf2dcf",
@@ -295,80 +299,39 @@
         "cardmarket": "https://www.cardmarket.com/en/Magic/Products/Singles/Dominaria-Remastered/Zur-the-Enchanter?referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
         "cardhoarder": "https://www.cardhoarder.com/cards/107901?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
-}];
-	let query = '';
-	let card: any = null;
-	let error = '';
+} */];
+	
+	function addCard(card: any) {
+        if(deck.some(c => c.name === card.name)) {
+            toast.error("card already in deck")
+            return
+        }
+		deck = [...deck, card]
+	}
+    
+    async function saveDeck() {
+		const response = await fetch('/decks/save', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				name: 'My First Deck',
+				cards: deck.map(card => ({
+					cardName: card.name,
+					imageUrl: card.image_uris.normal
+				}))
+			})
+		});
 
-	async function search() {
-		error = '';
-		card = null;
-
-		try {
-			card = await searchCardByName(query);
-		query = '';
-		} catch (err) {
-			error = 'Card not found';
+		if (response.ok) {
+			toast.success('Deck saved!');
+		} else {
+			toast.error('Something went wrong saving the deck');
 		}
 	}
-
-	function addCard() {
-		deck = [...deck, card]
-		console.log(deck)
-	}
-
 </script>
 
-<div class="max-w-md mx-auto p-6">
-	<h2 class="text-2xl font-bold mb-4">Search for a Card</h2>
 
-	<div class="flex gap-2 mb-4">
-		<input
-			type="text"
-			bind:value={query}
-			placeholder="Enter card name"
-			class="flex-grow p-2 border border-gray-300 rounded"
-			on:keydown={(e) => e.key === 'Enter' && search()}
-		/>
-		<button on:click={search} class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
-			Search
-		</button>
-	</div>
 
-	{#if error}
-		<p class="text-red-500">{error}</p>
-	{/if}
-
-	{#if card}
-		<div>
-			<h3 class="text-lg font-semibold mb-2">{card.name}</h3>
-			<img src={card.image_uris?.normal} alt={card.name} class="rounded" />
-			<button on:click={addCard} class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Add Card</button>
-		</div>
-	{/if}
-</div>
-
-<div class="flex items-center justify-center min-h-screen px-4">
-	<div class="bg-gray-200 rounded shadow p-6 w-full max-w-2xl h-[90vh]">
-		<div class="overflow-y-auto h-full pr-2">
-			<ul class="relative space-y-2">
-				{#each deck as card (card.id)}
-						<li class="relative group p-2 bg-white rounded hover:bg-orange-100 transition">
-							<div class="text-gray-900 font-medium">{card.name}</div>
-
-							{#if card.image_uris?.normal}
-								<div class="absolute left-0 top-0 translate-x-full ml-4 z-50 hidden group-hover:block pointer-events-none">
-								<img
-									src={card.image_uris.normal}
-									alt={card.name}
-									class="w-64 max-h-[80vh] rounded shadow-lg"
-								/>
-								</div>
-							{/if}
-					</li>
-				{/each}
-			</ul>
-
-		</div>
-	</div>
-</div>
+<CardSearch onAddCard={addCard} />
+<DeckViewer cards={deck} />
+<Button onClick={saveDeck} type="button" variant="primary">Save Deck</Button>

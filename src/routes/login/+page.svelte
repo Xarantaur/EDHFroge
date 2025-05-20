@@ -1,7 +1,6 @@
 <script lang="ts">
-    
-
     import toast from 'svelte-french-toast';
+	import Button from '$lib/components/Button.svelte';
 	export let form;
 
 	$: if (form?.error) {
@@ -36,12 +35,7 @@
 				class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
 			/>
 
-			<button
-				type="submit"
-				class="bg-orange-600 text-white p-3 rounded hover:bg-orange-700 transition"
-			>
-				Log In
-			</button>
+			<Button type="submit" variant="primary" >Log In</Button>
 		</form>
 	</div>
 </div>
