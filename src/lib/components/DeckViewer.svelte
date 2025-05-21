@@ -1,6 +1,5 @@
 <script lang="ts">
     export let cards: { name: string; image_uris?: { normal?: string } }[] = [];
-
 </script>
 
 
