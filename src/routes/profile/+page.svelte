@@ -1,5 +1,8 @@
 <script lang="ts">
-    import toast from 'svelte-french-toast'
+    import Dialog from '$lib/components/dialog.svelte';
+	import Button from '$lib/components/Button.svelte';
+    import toast from 'svelte-french-toast';
+
 	export let data: {
 		user: {
 			id: string;
@@ -9,14 +12,14 @@
 		};
 	};
 
-    import Dialog from '$lib/components/dialog.svelte'
-	import Button from '$lib/components/Button.svelte';
-    let open = false; 
+    
+    let openDialog = false; 
 
     export let form: any;
+
     $: if (form?.success) {
 	toast.success(' Password changed!')
-    open = false;
+    openDialog = false;
 }
 $: if (form?.error) {
 	toast.error('❌ Something went wrong')
@@ -25,13 +28,25 @@ $: if (form?.error) {
 
 
 <Dialog
-	bind:open={open}
+	bind:open={openDialog}
 	title="Change Password"
-	fields={[
-		{ name: 'newPassword', label: 'New Password', type: 'password', required: true },
-		{ name: 'confirm', label: 'Confirm Password', type: 'password', required: true }
-	]}
-/>
+    showFooter={false}
+>
+<form method="POST" class="space-y-4">
+    <ul>
+        <li>
+            <input name="newPassword" type="password" placeholder="New Password" class="w-full p-2 border rounded" required>
+        </li>
+        <li>
+            <input name="confirm" type="password" placeholder="Confirm Password" class="w-full p-2 border rounded" required>
+        </li>
+    </ul>
+    <div>
+    <Button type="button" variant="secondary" onClick={() => (openDialog = false)}>cancel</Button>
+    <Button type="submit" variant="primary">Submit</Button>
+</div>
+</form>
+</Dialog>
 
 <div class="flex items-start justify-center p-4">
     <div class="bg-orange-100 shadow-lg rounded-lg p-8 w-full max-w-md">
@@ -50,7 +65,7 @@ $: if (form?.error) {
         <h1 class="font-bold">security</h1>
        <ul>
              <li class="px-4 py-2 rounded">
-                <Button onClick={() => (open = true )} type="button" variant="primary">Change password</Button>
+                <Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button>
             </li>
             <li class="px-4 py-2 rounded hover:bg-orange-200 hover:text-orange-400">
                 🔄 Button to regenerate session (log out from everywhere)
