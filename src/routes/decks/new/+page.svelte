@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { searchCardByName } from '$lib/utils/scryfall';
     import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import toast from 'svelte-french-toast';
 	import CardSearch from '$lib/components/CardSearch.svelte';

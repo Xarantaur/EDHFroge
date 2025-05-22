@@ -21,32 +21,41 @@
     $: if (form?.success) {
 	toast.success(' Password changed!')
     openDialog = false;
-}
-$: if (form?.error) {
-	toast.error('❌ Something went wrong')
-}
+    }
+    $: if (form?.error) {
+        toast.error('❌ Something went wrong')
+    }
 </script>
-
 
 <Dialog
 	bind:open={openDialog}
 	title="Change Password"
     showFooter={false}
 >
-<form method="POST" class="space-y-4">
-    <ul>
-        <li>
-            <input name="newPassword" type="password" placeholder="New Password" class="w-full p-2 border rounded" required>
-        </li>
-        <li>
-            <input name="confirm" type="password" placeholder="Confirm Password" class="w-full p-2 border rounded" required>
-        </li>
-    </ul>
-    <div>
-    <Button type="button" variant="secondary" onClick={() => (openDialog = false)}>cancel</Button>
-    <Button type="submit" variant="primary">Submit</Button>
-</div>
-</form>
+    <form method="POST" class="space-y-4">
+        <ul>
+            <li>
+                <input 
+                name="newPassword" 
+                type="password" 
+                placeholder="New Password" 
+                class="w-full p-2 border rounded" 
+                required>
+            </li>
+            <li>
+                <input
+                 name="confirm" 
+                 type="password" 
+                 placeholder="Confirm Password" 
+                 class="w-full p-2 border rounded" 
+                 required>
+            </li>
+        </ul>
+            <div>
+                <Button type="button" variant="secondary" onClick={() => (openDialog = false)}>cancel</Button>
+                <Button type="submit" variant="primary">Submit</Button>
+            </div>
+    </form>
 </Dialog>
 
 <div class="flex flex-col gap-6 items-center min-h-screen p-4">
@@ -65,10 +74,11 @@ $: if (form?.error) {
         <TileHeader slot="header" title="Security" subtitle="" />
             <TileBody>
                 <ul>
-                    <Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button>
+                    
                     <li class={tileStyles.li}><p>🔄 Button to regenerate session (log out from everywhere)</p></li>
                 </ul>
             </TileBody>
+            <TileFooter><Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button></TileFooter>
     </Tile>
     <Tile>
         <TileHeader slot="header" title="Personalization" subtitle="" />

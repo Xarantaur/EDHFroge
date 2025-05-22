@@ -14,6 +14,7 @@
 
     try {
       card = await searchCardByName(query);
+      console.log(card)
       query = '';
     } catch (err) {
       error = 'Card not found';
