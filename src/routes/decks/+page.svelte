@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
-	import ConfirmDialog from "$lib/components/confirmDialog.svelte";
+	import Dialog from "$lib/components/Dialog.svelte";
 
 	let showDialog = false;
 	let pendingForm: HTMLFormElement | null = null;
@@ -53,15 +53,17 @@
 	{/if}
 </div>
 
-<ConfirmDialog
+<Dialog
 	bind:open={showDialog}
 	title="Delete Deck?"
-	message="Are you sure you want to delete this deck? this cannot be undone"
-	confirmLabel="Delete"
-	cancelLabel="Cancel"
-	onConfirm={confirmDelete}
-	onCancel={() => (showDialog = false)}
-	confirmProps={{ variant: 'danger' }}
-	cancelProps={{ variant: 'secondary' }}
-/>
+	showFooter={false}
+>
+	<div>
+		<p>Are you sure you want to delete this deck? this cannot be undone</p>
+	</div>
+	<div>
+		<Button type="button" variant="secondary" onClick={ () => showDialog = false }>Cancel</Button>
+		<Button type="button" variant="danger" onClick={confirmDelete}>Delete</Button>
+	</div>
+</Dialog>
 	
