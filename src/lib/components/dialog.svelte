@@ -15,21 +15,18 @@ import Button from "./Button.svelte";
 
 	export let slotClass: string = "[&_ul>li]:mb-2 [&_p]:mb-3 [&_label]:block [&_input]:w-full [&_input]:p-2 [&_input]:rounded [&_input]:border"
 </script>
-
+<svelte:window on:keydown={(e) => {
+    if (e.key === 'Escape') open = false;
+  }} />
 
 
 {#if open}
 <div role="button" 
 tabindex="0"
- aria-label="Close Dialog" 
- class="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10"
- on:click={() => (open = false)}
- on:keydown={(e) => {
- if (e.key === 'Escape') 
-	open = false;
-}}
+aria-hidden="true" 
+class="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10"
+on:click={() => (open = false)}
 	>
-
 	<div
 	role="presentation"
 	aria-hidden="true" 

@@ -1,9 +1,13 @@
 <script lang="ts">
 import type { DeckCard } from '$lib/types/cards'
 export let card: DeckCard
+export let mode: 'hover' | 'static' = 'hover';
 
 </script>
 
+{#if mode === 'static'}
+	<img src={card.image_uris?.normal} alt={card.name} class="w-full rounded shadow" />
+	{:else}
 <li>
     <span class="relative inline-block group">
 		<span class="text-gray-800 font-medium group-hover:text-orange-500 cursor-pointer">
@@ -22,3 +26,4 @@ export let card: DeckCard
 			{/if}
 	</span>
 </li>
+{/if}

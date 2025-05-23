@@ -13,9 +13,18 @@
 
 </script>
 
+
+
+<div class="flex items-start justify-center py-10 gap-10 w-full">
+	<div class="w-[300px]">
+<CommanderPicker {commander} onPick={(card) => (commander = card)} />
+</div>
+
+	<div class="flex-1 max-w-[60%]">
 <DeckBoard>
-	<CommanderPicker {commander} onPick={(card) => (commander = card)} />
 	{#each Object.entries(groupedCards) as [type, cards]}
 		<CardTypeSection title={type} {cards} />
 	{/each}
 </DeckBoard>
+    </div>
+</div>

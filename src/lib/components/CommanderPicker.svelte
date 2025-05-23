@@ -16,14 +16,15 @@
     }
 </script>
 
-<button class="mb-6 p-4 border border-dashed rounded bg-white shadow cursor-pointer hover:bg-gray-100" on:click={() => (open = true)}>
+<div role="presentation"
+aria-hidden="true" 
+class="bg-gray-200 shadow p-6 cursor-pointer hover:bg-gray-100" on:click={() => (open = true)} >
     {#if commander}
-    <CardPreview card={commander} />
-    <p>Color Identity: {commander?.color_identity.join(',')} </p>
+    <CardPreview card={commander} mode="static"/>
     {:else}
     <p>Click to choose your commander</p>
     {/if}
-</button>
+</div>
 
 <Dialog bind:open title="Choose Your Commander" showFooter={false}>
     <CardSearch onAddCard={handleSelect} />
