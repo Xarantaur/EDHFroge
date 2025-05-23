@@ -3,6 +3,6 @@ export type DeckCard = {
 		 image_uris?: { normal?: string }
 		 type_line: string;
 		 colors: string[];
-		 colors_identity: string[];
+		 color_identity: string[];
          cmc: number;
 }

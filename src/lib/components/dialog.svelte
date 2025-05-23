@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy, onMount } from "svelte";
 import Button from "./Button.svelte";
 
 	export let open = false;
@@ -18,10 +19,24 @@ import Button from "./Button.svelte";
 
 
 {#if open}
-<div class="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10">
-	<div class="pointer-events-auto bg-white/90 backdrop-blur-lg border-gray-200 shadow-lg p-6 w-full max-w-md space-y-4">
-		<h2 class="text-xl font-semibold">{title}</h2>
+<div role="button" 
+tabindex="0"
+ aria-label="Close Dialog" 
+ class="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-white/10"
+ on:click={() => (open = false)}
+ on:keydown={(e) => {
+ if (e.key === 'Escape') 
+	open = false;
+}}
+	>
 
+	<div
+	role="presentation"
+	aria-hidden="true" 
+	class="pointer-events-auto bg-white/90 backdrop-blur-lg border-gray-200 shadow-lg p-6 w-full max-w-md space-y-4"
+	on:click|stopPropagation
+	 >
+		<h2 class="text-xl font-semibold">{title}</h2>
 				<div class={`space-y-4 ${slotClass}`}>
 				<slot />
 					</div>

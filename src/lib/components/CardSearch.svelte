@@ -4,6 +4,7 @@
 
   export let onAddCard: (card: any) => void;
 
+  export let title = '';
   let query = '';
   let card: any = null;
   let error = '';
@@ -21,6 +22,7 @@
     }
   }
 
+
   function handleAdd() {
     if (!card) return;
     onAddCard(card);
@@ -29,13 +31,13 @@
 </script>
 
 <div class="max-w-md mx-auto p-6">
-	<h2 class="text-2xl font-bold mb-4">Search for a Card</h2>
+	<h2 class="text-2xl font-bold mb-4">{title}</h2>
 
 	<div class="flex gap-2 mb-4">
 		<input
 			type="text"
 			bind:value={query}
-			placeholder="Enter card name"
+			placeholder="Search for a card name"
 			class="flex-grow p-2 border border-gray-300 rounded"
 			on:keydown={(e) => e.key === 'Enter' && search()}
 		/>
