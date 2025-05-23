@@ -23,7 +23,7 @@ export let mode: 'hover' | 'static' = 'hover';
 				<div class="absolute top-0 left-full ml-4 w-64 z-50 pointer-events-none
 				opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex">
 					<img
-						src={card.image_uris?.normal}
+						src={card.image_uris.normal}
 							alt={card.name}
 							class="w-64 max-h-[80vh] rounded shadow-lg "
 							/>
