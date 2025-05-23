@@ -1,5 +1,13 @@
 const BASE_URL = import.meta.env.PUBLIC_SCRYFALL_API;
 
+
+export async function autocompleteCardNames(name: string): Promise<string[]> {
+    const res = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(name)}`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.data || []
+}
+
 export async function searchCardByName(name: string) {
     const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(name)}`, {
         headers: {
