@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { DeckCard } from "$lib/types/cards";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
-    import CardPreview from "./CardHoverTrigger.svelte";
 	import RemoveDeckCardButton from "./RemoveDeckCardButton.svelte";
 
     export let title: string;

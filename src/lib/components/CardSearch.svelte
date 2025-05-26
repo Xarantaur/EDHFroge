@@ -3,7 +3,7 @@
   import { parseDeckCard } from '$lib/utils/parseDeckCard'
   import { clickOutSide } from '$lib/utils/clickOutSide';
 	import type { DeckCard } from '$lib/types/cards';
-	import CardPreview from './CardHoverTrigger.svelte';
+	import CardHoverTrigger from './CardHoverTrigger.svelte';
 
   export let title = '';
   export let onAddCard: (card: any) => void;
@@ -13,24 +13,21 @@
   let hoveredName: string = '';
   let hoveredCard: DeckCard | null = null
   let error = '';
-  let suggestions: string[] = [];
+  let suggestions: DeckCard[] = [];
   let debouncerTimer: NodeJS.Timeout;
-  let previewX = 0;
-  let previewY = 0;
+  
 
     async function fetchSuggestions() {
-      suggestions = await autocompleteCardNames(query);
+      const names = await autocompleteCardNames(query);
+      suggestions = await Promise.all(names.map(async (name) => {
+        const raw = await searchCardByName(name);
+        return parseDeckCard(raw)
+      }))
     }
 
-    async function fetchHoverCard(name: string) {
-      const raw = await searchCardByName(name);
-      hoveredCard = parseDeckCard(raw)
-    }
 
-    async function handleAdd(name: string) {
-      const raw = await searchCardByName(name);
-      const parsed = parseDeckCard(raw);
-      onAddCard(parsed);
+    async function handleAdd(card: DeckCard) {
+      onAddCard(card);
       query = '';
       suggestions = [];
       hoveredCard = null;
@@ -53,37 +50,20 @@ $: if (query.length > 1) {
 			bind:value={query}
 			placeholder="Search for a card name"
 			class="w-full p-2 border border-orange-600 rounded"
-			on:keydown={(e) => e.key === 'Enter' && handleAdd(query)}
 		/>
 </div>
 
         {#if suggestions.length > 0}
           <ul class="absolute top-full left-0 right-0 z-10 bg-white border border-gray-300 rounded bg-white shadow max-h-48 overflow-y-auto mt-1">
-            {#each suggestions as name}
+            {#each suggestions as card}
             <li 
             role="presentation"
             class="relative px-3 py-2 hover:bg-orange-100 cursor-pointer"
-            on:click={() => handleAdd(name)}
-            on:mouseenter={(e) => {
-              hoveredName = name;
-              fetchHoverCard(name)
-              const rect = e.currentTarget.getBoundingClientRect();
-              previewX = rect.right + 16;
-              previewY = rect.top;
-            }}
-            >
-            <span>{name}</span>
-            
+            on:click={() => handleAdd(card)}>
+            <CardHoverTrigger {card} />
             </li>
             {/each}
         </ul>
         {/if}
-	</div>
-          {#if hoveredCard}
-            <div 
-                class="fixed w-64 max-h-[80px] z-50 pointer-events-none "
-                style="top: {previewY}px; left: {previewX}px;">
-                 <CardPreview card={hoveredCard} mode="static" />
-            </div>
-          {/if}
+</div>
 </div>
