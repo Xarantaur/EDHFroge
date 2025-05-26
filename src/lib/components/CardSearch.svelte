@@ -1,10 +1,9 @@
 <script lang="ts">
   import { searchCardByName, autocompleteCardNames } from '$lib/utils/scryfall';
   import { parseDeckCard } from '$lib/utils/parseDeckCard'
-	import Button from './Button.svelte';
   import { clickOutSide } from '$lib/utils/clickOutSide';
 	import type { DeckCard } from '$lib/types/cards';
-	import CardPreview from './CardPreview.svelte';
+	import CardPreview from './CardHoverTrigger.svelte';
 
   export let title = '';
   export let onAddCard: (card: any) => void;
@@ -19,18 +18,13 @@
   let previewX = 0;
   let previewY = 0;
 
-    
-    
-
     async function fetchSuggestions() {
       suggestions = await autocompleteCardNames(query);
     }
 
     async function fetchHoverCard(name: string) {
-      console.log("fetching preview for", name)
       const raw = await searchCardByName(name);
       hoveredCard = parseDeckCard(raw)
-      console.log("got preview card" , hoveredCard)
     }
 
     async function handleAdd(name: string) {
@@ -47,32 +41,12 @@ $: if (query.length > 1) {
       debouncerTimer = setTimeout(fetchSuggestions, 250);
     }
 
- /*    async function search() {
-      error = '';
-      card = null;
-    try {
-      const raw = await searchCardByName(query);
-      card = parseDeckCard(raw)
-      console.log(card)
-      console.log(raw)
-      query = '';
-    } catch (err) {
-      error = 'Card not found';
-    }
-  } */
-
- /*  function handleAdd() {
-    if (!card) return;
-    onAddCard(card);
-    card = null;
-  } */
 </script>
 
 <div class="max-w-md mx-auto p-6">
 	<h2 class="text-2xl font-bold mb-4">{title}</h2>
   
 <div class="relative flex items-start gap-4" use:clickOutSide={() =>{ suggestions = []; hoveredCard = null; hoveredName = '';}}>
-
 	<div class="relative w-full">
 		<input
 			type="text"
@@ -112,6 +86,4 @@ $: if (query.length > 1) {
                  <CardPreview card={hoveredCard} mode="static" />
             </div>
           {/if}
-
-
 </div>

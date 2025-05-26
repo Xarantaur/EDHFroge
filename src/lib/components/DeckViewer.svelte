@@ -6,10 +6,11 @@
 	import { groupCardsByType } from '$lib/utils/groupCardsByType';
 	import CommanderPicker from './CommanderPicker.svelte';
 
-	export let cards: DeckCard[] = []
-	export let commander: DeckCard;
+	export let deck: DeckCard[] = []
+	export let commander: DeckCard | undefined = undefined;
+	export let onRemoveCard: (card: DeckCard) => void;
 
-	$: groupedCards = groupCardsByType(cards)
+	$: groupedCards = groupCardsByType(deck)
 
 </script>
 
@@ -22,8 +23,8 @@
 
 	<div class="flex-1 max-w-[60%]">
 <DeckBoard>
-	{#each Object.entries(groupedCards) as [type, cards]}
-		<CardTypeSection title={type} {cards} />
+	{#each Object.entries(groupedCards) as [type, deck]}
+		<CardTypeSection title={type} {deck} onRemove={onRemoveCard}/>
 	{/each}
 </DeckBoard>
     </div>

@@ -7,6 +7,6 @@
 <div class={tileStyles.header}>
     <h2 class={tileStyles.title}>{title}</h2>
     {#if subtitle} 
-        <p class={tileStyles.subtitle}></p>
+        <p class={tileStyles.subtitle}>{subtitle}</p>
     {/if}
 </div>

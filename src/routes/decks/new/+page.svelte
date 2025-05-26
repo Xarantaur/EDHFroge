@@ -307,6 +307,10 @@
         }
 		deck = [...deck, card]
 	}
+
+    function removeCard(cardToRemove: any) {
+		deck = deck.filter(card => card.name !== cardToRemove.name);
+	}
     
     async function saveDeck() {
 		const response = await fetch('/decks/save', {
@@ -332,5 +336,5 @@
 
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer cards={deck} />
+<DeckViewer deck={deck} commander={undefined} onRemoveCard={removeCard}/>
 <Button onClick={saveDeck} type="button" variant="primary">Save Deck</Button>
