@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { previewCard } from '$lib/stores/previewCardStore';
     import type { DeckCard } from '$lib/types/cards'
-    import CardPreview from './CardHoverTrigger.svelte';
     import CardSearch from './CardSearch.svelte';
     import Dialog from './Dialog.svelte';
 
@@ -13,20 +13,25 @@
 
     function handleSelect(card: DeckCard) {
         onPick(card);
+        previewCard.set(null)
         open = false;
     }
 </script>
 
-
-
+{#snippet CommanderCardPreview(card:DeckCard)}
+    <div class="">
+        <img src={card.image_uris?.normal} alt={card.name} class="w-64 max-h-[80vh] rounded shadow-lg"/>
+    </div>
+{/snippet}
+<TileHeader title="Commander" subtitle="click to change"></TileHeader>
 <div role="presentation"
 aria-hidden="true" 
 class="bg-gray-200 shadow p-6 cursor-pointer hover:bg-gray-100" on:click={() => (open = true)} >
-<TileHeader title="Commander" subtitle="click to change"></TileHeader>
+
     {#if commander}
-    <CardPreview card={commander} mode="static"/>
+        {@render CommanderCardPreview(commander)}
     {:else}
-    <p>Click to choose your commander</p>
+        <p>pick commander</p>
     {/if}
 </div>
 

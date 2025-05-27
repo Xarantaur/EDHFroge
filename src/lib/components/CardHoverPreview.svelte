@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { previewCard } from "$lib/stores/previewCardStore";
     import { fly } from 'svelte/transition'
-    
 </script>
 
 {#if $previewCard}

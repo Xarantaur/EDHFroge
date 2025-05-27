@@ -3,6 +3,7 @@
 	import toast from 'svelte-french-toast';
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import type { DeckCard } from '$lib/types/cards';
     let deck: any[] = [/* {
     "object": "card",
     "id": "0fdae05f-7bdc-45fb-b9b9-e5ec3766f965",
@@ -299,6 +300,7 @@
         "cardhoarder": "https://www.cardhoarder.com/cards/107901?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
 } */];
+    let commander: DeckCard | undefined = undefined
 	
 	function addCard(card: any) {
         if(deck.some(c => c.name === card.name)) {
@@ -318,6 +320,7 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				name: 'My First Deck',
+                commander: commander?.name,
 				cards: deck.map(card => ({
 					cardName: card.name,
 					imageUrl: card.image_uris.normal
@@ -331,10 +334,12 @@
 			toast.error('Something went wrong saving the deck');
 		}
 	}
+
+
 </script>
 
 
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer deck={deck} commander={undefined} onRemoveCard={removeCard}/>
+<DeckViewer deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
 <Button onClick={saveDeck} type="button" variant="primary">Save Deck</Button>
