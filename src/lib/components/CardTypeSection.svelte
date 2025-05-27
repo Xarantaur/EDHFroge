@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { DeckCard } from "$lib/types/cards";
-	import { isCardLegal } from "$lib/utils/colorIdentityRule";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
+    import { getCardClassName } from "$lib/utils/colorIdentityRule";
 
     export let title: string;
     export let deck: DeckCard[] = []
@@ -25,10 +25,7 @@ class="w-6 h-6 flex items-center justify-center text-sm font-bold text-gray-500 
     <ul class="space-y-2">
         {#each deck as card}
         <div class="flex space-x-2">
-            <CardHoverTrigger card={card} className={commander && !isCardLegal(card, commander.color_identity)
-                ? 'text-red-500 line-through opacity-80 italic'
-                : 'text-gray-800'
-            } /> 
+            <CardHoverTrigger card={card} className={getCardClassName(card, commander)} /> 
             {@render removeButton(() => onRemove(card))}
         </div>
         {/each}
