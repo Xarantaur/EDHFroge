@@ -1,13 +1,14 @@
 <script lang="ts">
     import type { DeckCard } from "$lib/types/cards";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
-    import { getCardClassName } from "$lib/utils/colorIdentityRule";
+    import { getLegalityClass } from "$lib/utils/cardLegality";
 
     export let title: string;
     export let deck: DeckCard[] = []
     export let onRemove: (card: DeckCard) => void;
     export let commander: DeckCard | undefined = undefined
 
+    
 </script>
 
 {#snippet removeButton(onClick: () => void)}
@@ -25,7 +26,7 @@ class="w-6 h-6 flex items-center justify-center text-sm font-bold text-gray-500 
     <ul class="space-y-2">
         {#each deck as card}
         <div class="flex space-x-2">
-            <CardHoverTrigger card={card} className={getCardClassName(card, commander)} /> 
+            <CardHoverTrigger card={card} className={getLegalityClass(card, commander)} /> 
             {@render removeButton(() => onRemove(card))}
         </div>
         {/each}

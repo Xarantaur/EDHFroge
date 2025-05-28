@@ -6,5 +6,6 @@ export const MAIN_TYPES = [
 		"Enchantment",
 		"Planeswalker",
 		"Battle",
-		"Land"
+		"Land",
+		"Conspiracy"
 	]

@@ -1,10 +1,8 @@
-const BASE_URL = import.meta.env.PUBLIC_SCRYFALL_API;
-
-
 export async function autocompleteCardNames(name: string): Promise<string[]> {
     const res = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(name)}`);
     if (!res.ok) return [];
     const data = await res.json();
+    console.log(data)
     return data.data || []
 }
 
@@ -18,9 +16,6 @@ export async function searchCardByName(name: string) {
     if(!res.ok) {
         throw new Error('Card not found')
     }
-    console.log(res.json)
+
     return await res.json()
-    
 }
-console.log('Scryfall base:', BASE_URL);
-/// add press enter functionality to search field.
