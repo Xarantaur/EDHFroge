@@ -9,6 +9,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const decks = await prisma.deck.findMany({
 		where: { userId: locals.user.id },
+		include: { commander: true },
 		orderBy: { createdAt: 'desc' }
 	});
 

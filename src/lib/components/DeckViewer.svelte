@@ -2,7 +2,6 @@
     import type { DeckCard } from '$lib/types/cards'
 	import CardTypeSection from './CardTypeSection.svelte';
 	import DeckBoard from './DeckBoard.svelte';
-
 	import { groupCardsByType } from '$lib/utils/groupCardsByType';
 	import CommanderPicker from './CommanderPicker.svelte';
 

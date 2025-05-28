@@ -11,6 +11,7 @@ export function parseDeckCard(raw: any): DeckCard {
         color_identity: raw.color_identity ?? [],
         colors: raw.colors ?? [],
         cmc: raw.cmc ?? 0,
-        backside: back?.image_uris ?? {}
+        backside: back?.image_uris ?? {},
+        art_crop: face?.image_uris?.art_crop ?? {}
     };
 }

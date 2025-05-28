@@ -323,7 +323,8 @@
                 commander: commander?.name,
 				cards: deck.map(card => ({
 					cardName: card.name,
-					imageUrl: card.image_uris.normal
+					imageUrl: card.image_uris.normal,
+                    artCrop: card.art_crop
 				}))
 			})
 		});
@@ -331,6 +332,8 @@
 		if (response.ok) {
 			toast.success('Deck saved!');
 		} else {
+            const error = await response.text();
+            console.error('Save failed:', error);
 			toast.error('Something went wrong saving the deck');
 		}
 	}

@@ -9,7 +9,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		throw redirect(303, '/login');
 	}
 
-     const { name, cards } = await request.json();
+     const { name, cards, commander } = await request.json();
 
      if (!name || !Array.isArray(cards) || cards.length === 0) {
 		return json({ error: 'Missing or invalid deck data.' }, { status: 400 });
@@ -19,10 +19,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		data: {
 			name,
 			userId: user.id,
+			commanderName: commander.name,
+			commanderCropArt: commander.artCrop,
 			cards: {
 				create: cards.map(card => ({
 					cardName: card.cardName,
-					imageUrl: card.imageUrl
+					imageUrl: card.imageUrl,
+					artCrop: card.artCrop
 				}))
 			}
 		}

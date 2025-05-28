@@ -6,4 +6,5 @@ export type DeckCard = {
 		 color_identity: string[];
          cmc: number;
 		 backside: { normal?: string };
+		art_crop?: string;
 }
