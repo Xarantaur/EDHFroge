@@ -11,25 +11,68 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
      const { name, cards, commander } = await request.json();
 
-     if (!name || !Array.isArray(cards) || cards.length === 0) {
+     if (!name || !Array.isArray(cards) || cards.length === 0 || !commander) {
 		return json({ error: 'Missing or invalid deck data.' }, { status: 400 });
 	}
+	console.log( 
+		'commander: ', commander,
+		'cards: ', cards,
+		'name: ', name
+	)
+	try {
+		console.log( 
+		'commander: ', commander,
+		'cards: ', cards,
+		'name: ', name
+	)
+		const result = await prisma.$transaction(async (tx) => {
+			const deck = await tx.deck.create({
+				data: {
+					name,
+					userId: user.id,
+				}
+			});
 
-    const deck = await prisma.deck.create({
-		data: {
-			name,
-			userId: user.id,
-			commanderName: commander.name,
-			commanderCropArt: commander.artCrop,
-			cards: {
-				create: cards.map(card => ({
+			const commanderCard = await tx.deckCard.create({
+				data: {
+					deckId: deck.id,
+					cardName: commander.cardName,
+					imageUrl: commander.imageUrl,
+					artCrop: commander.artCrop,
+					typeLine: commander.typeLine,
+					cmc: commander.cmc,
+					colors: commander.colors,
+					colorIdentity: commander.colorIdentity
+				}
+			});
+
+
+			await tx.deckCard.createMany({
+				data: cards.map(card => ({
+					deckId: deck.id,
 					cardName: card.cardName,
 					imageUrl: card.imageUrl,
-					artCrop: card.artCrop
+					artCrop: card.artCrop,
+					typeLine: card.typeLine,
+					cmc: card.cmc,
+					colors: card.colors,
+					colorIdentity: card.colorIdentity
 				}))
-			}
-		}
-	});
+			});
 
-	return json({ success: true, deckId: deck.id });
-}
+			await tx.deck.update({
+				where: { id: deck.id },
+				data: { 
+					commanderId: commanderCard.id
+				}
+			});
+
+			return deck.id;
+		});
+
+		return json({ success: true, deckId: result });
+	} catch (error) {
+		console.error('Transaction failed:', error)
+		return json({ error: 'Failed to save deck.' }, { status: 500})
+	}
+};

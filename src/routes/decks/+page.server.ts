@@ -13,5 +13,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		orderBy: { createdAt: 'desc' }
 	});
 
+	const transformedDecks = decks.map
+
 	return { decks };
 };

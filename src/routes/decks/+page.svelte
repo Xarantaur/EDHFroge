@@ -1,16 +1,15 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
+	import DeckTile from "$lib/components/DeckTile.svelte";
 	import Dialog from "$lib/components/Dialog.svelte";
 	import { commander } from "$lib/utils/cardLegality";
 
 	let showDialog = false;
 	let pendingForm: HTMLFormElement | null = null;
 
-	function handleFormSubmit(e: Event) {
-		e.preventDefault();
-		const form = e.currentTarget as HTMLFormElement;
-		pendingForm = form;
-		showDialog = true;
+	function handleDelete(_id: string, e: Event) {
+		pendingForm = e.currentTarget as HTMLFormElement;
+		showDialog = true
 	}
 
 	function confirmDelete() {
@@ -26,8 +25,8 @@
 			name: string;
 			createdAt: string;
 			commander: {
-				commanderName: string;
-				commanderCropArt: string;
+				cardName: string;
+				artCrop: string;
 			} | null
 		}[];
 	};
@@ -46,19 +45,7 @@
 		
 		<ul class="flex gap-4 py-2">
 			{#each data.decks as deck}
-			<a href={`/decks/${deck.id}`}>
-				<li class="relative rounded overflow-hidden shadow-md text-white bg-cover bg-center aspect-[4/3] w-full sm:w-80 hover:ring-2 hover:ring-orange-400 transition"
-		     		style={`background-image: url('${deck.commander?.commanderCropArt ?? ''}')`}>
-			
-					<p class="text-sm text-gray-900 bg-orange-500 px-1 py-1 w-fit rounded font-bold">{deck.name}</p>
-					<p class="text-sm text-gray-900 bg-orange-500 px-1 py-1 w-fit rounded">Commander: {deck.commander?.commanderName}</p>
-					<p class="text-sm text-gray-900 bg-orange-500 px-1 py-1 w-fit rounded">Created: {new Date(deck.createdAt).toLocaleDateString()}</p>
-					<form method="POST" action={`/decks/delete/${deck.id}`} on:submit={handleFormSubmit} class="absolute bottom-2 right-2">
-						<Button type="submit" variant="danger" >Delete Deck</Button>
-					</form>
-				
-				</li>
-			</a>
+				<DeckTile {deck} onDelete={handleDelete} />
 			{/each}
 		</ul>
 	{/if}

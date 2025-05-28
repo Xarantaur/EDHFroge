@@ -300,7 +300,7 @@
         "cardhoarder": "https://www.cardhoarder.com/cards/107901?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
     }
 } */];
-    let commander: DeckCard | undefined = undefined
+    let commander: DeckCard 
 	
 	function addCard(card: any) {
         if(deck.some(c => c.name === card.name)) {
@@ -320,11 +320,23 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				name: 'My First Deck',
-                commander: commander?.name,
+                commander: {
+                    cardName: commander.name,
+                    imageUrl: commander.image_uris?.normal,
+                    artCrop: commander?.image_uris?.art_crop,
+                    typeLine: commander?.type_line,
+                    cmc: commander?.cmc,
+                    colors: commander?.colors,
+                    colorIdentity: commander?.color_identity
+                },
 				cards: deck.map(card => ({
 					cardName: card.name,
 					imageUrl: card.image_uris.normal,
-                    artCrop: card.art_crop
+                    artCrop: card.art_crop,
+                    typeLine: card?.type_line,
+                    cmc: card?.cmc,
+                    colors: card?.colors,
+                    colorIdentity: card?.color_identity
 				}))
 			})
 		});

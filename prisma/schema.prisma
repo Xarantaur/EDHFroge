@@ -22,8 +22,8 @@ model Deck {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  commanderName String
-  commanderCropArt String
+  commanderId String?
+  commander DeckCard? @relation("CommanderCard", fields: [commanderId], references: [id])
   cards     DeckCard[]
 }
 
@@ -34,6 +34,11 @@ model DeckCard {
   cardName String
   imageUrl String
   artCrop  String
+  typeLine String
+  cmc      Float
+  colors String[]
+  colorIdentity String[]
+  commanderOf Deck[] @relation("CommanderCard")
 }
 model PasswordReset {
   id        String   @id @default(uuid())
