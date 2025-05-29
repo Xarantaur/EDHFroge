@@ -12,8 +12,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 		include: { commander: true },
 		orderBy: { createdAt: 'desc' }
 	});
-
-	const transformedDecks = decks.map
-
+	
 	return { decks };
 };
