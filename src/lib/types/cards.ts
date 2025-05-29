@@ -1,10 +1,12 @@
 export type DeckCard = {
-     name: string; 
-		 image_uris?: { normal?: string, art_crop?: string;}
-		 type_line: string;
+		 id: string;
+		 deckId: string;
+         cardName: string; 
+		 imageUrl?: string;
+		 artCrop?: string;
+		 backside?: string;
+		 typeLine: string;
 		 colors: string[];
-		 color_identity: string[];
-         cmc: number;
-		 backside: { normal?: string };
-		 
+		 colorIdentity: string[];
+         cmc: number; 
 }

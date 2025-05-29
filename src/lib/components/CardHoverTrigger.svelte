@@ -13,5 +13,5 @@ export let className: string = '';
 	on:mouseleave={() => previewCard.set(null)}
 	aria-hidden=true
 >
- {card.name}
+ {card.cardName}
 </span>

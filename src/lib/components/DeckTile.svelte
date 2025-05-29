@@ -25,7 +25,7 @@
 
 <li aria-hidden=true 
     class="relative rounded overflow-hidden shadow-md cursor-pointer transition hover:ring-2 hover:ring-orange-400 w-full"
-    on:click={() => window.location.href = `/decks/${deck.id}`}
+    on:click={() => window.location.href = `/decks/update/${deck.id}`}
     >		   		 
 		<div class="relative bg-cover bg-center aspect-[4/3]"
 			style={`background-image: url('${deck.commander?.artCrop ?? ''}')`}>
@@ -45,7 +45,7 @@
 
 			<p class="text-sm text-white text-center mb-2 bg-black font-bold">{deck.name}</p>
 			<p class="text-sm text-white text-center mb-2 bg-black font-bold">{deck.commander?.cardName}</p>
-			
+
 			<form method="POST"
 			  action={`/decks/delete/${deck.id}`} 
 			  on:submit={handleFormSubmit} on:click|stopPropagation 

@@ -20,7 +20,7 @@
 
 {#snippet CommanderCardPreview(card:DeckCard)}
     <div class="">
-        <img src={card.image_uris?.normal} alt={card.name} class="w-64 max-h-[80vh] rounded shadow-lg"/>
+        <img src={card.imageUrl} alt={card.cardName} class="w-64 max-h-[80vh] rounded shadow-lg"/>
     </div>
 {/snippet}
 <TileHeader title="Commander" subtitle="click to change"></TileHeader>

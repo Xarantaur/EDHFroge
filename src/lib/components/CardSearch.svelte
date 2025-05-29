@@ -57,7 +57,7 @@ $: if (query.length > 1) {
 
         {#if suggestions.length > 0}
           <ul class="absolute top-full left-0 right-0 z-10 bg-white border border-gray-300 rounded bg-white shadow max-h-48 overflow-y-auto mt-0">
-            {#each suggestions as card}
+            {#each suggestions as card }
             <li 
             role="presentation"
             class="relative px-3 py-2 hover:bg-orange-100 cursor-pointer"

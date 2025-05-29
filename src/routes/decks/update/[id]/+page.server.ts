@@ -1,16 +1,13 @@
-import type { PageServerLoad } from '../../$types';
+import type { PageServerLoad } from './$types'
 import { prisma } from '$lib/utils/prisma'
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-    const id = Params.RouteId;
-    
     if (!locals.user) throw redirect(303, '/login');
     
     const deck = await prisma.deck.findUnique({
         where: {
             id: params.id,
-            userId: locals.user.id
         },
         include: { 
             commander: true,
@@ -18,7 +15,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
         }
     });
 
-    if(!deck) throw redirect(303, '/decks')
-        
+    if(!deck || deck.userId !== locals.user.id ) {
+        throw error(404, 'Deck not Found')
+    }
+        console.log(deck)
     return { deck }
 }

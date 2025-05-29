@@ -5,13 +5,15 @@ export function parseDeckCard(raw: any): DeckCard {
     const back = raw.card_faces?.[1]
 
     return {
-        name: raw.name,
-        image_uris: face?.image_uris ?? {},
-        type_line: face?.type_line ?? raw.type_line,
-        color_identity: raw.color_identity ?? [],
+        id: raw.id,
+        deckId: raw.deckId,
+        cardName: raw.name,
+        imageUrl: face?.image_uris ?? '',
+        typeLine: face?.type_line ?? raw.type_line,
+        colorIdentity: raw.color_identity ?? [],
         colors: raw.colors ?? [],
         cmc: raw.cmc ?? 0,
-        backside: back?.image_uris ?? {},
-        art_crop: face?.image_uris?.art_crop ?? {}
+        backside: back?.image_uris ?? '',
+        artCrop: face?.image_uris?.art_crop ?? ''
     };
 }

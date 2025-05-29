@@ -3,16 +3,16 @@ import { bannedCards } from "$lib/domain/banList";
 export let commander: DeckCard 
 
  function isCardBanned(card: DeckCard): boolean {
-    return bannedCards.includes(card.name);
+    return bannedCards.includes(card.cardName);
 } 
 
  function respectsColorIdentity(card: DeckCard, identity: string[]): boolean {
-    return card.color_identity.every((color) => identity.includes(color));
+    return card.colorIdentity.every((color) => identity.includes(color));
 }
 
 export function getLegalityClass(card: DeckCard, commander?:DeckCard): string {
     if(isCardBanned(card)) return 'text-red-500 line-through opacity-80 italic';
-    if(commander && !respectsColorIdentity(card, commander.color_identity)) {
+    if(commander && !respectsColorIdentity(card, commander.colorIdentity)) {
         return 'text-red-500 line-through opacity-80 italic'
     }
     return 'text-gray-800'
