@@ -7,7 +7,10 @@
 			createdAt: string;
 			commander: {
 				cardName: string;
+				image_uris: { 
+				normal: string;
 				artCrop: string;
+				}
 				colorIdentity: string[];
 			} | null
 		};
@@ -28,7 +31,7 @@
     on:click={() => window.location.href = `/decks/update/${deck.id}`}
     >		   		 
 		<div class="relative bg-cover bg-center aspect-[4/3]"
-			style={`background-image: url('${deck.commander?.artCrop ?? ''}')`}>
+			style={`background-image: url('${deck.commander?.image_uris?.artCrop ?? ''}')`}>
 			<div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/100 "></div>
 		</div>
 		<div class="bg-black p-1 text-white flex-1 items-center">

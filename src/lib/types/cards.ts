@@ -1,10 +1,15 @@
-export type DeckCard = {
+export interface DeckCard {
 		 id: string;
 		 deckId: string;
          cardName: string; 
-		 imageUrl?: string;
-		 artCrop?: string;
-		 backside?: string;
+		 image_uris: {
+			normal: string;
+			artCrop?: string;
+		 	backside?: {
+				normal: string;
+				art_crop: string;
+			} | null
+		 };
 		 typeLine: string;
 		 colors: string[];
 		 colorIdentity: string[];

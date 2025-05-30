@@ -32,8 +32,7 @@ model DeckCard {
   deck     Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
   deckId   String
   cardName String
-  imageUrl String
-  artCrop  String
+  image_uris Json
   typeLine String
   cmc      Float
   colors String[]

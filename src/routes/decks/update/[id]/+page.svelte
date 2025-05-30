@@ -19,7 +19,7 @@
     let name: string = data.deck.name;
 
     function addCard(card: DeckCard) {
-        if(deck.some(c => c.name === card.name))
+        if(deck.some(c => c.cardName === card.cardName))
     {
             toast.error("Card Already in Deck")
             return
@@ -28,7 +28,7 @@
         }
 
     function removeCard(cardToRemove: DeckCard) {
-        deck = deck.filter(card => card.name !== cardToRemove.name);
+        deck = deck.filter(card => card.cardName !== cardToRemove.cardName);
     } 
 
     async function saveDeck() {
@@ -38,22 +38,26 @@
             body: JSON.stringify({
                 name,
                 commander: {
-                    cardName: commander.name,
-                    imageUrl: commander.image_uris,
-                    artCrop: commander.artCrop,
-                    typeLine: commander.type_line,
+                    cardName: commander.cardName,
+                     image_uris: {
+						normal: commander.image_uris?.normal,
+						artCrop: commander.image_uris?.artCrop,
+					},
+                    typeLine: commander.typeLine,
                     cmc: commander?.cmc,
                     colors: commander?.colors,
-                    colorIdentity: commander?.color_identity,
+                    colorIdentity: commander?.colorIdentity,
                 },
                 cards: deck.map(card => ({
-                    cardName: card.name,
-                    imageUrl: card.image_uris,
-                    artCrop: card.artCrop,
-                    typeLine: card?.type_line,
+                    cardName: card.cardName,
+                    image_uris: {
+						normal: card.image_uris?.normal,
+						artCrop: card.image_uris?.artCrop,
+					},
+                    typeLine: card?.typeLine,
                     cmc: card?.cmc,
                     colors: card?.colors,
-                    colorIdentity: card?.color_identity,
+                    colorIdentity: card?.colorIdentity,
                 }))
             })
         });

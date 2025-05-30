@@ -27,18 +27,22 @@
 				name: 'My First Deck',
                 commander: {
                     cardName: commander.cardName,
-                    imageUrl: commander.imageUrl,
-                    artCrop: commander.artCrop,
+                    image_uris: {
+						normal: commander.image_uris?.normal,
+						artCrop: commander.image_uris?.artCrop,
+					},
                     typeLine: commander?.typeLine,
                     cmc: commander?.cmc,
                     colors: commander?.colors,
                     colorIdentity: commander?.colorIdentity
                 },
 				cards: deck.map(card => ({
-					cardName: card.name,
-					imageUrl: card.image_uris,
-                    artCrop: card.art_crop,
-                    typeLine: card?.type_line,
+					cardName: card.cardName,
+					 image_uris: {
+						normal: card.image_uris?.normal,
+						artCrop: card.image_uris?.artCrop,
+					},
+                    typeLine: card.typeLine,
                     cmc: card?.cmc,
                     colors: card?.colors,
                     colorIdentity: card?.color_identity

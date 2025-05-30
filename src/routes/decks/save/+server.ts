@@ -14,17 +14,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
      if (!name || !Array.isArray(cards) || cards.length === 0 || !commander) {
 		return json({ error: 'Missing or invalid deck data.' }, { status: 400 });
 	}
-	console.log( 
-		'commander: ', commander,
-		'cards: ', cards,
-		'name: ', name
-	)
+	
 	try {
-		console.log( 
-		'commander: ', commander,
-		'cards: ', cards,
-		'name: ', name
-	)
 		const result = await prisma.$transaction(async (tx) => {
 			const deck = await tx.deck.create({
 				data: {
@@ -37,8 +28,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				data: {
 					deckId: deck.id,
 					cardName: commander.cardName,
-					imageUrl: commander.imageUrl,
-					artCrop: commander.artCrop,
+					 image_uris: {
+						normal: commander.image_uris?.normal,
+						artCrop: commander.image_uris?.artCrop,
+					},
 					typeLine: commander.typeLine,
 					cmc: commander.cmc,
 					colors: commander.colors,
@@ -51,8 +44,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				data: cards.map(card => ({
 					deckId: deck.id,
 					cardName: card.cardName,
-					imageUrl: card.imageUrl,
-					artCrop: card.artCrop,
+					 image_uris: {
+						normal: card.image_uris?.normal,
+						artCrop: card.image_uris?.artCrop,
+					},
 					typeLine: card.typeLine,
 					cmc: card.cmc,
 					colors: card.colors,

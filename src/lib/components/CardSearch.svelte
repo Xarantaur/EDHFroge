@@ -17,7 +17,6 @@
       const names = await autocompleteCardNames(query);
       suggestions = await Promise.all(names.map(async (name) => {
         const raw = await searchCardByName(name);
-        console.log(raw)
         return parseDeckCard(raw)
       }))
     }
