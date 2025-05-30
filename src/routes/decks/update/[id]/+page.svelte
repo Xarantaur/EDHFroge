@@ -32,27 +32,30 @@
     } 
 
     async function saveDeck() {
+        const cardsWithoutCommander = deck.filter(card => card.cardName !== commander.cardName)
         const response = await fetch(`/decks/update/${data.deck.id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name,
                 commander: {
+                    id: commander.id,
                     cardName: commander.cardName,
                      image_uris: {
 						normal: commander.image_uris?.normal,
-						artCrop: commander.image_uris?.artCrop,
+						art_crop: commander.image_uris?.art_crop,
 					},
                     typeLine: commander.typeLine,
                     cmc: commander?.cmc,
                     colors: commander?.colors,
                     colorIdentity: commander?.colorIdentity,
                 },
-                cards: deck.map(card => ({
+                cards: cardsWithoutCommander.map(card => ({
+                    id: card.id,
                     cardName: card.cardName,
                     image_uris: {
 						normal: card.image_uris?.normal,
-						artCrop: card.image_uris?.artCrop,
+						art_crop: card.image_uris?.art_crop,
 					},
                     typeLine: card?.typeLine,
                     cmc: card?.cmc,

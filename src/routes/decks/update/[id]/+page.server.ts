@@ -18,6 +18,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     if(!deck || deck.userId !== locals.user.id ) {
         throw error(404, 'Deck not Found')
     }
-        console.log(deck)
+    
+    deck.cards = deck.cards.filter((card) => card.id !== deck.commanderId)
+       
     return { deck }
 }

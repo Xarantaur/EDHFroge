@@ -20,6 +20,7 @@
 	}
     
     async function saveDeck() {
+		const cardsWithoutCommander = deck.filter(card => card.cardName !== commander?.cardName)
 		const response = await fetch('/decks/save', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -29,18 +30,18 @@
                     cardName: commander.cardName,
                     image_uris: {
 						normal: commander.image_uris?.normal,
-						artCrop: commander.image_uris?.artCrop,
+						art_crop: commander.image_uris?.art_crop,
 					},
                     typeLine: commander?.typeLine,
                     cmc: commander?.cmc,
                     colors: commander?.colors,
                     colorIdentity: commander?.colorIdentity
                 },
-				cards: deck.map(card => ({
+				cards: cardsWithoutCommander.map(card => ({
 					cardName: card.cardName,
 					 image_uris: {
 						normal: card.image_uris?.normal,
-						artCrop: card.image_uris?.artCrop,
+						art_crop: card.image_uris?.art_crop,
 					},
                     typeLine: card.typeLine,
                     cmc: card?.cmc,
@@ -61,8 +62,6 @@
 
 
 </script>
-
-
 
 <CardSearch onAddCard={addCard} />
 <DeckViewer deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>

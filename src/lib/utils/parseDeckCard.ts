@@ -3,7 +3,7 @@ import type { DeckCard } from "$lib/types/cards";
 export function parseDeckCard(raw: any): DeckCard {
     const face = raw.image_uris ? raw : raw.card_faces?.[0];
     const back = raw.card_faces?.[1]
-    console.log("raw: ", raw)
+    
 
     return {
         id: raw.id,
@@ -11,11 +11,11 @@ export function parseDeckCard(raw: any): DeckCard {
         cardName: raw.name,
         image_uris: {
             normal: face?.image_uris?.normal ?? '',
+            art_crop: face?.image_uris?.art_crop ?? '',
             backside: back?.image_uris ?? '' ? {
                  normal: back.image_uris.normal ?? '',
                  art_crop: back.image_uris.art_crop ?? ''
             }: null,
-            artCrop: face?.image_uris?.art_crop ?? ''
         },
         typeLine: face?.type_line ?? raw.type_line,
         colorIdentity: raw.color_identity ?? [],

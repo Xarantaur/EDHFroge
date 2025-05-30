@@ -25,7 +25,10 @@
 			createdAt: string;
 			commander: {
 				cardName: string;
-				artCrop: string;
+				image_uris: {
+					normal: string;
+					art_crop: string;
+				}
 				colorIdentity: string[];
 			} | null
 		}[];

@@ -30,7 +30,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					cardName: commander.cardName,
 					 image_uris: {
 						normal: commander.image_uris?.normal,
-						artCrop: commander.image_uris?.artCrop,
+						art_crop: commander.image_uris?.art_crop,
 					},
 					typeLine: commander.typeLine,
 					cmc: commander.cmc,
@@ -46,7 +46,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					cardName: card.cardName,
 					 image_uris: {
 						normal: card.image_uris?.normal,
-						artCrop: card.image_uris?.artCrop,
+						art_crop: card.image_uris?.art_crop
 					},
 					typeLine: card.typeLine,
 					cmc: card.cmc,
