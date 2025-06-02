@@ -5,10 +5,15 @@
 
 </script>
 
-<div class="w-screen h-screen px-4 overflow-hidden">
-	<div class="bg-gray-200 shadow p-6 w-[60%] h-[70%] overflow-hidden">
+<div class="w-full px-4">
+	<div class="bg-gray-200 shadow p-6 w-[80%] h-[70%] overflow-hidden rounded">
         <TileHeader title={title} subtitle=""></TileHeader>
-		<div class="h-full flex flex-wrap content-start items-start gap-y-2 gap-x-6">
+		<div class="h-full overflow-hidden 
+                    [column-width:160px] 
+                    sm:[column-width:200px] 
+                    md:[column-width:250px] 
+                    column-gap-6"
+        style="column-width: 250px; column-gap: 1rem;">
             <slot />
         </div>
      </div> 

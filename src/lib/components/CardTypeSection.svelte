@@ -22,20 +22,21 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 </button> 
 {/snippet}
  
-<div style="width: 70vw; height: 60vh; padding: 1rem; border: 1px solid #aaa">
-    <div style="height: 100%; column-width: 200px; column-gap: 2rem">
-        {#each Object.entries(groupedCards) as [type, cards]}
-        <div style="break-inside: avoid; margin-bottom: 1rem">
-            <h2 class="font-bold">{type} ({cards.length})</h2>
-            <ul>
-                {#each cards as card}
-                <li class="flex gap-2 text-xs ">
-                    <CardHoverTrigger card ={card} className={getLegalityClass(card, commander)}/>
-                    {@render removeButton(() => onRemove(card)) }
-                </li>
-                {/each}
-            </ul>
-        </div>
-        {/each}
-    </div>
+<div>
+	<div class="flex flex-wrap justify-start items-start">
+		{#each Object.entries(groupedCards) as [type, cards]}
+	<div class="mb-4 break-inside-avoid">
+		<h2 class="font-bold text-sm mb-2">{type}'s ({cards.length})</h2>
+		<ul class="space-y-1">
+			{#each cards as card}
+				<li class="flex items-center gap-2 text-xs">
+					<CardHoverTrigger card={card} className={getLegalityClass(card, commander)} />
+					{@render removeButton(() => onRemove(card))}
+				</li>
+			{/each}
+		</ul>
+	</div>
+{/each}
+
+	</div>
 </div>
