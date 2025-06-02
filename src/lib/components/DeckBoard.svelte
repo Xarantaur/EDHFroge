@@ -5,10 +5,10 @@
 
 </script>
 
-<div class="w-full px-4">
-	<div class="bg-gray-200 shadow p-6 w-full max-w-7xl h-[90vh]">
+<div class="w-screen h-screen px-4 overflow-hidden">
+	<div class="bg-gray-200 shadow p-6 w-[60%] h-[70%] overflow-hidden">
         <TileHeader title={title} subtitle=""></TileHeader>
-		<div class="overflow-y-auto h-full pr-2">
+		<div class="h-full flex flex-wrap content-start items-start gap-y-2 gap-x-6">
             <slot />
         </div>
      </div> 

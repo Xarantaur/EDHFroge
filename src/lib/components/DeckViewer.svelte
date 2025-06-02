@@ -4,6 +4,8 @@
 	import DeckBoard from './DeckBoard.svelte';
 	import { groupCardsByType } from '$lib/utils/groupCardsByType';
 	import CommanderPicker from './CommanderPicker.svelte';
+	import CardHoverTrigger from './CardHoverTrigger.svelte';
+	import { getLegalityClass } from '$lib/utils/cardLegality';
 
 	export let deck: DeckCard[] = []
 	export let commander: DeckCard | undefined = undefined;
@@ -20,12 +22,9 @@
 	<div class="w-[300px]">
 <CommanderPicker {commander} onPick={onPickCommander} />
 </div>
-
 	<div class="flex-1 max-w-[60%]">
 <DeckBoard>
-	{#each Object.entries(groupedCards) as [type, deck]}
-		<CardTypeSection title={type} {deck} commander={commander} onRemove={onRemoveCard}/>
-	{/each}
+	<CardTypeSection deck={deck} onRemove={onRemoveCard}/>
 </DeckBoard>
     </div>
 </div>

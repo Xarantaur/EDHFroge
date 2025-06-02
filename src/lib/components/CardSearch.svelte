@@ -4,6 +4,7 @@
   import { clickOutSide } from '$lib/utils/clickOutSide';
 	import type { DeckCard } from '$lib/types/cards';
 	import CardHoverTrigger from './CardHoverTrigger.svelte';
+  import { previewCard } from '$lib/stores/previewCardStore';
 
   export let title = '';
   export let onAddCard: (card: any) => void;
@@ -31,6 +32,7 @@
       onAddCard(card);
       query = '';
       suggestions = [];
+      previewCard.set(null)
     }
 
 $: if (query.length > 1) {
