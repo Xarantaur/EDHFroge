@@ -3,11 +3,13 @@
 	import CardTypeSection from './CardTypeSection.svelte';
 	import DeckBoard from './DeckBoard.svelte';
 	import CommanderPicker from './CommanderPicker.svelte';
+	import Button from './Button.svelte';
 
 	export let deck: DeckCard[] = []
 	export let commander: DeckCard | undefined = undefined;
 	export let onPickCommander: (card: DeckCard) => void
 	export let onRemoveCard: (card: DeckCard) => void;
+	export let onSave: () => void;
 </script>
 
 
@@ -20,5 +22,8 @@
 <DeckBoard>
 	<CardTypeSection deck={deck} onRemove={onRemoveCard}/>
 </DeckBoard>
+	<div class="flex justify-end p-4">
+	<Button onClick={onSave} type="button" variant="primary"> Save Changegs</Button>
+	</div> 
     </div>
 </div>

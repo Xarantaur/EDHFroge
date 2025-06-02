@@ -6,13 +6,13 @@
 </script>
 
 <div class="w-full px-4">
-	<div class="bg-gray-200 shadow p-6 w-[80%] h-[70%] overflow-hidden rounded">
+	<div class="bg-gray-200 shadow p-6 h-[70%] overflow-hidden rounded">
         <TileHeader title={title} subtitle=""></TileHeader>
 		<div class="h-full overflow-hidden 
                     [column-width:160px] 
                     sm:[column-width:200px] 
                     md:[column-width:250px] 
-                    column-gap-6"
+                    column-gap-6 overflow-hidden"
         style="column-width: 250px; column-gap: 1rem;">
             <slot />
         </div>

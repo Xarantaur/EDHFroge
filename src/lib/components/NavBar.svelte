@@ -13,7 +13,7 @@
       {title}
     </a>
 
-    <ul class="flex gap-6 text-sm font-medium">
+    <ul class="flex gap-6 text-sm font-medium items-center">
       {#if data.user}
       <li><a href="/decks" class="hover:text-orange-400">Decks</a></li>
       <li><a href="/profile" class="hover:text-orange-400">Profile</a></li>

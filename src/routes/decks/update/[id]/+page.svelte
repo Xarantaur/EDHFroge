@@ -78,6 +78,6 @@
 
 <CardSearch onAddCard={addCard} />
 
-<DeckViewer {deck} {commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} />
+<DeckViewer {deck} {commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
 
-<Button onClick={saveDeck} type="button" variant="primary"> Save Changegs </Button>    
+   
