@@ -1,7 +1,6 @@
 <script lang="ts">
     import Dialog from '$lib/components/Dialog.svelte';
 	import Button from '$lib/components/Button.svelte';
-    import toast from 'svelte-french-toast';
     import { Tile, TileHeader, TileBody, TileFooter } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
 
@@ -19,11 +18,11 @@
     export let form: any;
 
     $: if (form?.success) {
-	toast.success(' Password changed!')
+	console.log(' Password changed!')
     openDialog = false;
     }
     $: if (form?.error) {
-        toast.error('❌ Something went wrong')
+        console.error('❌ Something went wrong')
     }
 </script>
 

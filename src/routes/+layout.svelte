@@ -1,7 +1,6 @@
 <script>
 	import '../app.css';
 	import NavBar from '$lib/components/NavBar.svelte';
-	import { Toaster } from 'svelte-french-toast';
 	import { onMount } from 'svelte';
 	import CardHoverPreview from '$lib/components/CardHoverPreview.svelte';
 
@@ -22,10 +21,3 @@
 
 <slot />
 <CardHoverPreview />
-<Toaster 
-position="top-center"
-	toastOptions={{
-		duration: 4000,
-		style: 'background-color: #333; color: white;'
-	}}
-	/>

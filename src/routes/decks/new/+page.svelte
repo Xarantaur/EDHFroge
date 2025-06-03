@@ -1,6 +1,5 @@
 <script lang="ts">
     import DeckViewer from '$lib/components/DeckViewer.svelte';
-	import toast from 'svelte-french-toast';
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import type { DeckCard } from '$lib/types/cards';
@@ -9,7 +8,7 @@
 	
 	function addCard(card: any) {
         if(deck.some(c => c.name === card.name)) {
-            toast.error("card already in deck")
+            console.error("card already in deck")
             return
         }
 		deck = [...deck, card]
@@ -52,11 +51,10 @@
 		});
 
 		if (response.ok) {
-			toast.success('Deck saved!');
+			console.log("reponse ok")
 		} else {
             const error = await response.text();
             console.error('Save failed:', error);
-			toast.error('Something went wrong saving the deck');
 		}
 	}
 
@@ -64,5 +62,5 @@
 </script>
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
+<DeckViewer onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
 <Button onClick={saveDeck} type="button" variant="primary">Save Deck</Button>

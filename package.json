@@ -36,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^5.2.12",
+		"@sveltejs/adapter-vercel": "^5.7.2",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/package": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
@@ -62,7 +63,6 @@
 	"dependencies": {
 		"@prisma/client": "^6.7.0",
 		"bcrypt": "^5.1.1",
-		"flowbite": "^3.1.2",
-		"svelte-french-toast": "^1.2.0"
+		"flowbite": "^3.1.2"
 	}
 }

@@ -3,7 +3,6 @@
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
     import type { DeckCard } from '$lib/types/cards';
-	import toast from 'svelte-french-toast';
 
     export let data: {
         deck: {
@@ -21,7 +20,7 @@
     function addCard(card: DeckCard) {
         if(deck.some(c => c.cardName === card.cardName))
     {
-            toast.error("Card Already in Deck")
+            console.error("Card Already in Deck")
             return
         } 
         deck = [...deck, card]
@@ -66,11 +65,11 @@
         });
 
         if (response.ok) {
-            toast.success('Deck updated')
+            console.log('Deck updated')
         } else {
             const error = await response.text();
             console.error('Update failed', error)
-            toast.error('Seomthing went wrong updating the deck')
+            console.error('Seomthing went wrong updating the deck')
         }
     }
 </script>

@@ -1,10 +1,9 @@
 <script lang="ts">
-    import toast from 'svelte-french-toast';
 	import Button from '$lib/components/Button.svelte';
 	export let form;
 
 	$: if (form?.error) {
-		toast.error(`❌ ${form.error}`);
+		console.error(`❌ ${form.error}`);
 	}
     
     let email="";
