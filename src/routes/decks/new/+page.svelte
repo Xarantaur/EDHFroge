@@ -1,7 +1,6 @@
 <script lang="ts">
     import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import CardSearch from '$lib/components/CardSearch.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import type { DeckCard } from '$lib/types/cards';
     let deck: any[] = [];
     let commander: DeckCard 
@@ -63,4 +62,3 @@
 
 <CardSearch onAddCard={addCard} />
 <DeckViewer onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
-<Button onClick={saveDeck} type="button" variant="primary">Save Deck</Button>

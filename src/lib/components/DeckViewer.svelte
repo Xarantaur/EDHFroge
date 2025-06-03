@@ -23,7 +23,7 @@
 	<CardTypeSection deck={deck} onRemove={onRemoveCard}/>
 </DeckBoard>
 	<div class="flex justify-end p-4">
-	<Button onClick={onSave} type="button" variant="primary"> Save Changegs</Button>
+	<Button onClick={onSave} type="button" variant="primary">Save Deck</Button>
 	</div> 
     </div>
 </div>
