@@ -6,7 +6,7 @@
 </script>
 
 <div class="w-full px-4">
-	<div class="bg-gray-200 shadow p-6 h-[70%] overflow-hidden rounded">
+	<div class="bg-gray-200 shadow p-6 max-h-[80vh] overflow-y-auto rounded">
         <TileHeader title={title} subtitle=""></TileHeader>
 		<div class="h-full overflow-hidden 
                     [column-width:160px] 

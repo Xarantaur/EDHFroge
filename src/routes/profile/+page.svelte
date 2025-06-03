@@ -75,7 +75,7 @@
         <TileHeader slot="header" title="Security" subtitle="" />
             <TileBody>
                 <ul>
-                    <li class={tileStyles.li}><Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button></li>
+                    <Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button>
                     <li class={tileStyles.li}> <p>possible delete button</p></li>
                 </ul>
             </TileBody>

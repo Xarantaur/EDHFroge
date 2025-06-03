@@ -9,7 +9,17 @@
 	export let commander: DeckCard | undefined = undefined;
 	export let onPickCommander: (card: DeckCard) => void
 	export let onRemoveCard: (card: DeckCard) => void;
-	export let onSave: () => void;
+	export let onSave: () => Promise<void>;
+
+	let saving = false;
+	async function handleSave() {
+		saving = true;
+		try {
+			await onSave();
+		} finally {
+			saving = false;
+		}
+	}
 </script>
 
 
@@ -23,7 +33,7 @@
 	<CardTypeSection deck={deck} onRemove={onRemoveCard}/>
 </DeckBoard>
 	<div class="flex justify-end p-4">
-	<Button onClick={onSave} type="button" variant="primary">Save Deck</Button>
+	<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
 	</div> 
     </div>
 </div>
