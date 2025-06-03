@@ -39,7 +39,7 @@
 			<div class="flex mb-2 justify-center items-center space-x-2">
 				{#each deck.commander?.colorIdentity ?? [] as color}
 					<img 
-						src={`https:svgs.scryfall.io/card-symbols/${color}.svg`}
+						src={`https://svgs.scryfall.io/card-symbols/${color}.svg`}
 						alt={`${color} mana Symbol`}
 						width="20"
 						height="20"
