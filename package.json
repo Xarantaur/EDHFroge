@@ -13,7 +13,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
+		"test": "npm run test:unit -- --run"
 	},
 	"files": [
 		"dist",
