@@ -23,20 +23,22 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 {/snippet}
  
 <div>
-	<div class="flex flex-wrap justify-start items-start">
+	<div class="grid grid-flow-col auto-cols-[220px] gap-6">
 		{#each Object.entries(groupedCards) as [type, cards]}
-	<div class="mb-4 break-inside-avoid">
-		<h2 class="font-bold text-sm mb-2">{type}'s ({cards.length})</h2>
-		<ul class="space-y-1">
-			{#each cards as card}
-				<li class="flex items-center gap-2 text-xs">
-					<CardHoverTrigger card={card} className={getLegalityClass(card, commander)} />
-					{@render removeButton(() => onRemove(card))}
+			<ul class="max-w-[900] break-inside-avoid space-y-1">
+				<li class="font-bold text-sm mb-2">
+					{type}s ({cards.length})
 				</li>
-			{/each}
-		</ul>
-	</div>
-{/each}
+			
+
+				{#each cards as card}
+					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:border-gray-400">
+						<CardHoverTrigger card={card} className={getLegalityClass(card, commander)} />
+						{@render removeButton(() => onRemove(card))}
+					</li>
+				{/each}
+			</ul>
+		{/each}
 
 	</div>
 </div>
