@@ -4,7 +4,7 @@
     import { Tile, TileHeader, TileBody, TileFooter } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
     import { toastStore } from '$lib/stores/toast';
-	import Toaster from '$lib/components/Toaster.svelte';
+	
 
 	export let data: {
 		user: {

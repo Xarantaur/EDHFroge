@@ -21,7 +21,7 @@
     function addCard(card: DeckCard) {
         if(deck.some(c => c.cardName === card.cardName))
     {
-            console.error("Card Already in Deck")
+            toastStore.error("Card Already in Deck")
             return
         } 
         deck = [...deck, card]

@@ -7,8 +7,10 @@
     let commander: DeckCard 
 	
 	function addCard(card: any) {
-        if(deck.some(c => c.name === card.name)) {
-            console.error("card already in deck")
+		console.log(card)
+        if(deck.some(c => c.cardName === card.cardName)) {
+			console.log(card)
+            toastStore.error("card already in deck")
             return
         }
 		deck = [...deck, card]
