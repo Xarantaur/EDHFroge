@@ -2,6 +2,7 @@
     import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import type { DeckCard } from '$lib/types/cards';
+	import { toastStore } from '$lib/stores/toast';
     let deck: any[] = [];
     let commander: DeckCard 
 	
@@ -50,10 +51,11 @@
 		});
 
 		if (response.ok) {
-			console.log("reponse ok")
+			toastStore.success('Deck saved Successfully')
 		} else {
             const error = await response.text();
             console.error('Save failed:', error);
+			toastStore.error('Failed to save deck')
 		}
 	}
 

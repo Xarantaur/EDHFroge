@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import { toastStore } from '$lib/stores/toast.js';
 	export let form;
 
 	$: if (form?.success) {
-		console.log('🎉 Signup successful!');
+		toastStore.success('🎉 Signup successful!');
 	}
 	$: if (form?.error) {
-		console.error(`❌ ${form.error}`);
+		toastStore.error(`❌ ${form.error}`);
 	}
 	
 	let email="";

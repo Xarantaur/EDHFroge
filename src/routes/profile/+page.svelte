@@ -3,6 +3,8 @@
 	import Button from '$lib/components/Button.svelte';
     import { Tile, TileHeader, TileBody, TileFooter } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
+    import { toastStore } from '$lib/stores/toast';
+	import Toaster from '$lib/components/Toaster.svelte';
 
 	export let data: {
 		user: {
@@ -18,11 +20,11 @@
     export let form: any;
 
     $: if (form?.success) {
-	console.log(' Password changed!')
+	toastStore.success(' Password changed!')
     openDialog = false;
     }
     $: if (form?.error) {
-        console.error('❌ Something went wrong')
+        toastStore.error('❌ Something went wrong')
     }
 </script>
 
@@ -73,11 +75,11 @@
         <TileHeader slot="header" title="Security" subtitle="" />
             <TileBody>
                 <ul>
-                    
-                    <li class={tileStyles.li}><p>🔄 Button to regenerate session (log out from everywhere)</p></li>
+                    <li class={tileStyles.li}><Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button></li>
+                    <li class={tileStyles.li}> <p>possible delete button</p></li>
                 </ul>
             </TileBody>
-            <TileFooter><Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button></TileFooter>
+            
     </Tile>
     <Tile>
         <TileHeader slot="header" title="Personalization" subtitle="" />
@@ -86,15 +88,6 @@
                         <li class={tileStyles.li}>🧙‍♂️ Avatar (Gravatar or uploaded)</li>
                         <li class={tileStyles.li}>🧾 Bio / About me</li>
                         <li class={tileStyles.li}>🎨 Theme or UI preferences (light/dark, card style, etc.)</li>
-                </ul>
-            </TileBody>
-    </Tile>
-    <Tile>
-        <TileHeader slot="header" title="Personalization" subtitle="" />
-            <TileBody>
-                <ul>
-                    <li class={tileStyles.li}>❌ Delete account (with confirmation)</li>
-                    <li class={tileStyles.li}>🚪 Log out of all sessions</li>
                 </ul>
             </TileBody>
     </Tile>

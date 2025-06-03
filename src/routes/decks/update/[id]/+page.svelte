@@ -2,6 +2,7 @@
     import Button from '$lib/components/Button.svelte';
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
+	import { toastStore } from '$lib/stores/toast';
     import type { DeckCard } from '$lib/types/cards';
 
     export let data: {
@@ -65,11 +66,11 @@
         });
 
         if (response.ok) {
-            console.log('Deck updated')
+            toastStore.success('Deck updated')
         } else {
             const error = await response.text();
             console.error('Update failed', error)
-            console.error('Seomthing went wrong updating the deck')
+            toastStore.error('Seomthing went wrong updating the deck')
         }
     }
 </script>

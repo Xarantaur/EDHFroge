@@ -21,7 +21,6 @@
         e.preventDefault();
         onDelete(deck.id, e)
     } 
-	console.log(deck.commander?.image_uris)
 </script>
 
 

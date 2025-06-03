@@ -3,6 +3,7 @@
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { onMount } from 'svelte';
 	import CardHoverPreview from '$lib/components/CardHoverPreview.svelte';
+	import Toaster from '$lib/components/Toaster.svelte'
 
 	export let data;
 
@@ -20,4 +21,5 @@
 
 
 <slot />
+<Toaster />
 <CardHoverPreview />
