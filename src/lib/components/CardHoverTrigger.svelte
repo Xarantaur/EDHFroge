@@ -8,7 +8,7 @@ export let className: string = '';
 </script>
 
 <span
-	class={`relative inline-block group text-gray-800 font-medium hover:text-orange-500 cursor-pointer ${className}`}
+	class={`relative inline-block group text-gray-800 font-medium cursor-pointer ${className}`}
 	on:mouseenter={() => previewCard.set(card)}
 	on:mouseleave={() => previewCard.set(null)}
 	aria-hidden=true
