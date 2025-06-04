@@ -30,7 +30,7 @@
 </div>
 	<div class="flex-1 max-w-[57%]">
 <DeckBoard>
-	<CardTypeSection deck={deck} onRemove={onRemoveCard}/>
+	<CardTypeSection deck={deck} onRemove={onRemoveCard} {commander}/>
 </DeckBoard>
 	<div class="flex justify-end p-4">
 	<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
