@@ -4,6 +4,7 @@ export interface DeckCard {
          cardName: string; 
 		 image_uris: {
 			normal: string;
+			small: string;
 			art_crop?: string;
 		 	backside?: {
 				normal: string;

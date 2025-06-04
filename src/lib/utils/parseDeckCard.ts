@@ -11,6 +11,7 @@ export function parseDeckCard(raw: any): DeckCard {
         cardName: raw.name,
         image_uris: {
             normal: face?.image_uris?.normal ?? '',
+            small: face?.image_uris?.small ?? '',
             art_crop: face?.image_uris?.art_crop ?? '',
             backside: back?.image_uris ?? '' ? {
                  normal: back.image_uris.normal ?? '',

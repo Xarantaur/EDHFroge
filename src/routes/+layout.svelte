@@ -8,11 +8,20 @@
 	export let data;
 
 	onMount(() => {
-		window.addEventListener('mousemove',(e) => {
-			document.documentElement.style.setProperty('--mouse-x', `${e.pageX}px`)
-			document.documentElement.style.setProperty('--mouse-y', `${e.pageY}px`)
-		});
+		window.addEventListener('mousemove', (e) => {
+		const previewWidth = 256; // or whatever max preview width you allow (e.g. 16rem)
+		const margin = 16; // padding so it's not touching the edge
+
+		const maxX = window.innerWidth - previewWidth - margin;
+		const maxY = window.innerHeight - 300; // optional for height safety
+
+		const clampedX = Math.min(e.pageX, maxX);
+		const clampedY = Math.min(e.pageY, maxY);
+
+		document.documentElement.style.setProperty('--mouse-x', `${clampedX}px`);
+		document.documentElement.style.setProperty('--mouse-y', `${clampedY}px`);
 	});
+});
 </script>
 
 <NavBar {data}>
