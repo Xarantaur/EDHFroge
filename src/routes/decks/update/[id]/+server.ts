@@ -87,7 +87,11 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
         });
 
         return deckId;
-    });
+    },
+    {
+		maxWait: 10000,
+		timeout: 10000
+	});
     
     return json({ success: true, deckId: result});
     } catch (error) {

@@ -62,7 +62,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				}
 			});
 
+
 			return deck.id;
+		}, {
+			maxWait: 10000,
+			timeout: 10000
 		});
 
 		return json({ success: true, deckId: result });
