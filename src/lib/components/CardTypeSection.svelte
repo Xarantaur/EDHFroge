@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { DeckCard } from "$lib/types/cards";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
-    import { getLegalityClass } from "$lib/utils/cardLegality";
+    import { getLegalityClass, getLegalityMessage } from "$lib/utils/cardLegality";
     import { groupCardsByType } from "$lib/utils/groupCardsByType";
 
     export let deck: DeckCard[] = []
     export let onRemove: (card: DeckCard) => void;
-    export let commander: DeckCard | undefined = undefined
+    export let commander: DeckCard | null = null
 
     $: groupedCards = groupCardsByType(deck)
 </script>
@@ -32,10 +32,12 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 			
 
 				{#each cards as card}
+				
 					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
-						<CardHoverTrigger card={card} className={getLegalityClass(card, commander)} />
+						<CardHoverTrigger card={card} commander={commander} className={getLegalityClass(card, commander ?? undefined)} /> 
 						{@render removeButton(() => onRemove(card))}
-					</li>
+				</li>
+				
 				{/each}
 			</ul>
 		{/each}

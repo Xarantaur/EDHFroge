@@ -6,7 +6,7 @@
 	import Button from './Button.svelte';
 
 	export let deck: DeckCard[] = []
-	export let commander: DeckCard | undefined = undefined;
+	export let commander: DeckCard | null = null;
 	export let onPickCommander: (card: DeckCard) => void
 	export let onRemoveCard: (card: DeckCard) => void;
 	export let onSave: () => Promise<void>;

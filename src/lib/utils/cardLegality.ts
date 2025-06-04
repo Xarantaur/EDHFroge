@@ -10,10 +10,36 @@ export let commander: DeckCard
     return card.colorIdentity.every((color) => identity.includes(color));
 }
 
-export function getLegalityClass(card: DeckCard, commander?:DeckCard): string {
-    if(isCardBanned(card)) return 'text-red-500 line-through opacity-80 italic';
-    if(commander && !respectsColorIdentity(card, commander.colorIdentity)) {
+export function getCardLegalityReason(card: DeckCard, commander?: DeckCard): 'banned' | 'color-identity' | 'legal' {
+    if(!commander) return 'legal';
+    if(isCardBanned(card)) return 'banned';
+    if (!respectsColorIdentity(card, commander.colorIdentity)) return 'color-identity';
+    return 'legal'
+}
+
+export function getLegalityClass(card: DeckCard, commander?: DeckCard): string {
+   const reason = getCardLegalityReason(card, commander);
+
+   switch (reason) {
+    case 'banned':
+    case 'color-identity':
         return 'text-red-500 line-through opacity-80 italic'
-    }
-    return 'text-gray-800'
+    default:
+        return 'text-gray-800'    
+   }
 } 
+
+export function getLegalityMessage(card: DeckCard, commander?: DeckCard): string | null {
+    const reason = getCardLegalityReason(card, commander)
+
+    switch (reason) {
+        case 'banned':
+            return 'Banned in Commander'
+
+        case 'color-identity':
+            return 'Color Identity Violation'
+
+        default:
+             return null;
+    }
+}

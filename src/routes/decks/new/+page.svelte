@@ -4,7 +4,13 @@
 	import type { DeckCard } from '$lib/types/cards';
 	import { toastStore } from '$lib/stores/toast';
     let deck: any[] = [];
-    let commander: DeckCard 
+    let commander: DeckCard | null = null
+
+	const totalCardCount = deck.length + (commander ? 1 : 0);
+	
+	if(totalCardCount > 100 ) {
+		toastStore.error(`Deck too Large: ${totalCardCount} cards (max 100 including commander)`)
+	}
 	
 	function addCard(card: any) {
 		console.log(card)
@@ -21,6 +27,10 @@
 	}
     
     async function saveDeck() {
+		if(!commander) {
+			toastStore.error('Please Select a Commander before saving')
+			return;
+		}
 		const cardsWithoutCommander = deck.filter(card => card.cardName !== commander?.cardName)
 		const response = await fetch('/decks/save', {
 			method: 'POST',
