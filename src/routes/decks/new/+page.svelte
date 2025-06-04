@@ -3,14 +3,10 @@
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import type { DeckCard } from '$lib/types/cards';
 	import { toastStore } from '$lib/stores/toast';
+	import { totalCardTount } from '$lib/utils/cardCountUtility'
     let deck: any[] = [];
     let commander: DeckCard | null = null
-
-	const totalCardCount = deck.length + (commander ? 1 : 0);
-	
-	if(totalCardCount > 100 ) {
-		toastStore.error(`Deck too Large: ${totalCardCount} cards (max 100 including commander)`)
-	}
+	export let name: string = ""
 	
 	function addCard(card: any) {
 		console.log(card)
@@ -31,12 +27,16 @@
 			toastStore.error('Please Select a Commander before saving')
 			return;
 		}
+		if (!name || name.trim().length < 1 ){
+			toastStore.error('Deck must have a Name');
+			return;
+		}
 		const cardsWithoutCommander = deck.filter(card => card.cardName !== commander?.cardName)
 		const response = await fetch('/decks/save', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				name: 'My First Deck',
+				name: name,
                 commander: {
                     cardName: commander.cardName,
                     image_uris: {
@@ -75,4 +75,4 @@
 </script>
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
+<DeckViewer deckSize={totalCardTount(deck, commander)} bind:name onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>

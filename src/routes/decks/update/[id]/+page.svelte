@@ -3,6 +3,7 @@
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
     import type { DeckCard } from '$lib/types/cards';
+    import { totalCardTount } from '$lib/utils/cardCountUtility'
 
     export let data: {
         deck: {
@@ -35,6 +36,10 @@
     } 
 
     async function saveDeck() {
+        if (!name || name.trim().length < 1 ){
+			toastStore.error('Deck must have a Name');
+			return;
+		}
         const cardsWithoutCommander = deck.filter(card => card.cardName !== commander.cardName)
         const response = await fetch(`/decks/update/${data.deck.id}`, {
             method: 'POST',
@@ -81,6 +86,6 @@
 
 <CardSearch onAddCard={addCard} />
 
-<DeckViewer {deck} {commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
+<DeckViewer deckSize={totalCardTount(data.deck.cards, commander)} bind:name {deck} bind:commander onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
 
    
