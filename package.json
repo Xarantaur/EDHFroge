@@ -65,6 +65,7 @@
 	"dependencies": {
 		"@prisma/client": "^6.7.0",
 		"bcrypt": "^5.1.1",
-		"flowbite": "^3.1.2"
+		"flowbite": "^3.1.2",
+		"resend": "^4.5.1"
 	}
 }
