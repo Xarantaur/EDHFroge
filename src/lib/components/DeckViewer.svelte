@@ -26,7 +26,7 @@
 
 <div class="flex items-start justify-center gap-10 w-full">
 	<div class="w-[300px]">
-<CommanderPicker {commander} onPick={onPickCommander} />
+<CommanderPicker commander={commander} onPick={onPickCommander} />
 </div>
 	<div class="flex-1 max-w-[57%]">
 <DeckBoard>

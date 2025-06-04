@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Button from '$lib/components/Button.svelte';
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
@@ -19,8 +18,12 @@
     let name: string = data.deck.name;
 
     function addCard(card: DeckCard) {
-        if(deck.some(c => c.cardName === card.cardName))
-    {
+        if(card.cardName === commander.cardName){
+            toastStore.error("That card is your commander");
+            return
+        }
+        
+        if(deck.some(c => c.cardName === card.cardName)) {
             toastStore.error("Card Already in Deck")
             return
         } 

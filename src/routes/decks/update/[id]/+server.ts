@@ -24,9 +24,9 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
                  }
             });
 
-            await tx.deckCard.update({
-                where: { id: commander.id },
-                data: {
+            const commanderRecord = await tx.deckCard.upsert({
+                where: { id: commander.id ?? ''},
+                update: {
                     cardName: commander.cardName,
                     image_uris: {
                         normal: commander.image_uris?.normal,
@@ -36,8 +36,20 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
                     cmc: commander.cmc,
                     colors: commander.colors,
                     colorIdentity: commander.colorIdentity
+                },
+                create: {
+                    deckId,
+                   cardName: commander.cardName,
+                    image_uris: {
+                        normal: commander.image_uris?.normal,
+                        art_crop: commander.image_uris?.art_crop
+                    },
+                    typeLine: commander.typeLine,
+                    cmc: commander.cmc,
+                    colors: commander.colors,
+                    colorIdentity: commander.colorIdentity
                 }
-            })
+            });
 
             await Promise.all(cards.map(card => {
                 return tx.deckCard.upsert({
@@ -68,7 +80,10 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 
         await tx.deck.update({
             where: { id: deckId },
-            data: { name }
+            data: { 
+                name,
+                commanderId: commanderRecord.id
+             }
         });
 
         return deckId;
