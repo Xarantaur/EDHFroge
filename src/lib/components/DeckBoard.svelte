@@ -2,13 +2,13 @@
 	import TileHeader from "./Tile/TileHeader.svelte";
 
     export let title: string = "Main Deck"
-    export let deckSize: number
+    export let deckSize: number 
 
 </script>
 
 <div class="w-full px-4">
 	<div class="bg-gray-200 shadow p-6 max-h-[80vh] overflow-y-auto rounded">
-        <TileHeader title={title} subtitle={`Total Card Count: ${deckSize}`}></TileHeader>
+        <TileHeader title={title} subtitle={`CardCount: ${deckSize}`}></TileHeader>
 		<div class="h-full overflow-hidden 
                     [column-width:160px] 
                     sm:[column-width:200px] 
