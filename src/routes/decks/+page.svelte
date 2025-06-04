@@ -26,6 +26,7 @@
 			commander: {
 				cardName: string;
 				image_uris: {
+					small: string;
 					normal: string;
 					art_crop: string;
 				}

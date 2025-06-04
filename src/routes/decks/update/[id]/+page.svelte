@@ -51,6 +51,7 @@
                     cardName: commander.cardName,
                      image_uris: {
 						normal: commander.image_uris?.normal,
+						small: commander.image_uris?.small,
 						art_crop: commander.image_uris?.art_crop,
 					},
                     typeLine: commander.typeLine,
@@ -63,6 +64,7 @@
                     cardName: card.cardName,
                     image_uris: {
 						normal: card.image_uris?.normal,
+						small: card.image_uris?.small,
 						art_crop: card.image_uris?.art_crop,
 					},
                     typeLine: card?.typeLine,
