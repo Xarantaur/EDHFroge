@@ -18,10 +18,17 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 
     try {
         const result = await prisma.$transaction(async (tx) => {
+            const incomingIds = new Set(cards.map((c) => c.id));
+            const commanderId = commander.id
+
+
             await tx.deckCard.deleteMany({
-                where: { deckId: deckId,
-                    id: { not: commander.id }
-                 }
+                where: {
+                    deckId,
+                    id: {
+                        notIn: [...incomingIds, commanderId]
+                    }
+                }
             });
 
             const commanderRecord = await tx.deckCard.upsert({
@@ -53,33 +60,31 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
                 }
             });
 
-            await Promise.all(cards.map(card => {
-                return tx.deckCard.upsert({
-                where: { id: card.id ?? '' },
-                update: {
-                    cardName: card.cardName,
-                    image_uris: {
-                        normal: card.image_uris?.normal,
-                        small: card.image_uris?.small,
-                        art_crop: card.image_uris?.art_crop
-                    },
-                    typeLine: card.typeLine,
-                    cmc: card.cmc,
-                    colors: card.colors,
-                    colorIdentity: card.colorIdentity
-                },
-                create: {
-                    deckId,
-                    cardName: card.cardName,
-                    image_uris: card.image_uris,
-                    typeLine: card.typeLine,
-                    cmc: card.cmc,
-                    colors: card.colors,
-                    colorIdentity: card.colorIdentity
-                }
-            });
-            
-        }));
+
+            await Promise.all(
+                cards.map((card) =>
+					tx.deckCard.upsert({
+						where: { id: card.id ?? '' },
+						update: {
+							cardName: card.cardName,
+							image_uris: card.image_uris,
+							typeLine: card.typeLine,
+							cmc: card.cmc,
+							colors: card.colors,
+							colorIdentity: card.colorIdentity
+						},
+						create: {
+							deckId,
+							cardName: card.cardName,
+							image_uris: card.image_uris,
+							typeLine: card.typeLine,
+							cmc: card.cmc,
+							colors: card.colors,
+							colorIdentity: card.colorIdentity
+						}
+					})
+				)
+			);
 
         await tx.deck.update({
             where: { id: deckId },
