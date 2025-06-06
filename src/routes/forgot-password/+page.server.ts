@@ -8,7 +8,7 @@ import crypto from 'crypto';
 export const actions: Actions = {
     default: async ({ request }) => {
         const form = await request.formData();
-        const email = form.get('email')?.toString();
+        const email = form.get('email')?.toString().trim().toLowerCase()
 
         if (!email) {
 			return fail(400, { error: 'Email is required.' });

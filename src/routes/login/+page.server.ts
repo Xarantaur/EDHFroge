@@ -15,7 +15,7 @@ export const load: PageServerLoad = ({ cookies }) => {
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const form = await request.formData();
-		const email = form.get('email')?.toString();
+		const email = form.get('email')?.toString().trim().toLowerCase();
 		const password = form.get('password')?.toString();
 
 		if (!email || !password) {

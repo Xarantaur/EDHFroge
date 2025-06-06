@@ -6,7 +6,7 @@ import crypto from 'crypto'
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const form = await request.formData();
-		const email = form.get('email')?.toString();
+		const email = form.get('email')?.toString().trim().toLowerCase();
 		const password = form.get('password')?.toString();
 		const confirm = form.get('confirm')?.toString();
 

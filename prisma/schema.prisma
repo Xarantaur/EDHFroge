@@ -8,50 +8,62 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  password String
-  decks    Deck[]
-  createdAt DateTime @default(now())
-  sessions Session[]
+  id             String          @id @default(uuid())
+  email          String          @unique
+  password       String
+  decks          Deck[]
+  createdAt      DateTime        @default(now())
+  sessions       Session[]
+  passwordResets PasswordReset[]
+
+  @@map("users")
 }
 
 model Deck {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  id          String     @id @default(uuid())
+  name        String
+  createdAt   DateTime   @default(now())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
   commanderId String?
-  commander DeckCard? @relation("CommanderCard", fields: [commanderId], references: [id])
-  cards     DeckCard[]
+  commander   DeckCard?  @relation("CommanderCard", fields: [commanderId], references: [id])
+  cards       DeckCard[]
+
+  @@map("decks")
 }
 
 model DeckCard {
-  id       String   @id @default(uuid())
-  deck     Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  deckId   String
-  cardName String
-  image_uris Json
-  typeLine String
-  cmc      Float
-  colors String[]
+  id            String   @id @default(uuid())
+  deck          Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  deckId        String
+  cardName      String
+  image_uris    Json
+  typeLine      String
+  cmc           Float
+  colors        String[]
   colorIdentity String[]
-  commanderOf Deck[] @relation("CommanderCard")
+  commanderOf   Deck[]   @relation("CommanderCard")
+
+  @@map("deck_cards")
 }
+
 model PasswordReset {
   id        String   @id @default(uuid())
-  email     String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
   token     String   @unique
   expiresAt DateTime
+
+  @@map("password_resets")
 }
+
 model Session {
   id        String   @id @default(uuid())
   token     String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
+
+  @@map("sessions")
 }
-
-

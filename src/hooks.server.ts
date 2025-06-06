@@ -17,7 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (session && session.expiresAt > new Date()) {
 			event.locals.user = {
 				id: session.user.id,
-				email: session.user.email
+				email: session.user.email.toLowerCase()
 			};
 		}
 	}
