@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { DeckCard } from "$lib/types/cards";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
-    import { getLegalityClass, getLegalityMessage } from "$lib/utils/cardLegality";
+    import { getLegalityClass } from "$lib/utils/cardLegality";
     import { groupCardsByType } from "$lib/utils/groupCardsByType";
 
     export let deck: DeckCard[] = []
@@ -23,10 +23,10 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 {/snippet}
  
 <div>
-	<div class="flex flex-col gap-6 sm:grid sm:grid-flow-col sm:auto-cols-[220px] sm:gap-6">
+	<div class="flex flex-wrap gap-6">
 		{#each Object.entries(groupedCards) as [type, cards]}
-			<ul class="max-w-[900] break-inside-avoid space-y-1">
-				<li class="font-bold text-sm mb-2 border-b">
+			<ul class="w-full sm:basis-[45%] md:basis-[30%] lg:basis-[200px] space-y-1">
+				<li class="font-bold text-sm sm:text-base mb-1 sm:mb-2 border-b w-full">
 					{type}s ({cards.length})
 				</li>
 			
