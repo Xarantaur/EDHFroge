@@ -83,11 +83,12 @@
             toastStore.error('Seomthing went wrong updating the deck')
         }
     }
+    $:  deckSize = totalCardTount(deck, commander)
 </script>
 
 
 <CardSearch onAddCard={addCard} />
 
-<DeckViewer deckSize={totalCardTount(data.deck.cards, commander)} bind:name {deck} bind:commander onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
+<DeckViewer {deckSize} bind:name {deck} bind:commander onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
 
    

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tileStyles } from "./tileStyles";
-    export let title: string;
+    export let title: string ;
     export let subtitle: string;
 </script>
 
