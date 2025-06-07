@@ -8,7 +8,7 @@ import crypto from 'crypto'
 export const load: PageServerLoad = ({ cookies }) => {
 	const session = cookies.get('session');
 	if (session) {
-		throw redirect(303, '/profile');
+		throw redirect(303, '/');
 	}
 };
 
@@ -47,6 +47,6 @@ export const actions: Actions = {
 			})
 
 			cookies.set('session', token, { path: '/', sameSite: 'lax', secure: true });
-			throw redirect(303, '/profile');
+			throw redirect(303, '/');
 	}
 };

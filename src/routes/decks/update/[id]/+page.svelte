@@ -3,7 +3,8 @@
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
     import type { DeckCard } from '$lib/types/cards';
-    import { totalCardTount } from '$lib/utils/cardCountUtility'
+    import { totalCardCount } from '$lib/utils/cardCountUtility'
+	import { passingSingletonRule } from '$lib/utils/cardLegality';
 
     export let data: {
         deck: {
@@ -19,14 +20,8 @@
     let name: string = data.deck.name;
 
     function addCard(card: DeckCard) {
-        if(card.cardName === commander.cardName){
-            toastStore.error("That card is your commander");
-            return
-        }
-        
-        if(deck.some(c => c.cardName === card.cardName)) {
-            toastStore.error("Card Already in Deck")
-            return
+        if(!passingSingletonRule(deck, card, commander)) {
+            return;
         } 
         deck = [...deck, card]
         }
@@ -83,7 +78,7 @@
             toastStore.error('Seomthing went wrong updating the deck')
         }
     }
-    $:  deckSize = totalCardTount(deck, commander)
+    $:  deckSize = totalCardCount(deck, commander)
 </script>
 
 

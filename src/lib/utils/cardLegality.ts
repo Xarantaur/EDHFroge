@@ -1,5 +1,7 @@
 import type { DeckCard } from "$lib/types/cards";
 import { bannedCards } from "$lib/domain/banList";
+import { BASIC_LAND_TYPES } from "$lib/domain/domainCardTypes";
+import { toastStore } from "$lib/stores/toast";
 export let commander: DeckCard 
 
  function isCardBanned(card: DeckCard): boolean {
@@ -8,6 +10,26 @@ export let commander: DeckCard
 
  function respectsColorIdentity(card: DeckCard, identity: string[]): boolean {
     return card.colorIdentity.every((color) => identity.includes(color));
+}
+
+export function passingSingletonRule(deck: DeckCard[], newCard: DeckCard, commander:DeckCard | null): boolean {
+    const name = newCard.cardName;
+    
+    if(BASIC_LAND_TYPES.includes(name)) {
+        return true;
+    }
+
+    if(name === commander?.cardName) {
+        toastStore.error("Card is your Commander")
+        return false;
+    }
+    
+    if(deck.some((card) => card.cardName === name)) {
+        toastStore.error("Card is already in deck")
+        return false
+    }
+    
+    return true;
 }
 
 export function getCardLegalityReason(card: DeckCard, commander?: DeckCard): 'banned' | 'color-identity' | 'legal' {

@@ -3,18 +3,14 @@
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import type { DeckCard } from '$lib/types/cards';
 	import { toastStore } from '$lib/stores/toast';
-	import { totalCardTount } from '$lib/utils/cardCountUtility'
+	import { totalCardCount } from '$lib/utils/cardCountUtility'
+	import { passingSingletonRule } from '$lib/utils/cardLegality';
     let deck: any[] = [];
     let commander: DeckCard | null = null
 	export let name: string = ""
 	
 	function addCard(card: any) {
-		console.log(card)
-        if(deck.some(c => c.cardName === card.cardName)) {
-			console.log(card)
-            toastStore.error("card already in deck")
-            return
-        }
+		passingSingletonRule(deck, card, commander)
 		deck = [...deck, card]
 	}
 
@@ -77,4 +73,4 @@
 </script>
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer deckSize={totalCardTount(deck, commander)} bind:name onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
+<DeckViewer deckSize={totalCardCount(deck, commander)} bind:name onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>

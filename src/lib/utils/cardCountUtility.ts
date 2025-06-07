@@ -1,7 +1,7 @@
 import { toastStore } from "$lib/stores/toast";
 import type { DeckCard } from "$lib/types/cards";
 
-export function totalCardTount(deck: DeckCard[], commander: DeckCard | null): number {
+export function totalCardCount(deck: DeckCard[], commander: DeckCard | null): number {
     const aggregatedDeckSize = deck.length + (commander ? 1 : 0);
 	
 	if(aggregatedDeckSize > 100 ) {
