@@ -16,17 +16,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 	
 	try {
-		const result = await prisma.$transaction(async (tx) => {
-			const deck = await tx.deck.create({
-				data: {
-					name,
-					userId: user.id,
-				}
-			});
 
-			const commanderCard = await tx.deckCard.create({
-				data: {
-					deckId: deck.id,
+		const deck = await prisma.deck.create({
+			data: {
+				name,
+				userId: user.id
+			}
+		});
+
+		const commanderCard = await prisma.deckCard.create({
+			data: {
+				deckId: deck.id,
 					cardName: commander.cardName,
 					 image_uris: {
 						normal: commander.image_uris?.normal,
@@ -37,11 +37,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					cmc: commander.cmc,
 					colors: commander.colors,
 					colorIdentity: commander.colorIdentity
-				}
-			});
 
+			}
+		});
 
-			await tx.deckCard.createMany({
+		if(cards.length > 0 ) {
+			await prisma.deckCard.createMany({
 				data: cards.map(card => ({
 					deckId: deck.id,
 					cardName: card.cardName,
@@ -55,23 +56,18 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					colors: card.colors,
 					colorIdentity: card.colorIdentity
 				}))
-			});
 
-			await tx.deck.update({
+			});
+		}
+
+			await prisma.deck.update({
 				where: { id: deck.id },
 				data: { 
 					commanderId: commanderCard.id
 				}
 			});
 
-
-			return deck.id;
-		}, {
-			maxWait: 10000,
-			timeout: 10000
-		});
-
-		return json({ success: true, deckId: result });
+		return json({ success: true, deckId: deck.id  });
 	} catch (error) {
 		console.error('Transaction failed:', error)
 		return json({ error: 'Failed to save deck.' }, { status: 500})
