@@ -17,119 +17,44 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
     }
 
     try {
-        const result = await prisma.$transaction(async (tx) => {
-            const incomingIds = new Set(cards.map((c) => c.id));
-            const commanderId = commander.id
 
+        await prisma.deckCard.deleteMany({ where: { deckId } });
 
-            await tx.deckCard.deleteMany({
-                where: {
-                    deckId,
-                    id: {
-                        notIn: [...incomingIds, commanderId]
-                    }
-                }
-            });
-
-            const commanderRecord = await tx.deckCard.upsert({
-                where: { id: commander.id ?? ''},
-                update: {
-                    cardName: commander.cardName,
-                    image_uris: {
-                        normal: commander.image_uris?.normal,
-                        small: commander.image_uris?.small,
-                        art_crop: commander.image_uris?.art_crop
-                    },
-                    typeLine: commander.typeLine,
-                    cmc: commander.cmc,
-                    colors: commander.colors,
-                    colorIdentity: commander.colorIdentity
-                },
-                create: {
-                    deckId,
-                   cardName: commander.cardName,
-                    image_uris: {
-                        normal: commander.image_uris?.normal,
-                        small: commander.image_uris?.small,
-                        art_crop: commander.image_uris?.art_crop
-                    },
-                    typeLine: commander.typeLine,
-                    cmc: commander.cmc,
-                    colors: commander.colors,
-                    colorIdentity: commander.colorIdentity
-                }
-            });
-
-            const chunkSize = 10
-
-            for (let i = 0; i < cards.length; i += chunkSize) {
-                const chunk = cards.slice(i, i + chunkSize);
-
-                for(const card of chunk){
-                    await tx.deckCard.upsert({
-                        where: { id: card.id ?? '' },
-						update: {
-							cardName: card.cardName,
-							image_uris: card.image_uris,
-							typeLine: card.typeLine,
-							cmc: card.cmc,
-							colors: card.colors,
-							colorIdentity: card.colorIdentity
-						},
-						create: {
-							deckId,
-							cardName: card.cardName,
-							image_uris: card.image_uris,
-							typeLine: card.typeLine,
-							cmc: card.cmc,
-							colors: card.colors,
-							colorIdentity: card.colorIdentity
-						}
-                    });
-                }
+        const commanderRecord = await prisma.deckCard.create({
+            data: {
+                deckId,
+                cardName: commander.cardName,
+                image_uris: commander.image_uris,
+                typeLine: commander.typeLine,
+                cmc: commander.cmc,
+                colors: commander.colors,
+                colorIdentity: commander.colorIdentity
             }
+        });
 
-           /*  await Promise.all(
-                cards.map((card) =>
-					tx.deckCard.upsert({
-						where: { id: card.id ?? '' },
-						update: {
-							cardName: card.cardName,
-							image_uris: card.image_uris,
-							typeLine: card.typeLine,
-							cmc: card.cmc,
-							colors: card.colors,
-							colorIdentity: card.colorIdentity
-						},
-						create: {
-							deckId,
-							cardName: card.cardName,
-							image_uris: card.image_uris,
-							typeLine: card.typeLine,
-							cmc: card.cmc,
-							colors: card.colors,
-							colorIdentity: card.colorIdentity
-						}
-					})
-				)
-			); */
+        if(cards.length > 0 ) {
+            await prisma.deckCard.createMany({
+                data: cards.map((card) => ({
+                deckId,
+                cardName: card.cardName,
+                image_uris: card.image_uris,
+                typeLine: card.typeLine,
+                cmc: card.cmc,
+                colors: card.colors,
+                colorIdentity: card.colorIdentity
+                }))
+            })
+        }
 
-        await tx.deck.update({
+        await prisma.deck.update({
             where: { id: deckId },
             data: { 
                 name,
                 commanderId: commanderRecord.id
              }
         });
-
-        return deckId;
-    },
-    {
-		maxWait: 10000,
-		timeout: 10000
-	});
     
-    return json({ success: true, deckId: result});
+    return json({ success: true, deckId });
     } catch (error) {
         console.error('Deck Update failed:', error);
         return json({ error: 'Internal server Error'}, { status: 500 })
