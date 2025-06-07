@@ -54,7 +54,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					typeLine: card.typeLine,
 					cmc: card.cmc,
 					colors: card.colors,
-					colorIdentity: card.colorIdentity
+					colorIdentity: card.colorIdentity,
+					quantity: card.quantity
 				}))
 
 			});

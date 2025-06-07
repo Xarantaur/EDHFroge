@@ -35,6 +35,10 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 				
 					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
 						<CardHoverTrigger card={card} commander={commander} className={getLegalityClass(card, commander ?? undefined)} /> 
+						
+						{#if card.quantity && card.quantity > 1}
+							<span class="">x{card.quantity}</span>
+						{/if}
 						{@render removeButton(() => onRemove(card))}
 				    </li>
 				

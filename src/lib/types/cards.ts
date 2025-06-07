@@ -15,4 +15,5 @@ export interface DeckCard {
 		 colors: string[];
 		 colorIdentity: string[];
          cmc: number; 
+		 quantity?: number;
 }

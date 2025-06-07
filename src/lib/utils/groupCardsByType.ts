@@ -1,4 +1,4 @@
-import { MAIN_TYPES } from "$lib/domain/domainCardTypes";
+import { BASIC_LAND_TYPES, MAIN_TYPES } from "$lib/domain/domainCardTypes";
 import type { DeckCard } from "$lib/types/cards";
 
 export function groupCardsByType(cards: DeckCard[]): Record<string, DeckCard[]> {
@@ -13,7 +13,18 @@ export function groupCardsByType(cards: DeckCard[]): Record<string, DeckCard[]> 
         if(!primaryType) continue;
 
         if(!group[primaryType]) group[primaryType] = [];
-        group[primaryType].push(card);
+
+        if(BASIC_LAND_TYPES.includes(card.cardName)) {
+            const existing = group[primaryType].find((c) => c.cardName === card.cardName);
+            if (existing) {
+                existing.quantity = (existing.quantity ?? 1) + (card.quantity ?? 1)
+            } else {
+                group[primaryType].push({...card, quantity: card.quantity ?? 1})
+            }
+        } else {
+            group[primaryType].push(card);
+        }
+
     }
     
     return group;

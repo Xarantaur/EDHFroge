@@ -40,6 +40,7 @@ model DeckCard {
   image_uris    Json
   typeLine      String
   cmc           Float
+  quantity      Int     @default(1)
   colors        String[]
   colorIdentity String[]
   commanderOf   Deck[]   @relation("CommanderCard")

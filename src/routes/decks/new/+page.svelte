@@ -5,71 +5,38 @@
 	import { toastStore } from '$lib/stores/toast';
 	import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
+	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
     let deck: any[] = [];
     let commander: DeckCard | null = null
 	export let name: string = ""
 	
 	function addCard(card: any) {
-		passingSingletonRule(deck, card, commander)
-		deck = [...deck, card]
+		if(!passingSingletonRule(deck, card, commander)) return;
+		deck = addCardToDeck(deck, card)
 	}
 
     function removeCard(cardToRemove: any) {
-		deck = deck.filter(card => card.name !== cardToRemove.name);
+		deck = removeCardFromDeck(deck, cardToRemove)
 	}
     
     async function saveDeck() {
-		if(!commander) {
-			toastStore.error('Please Select a Commander before saving')
-			return;
-		}
-		if (!name || name.trim().length < 1 ){
-			toastStore.error('Deck must have a Name');
-			return;
-		}
-		const cardsWithoutCommander = deck.filter(card => card.cardName !== commander?.cardName)
-		const response = await fetch('/decks/save', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				name: name,
-                commander: {
-                    cardName: commander.cardName,
-                    image_uris: {
-						normal: commander.image_uris?.normal,
-						small: commander.image_uris?.small,
-						art_crop: commander.image_uris?.art_crop,
-					},
-                    typeLine: commander?.typeLine,
-                    cmc: commander?.cmc,
-                    colors: commander?.colors,
-                    colorIdentity: commander?.colorIdentity
-                },
-				cards: cardsWithoutCommander.map(card => ({
-					cardName: card.cardName,
-					 image_uris: {
-						normal: card.image_uris?.normal,
-						small: card.image_uris?.small,
-						art_crop: card.image_uris?.art_crop,
-					},
-                    typeLine: card.typeLine,
-                    cmc: card?.cmc,
-                    colors: card?.colors,
-                    colorIdentity: card?.color_identity
-				}))
-			})
-		});
-
-		if (response.ok) {
-			toastStore.success('Deck saved Successfully')
-		} else {
-            const error = await response.text();
-            console.error('Save failed:', error);
-			toastStore.error('Failed to save deck')
-		}
+		if (!commander) {
+		toastStore.error('Please select a Commander before saving');
+		return;
 	}
 
-
+	const result = await saveDeckToServer({
+		name,
+		commander,
+		deck,
+		url: '/decks/save'
+		});
+	if(result.success){
+		toastStore.success('deck saved successfully')
+	} else {
+		toastStore.error(result.error ?? 'Failed to save deck')
+	}
+}
 </script>
 
 <CardSearch onAddCard={addCard} />
