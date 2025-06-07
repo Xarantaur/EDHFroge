@@ -60,8 +60,36 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
                 }
             });
 
+            const chunkSize = 10
 
-            await Promise.all(
+            for (let i = 0; i < cards.length; i += chunkSize) {
+                const chunk = cards.slice(i, i + chunkSize);
+
+                for(const card of chunk){
+                    await tx.deckCard.upsert({
+                        where: { id: card.id ?? '' },
+						update: {
+							cardName: card.cardName,
+							image_uris: card.image_uris,
+							typeLine: card.typeLine,
+							cmc: card.cmc,
+							colors: card.colors,
+							colorIdentity: card.colorIdentity
+						},
+						create: {
+							deckId,
+							cardName: card.cardName,
+							image_uris: card.image_uris,
+							typeLine: card.typeLine,
+							cmc: card.cmc,
+							colors: card.colors,
+							colorIdentity: card.colorIdentity
+						}
+                    });
+                }
+            }
+
+           /*  await Promise.all(
                 cards.map((card) =>
 					tx.deckCard.upsert({
 						where: { id: card.id ?? '' },
@@ -84,7 +112,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 						}
 					})
 				)
-			);
+			); */
 
         await tx.deck.update({
             where: { id: deckId },
