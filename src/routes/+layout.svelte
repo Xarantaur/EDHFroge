@@ -6,6 +6,7 @@
 	import Toaster from '$lib/components/Toaster.svelte'
 
 	export let data;
+	const user = data.user
 
 	onMount(() => {
 		window.addEventListener('mousemove', (e) => {
@@ -24,7 +25,7 @@
 });
 </script>
 
-<NavBar {data}>
+<NavBar {user}>
 	<img src="/latest edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
   </NavBar>
 

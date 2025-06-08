@@ -1,8 +1,9 @@
 <script lang=ts>
+	import type { PublicUser } from "$lib/types/PublicUser";
 	import Button from "./Button.svelte";
 
   export const title = "EDH Forge";
-  export let data: { user: string | null };
+  export let user: PublicUser | null;
 </script>
 
 <nav class="bg-gray-900 text-white px-6 py-4 shadow-md">
@@ -14,7 +15,7 @@
     </a>
 
     <ul class="flex gap-6 text-sm font-medium items-center">
-      {#if data.user}
+      {#if user}
       <li><a href="/decks" class="hover:text-orange-400">Decks</a></li>
       <li><a href="/profile" class="hover:text-orange-400">Profile</a></li>
       <li>

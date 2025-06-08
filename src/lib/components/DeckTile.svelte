@@ -1,19 +1,8 @@
 <script lang="ts">
+	import type { PublicDeck } from "$lib/types/PublicDecks";
     import Button from "./Button.svelte";
 
-		export let deck: {
-			id: string;
-			name: string;
-			createdAt: string;
-			commander: {
-				cardName: string;
-				image_uris: { 
-					normal: string;
-					art_crop: string;
-				}
-				colorIdentity: string[];
-			} | null
-		};
+		export let deck:PublicDeck;
 
     export let onDelete: (_id: string, e: Event) => void;
     

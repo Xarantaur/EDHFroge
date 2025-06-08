@@ -1,18 +1,14 @@
 <script lang="ts">
     import Dialog from '$lib/components/Dialog.svelte';
 	import Button from '$lib/components/Button.svelte';
+    import type { PublicUser } from '$lib/types/PublicUser';
     import { Tile, TileHeader, TileBody } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
     import { toastStore } from '$lib/stores/toast';
 	
 
 	export let data: {
-		user: {
-			id: string;
-			email: string;
-            decks: [];
-            createdAt: Date;
-		};
+		user:PublicUser
 	};
 
     let openDialog = false; 
