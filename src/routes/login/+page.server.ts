@@ -5,6 +5,7 @@ import { comparePassword } from '$lib/server/auth';
 import crypto from 'crypto'
 
 
+
 export const load: PageServerLoad = ({ cookies }) => {
 	const session = cookies.get('session');
 	if (session) {

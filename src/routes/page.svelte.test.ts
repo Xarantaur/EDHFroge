@@ -1,11 +1,13 @@
-import { describe, test, expect } from 'vitest';
-import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/svelte';
-import Page from './+page.svelte';
+import { describe, it, expect } from 'vitest';
+import { isValidEmail } from './validators';
 
-describe('/+page.svelte', () => {
-	test('should render h1', () => {
-		render(Page);
-		expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-	});
+describe('isValidEmail', () => {
+    it('should return true for valid email', () => {
+        expect(isValidEmail('test@example.com')).toBe(true)
+    })
+    it('should return false for invalid email', () => {
+        expect(isValidEmail('test@.com')).toBe(false);
+        expect(isValidEmail('test')).toBe(false);
+        expect(isValidEmail('')).toBe(false);
+    });
 });

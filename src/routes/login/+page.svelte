@@ -1,14 +1,17 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	
 	export let form;
+ 	let email="";
+    let password="";
 
 	$: if (form?.error) {
 		console.error(`❌ ${form.error}`);
 	}
     
-    let email="";
-    let password="";
+   
 </script>
+
 
 
 <div class="flex items-start justify-center min-h-screen bg-gray-50 pt-32">
