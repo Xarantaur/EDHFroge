@@ -12,7 +12,7 @@
   let query = '';
   let suggestions: DeckCard[] = [];
   let debouncerTimer: NodeJS.Timeout;
-  
+  let inputRef: HTMLInputElement;
 
     async function fetchSuggestions() {
       const names = await autocompleteCardNames(query);
@@ -25,6 +25,7 @@
     async function handleAddFirstSuggestion() {
       if(suggestions.length > 0 ) {
         handleAdd(suggestions[0]);
+        
       }
     }
 
@@ -33,6 +34,7 @@
       query = '';
       suggestions = [];
       previewCard.set(null)
+      inputRef?.focus();
     }
 
 $: if (query.length > 1) {
@@ -48,6 +50,7 @@ $: if (query.length > 1) {
 <div class="relative flex items-start gap-4" use:clickOutSide={() =>{ suggestions = [];}}>
 	<div class="relative w-full">
 		<input
+    bind:this={inputRef}
 			type="text"
 			bind:value={query}
 			placeholder="Search for a card name"
