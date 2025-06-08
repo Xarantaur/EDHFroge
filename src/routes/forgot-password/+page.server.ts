@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { prisma } from '$lib/utils/prisma';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import crypto from 'crypto';
 
 
@@ -25,7 +25,7 @@ export const actions: Actions = {
 
 			await prisma.passwordReset.create({
 				data: {
-					email,
+					userId: user.id,
 					token,
 					expiresAt: expires
 				}
