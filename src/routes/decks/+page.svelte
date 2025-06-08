@@ -2,6 +2,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import DeckTile from "$lib/components/DeckTile.svelte";
 	import Dialog from "$lib/components/Dialog.svelte";
+	import type { PublicDeck } from "$lib/types/PublicDecks";
 
 	let showDialog = false;
 	let pendingForm: HTMLFormElement | null = null;
@@ -19,20 +20,7 @@
 	}
 
 	export let data: {
-		decks: {
-			id: string;
-			name: string;
-			createdAt: string;
-			commander: {
-				cardName: string;
-				image_uris: {
-					small: string;
-					normal: string;
-					art_crop: string;
-				}
-				colorIdentity: string[];
-			} | null
-		}[];
+		decks: PublicDeck[];
 	};
 </script>
 
