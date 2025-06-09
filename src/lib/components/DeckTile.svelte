@@ -11,6 +11,9 @@
         e.preventDefault();
         onDelete(deck.id, e)
     } 
+	{console.log(deck)}
+	console.log(deck.commander?.colorIdentity)
+	
 </script>
 
 
@@ -27,6 +30,7 @@
 		<div class="bg-black p-1 text-white flex-1 items-center">
 			<div class="flex mb-2 justify-center items-center space-x-2">
 				{#each deck.commander?.colorIdentity ?? [] as color}
+						
 					<img 
 						src={`https://svgs.scryfall.io/card-symbols/${color.color}.svg`}
 						alt={`${color.color} mana Symbol`}

@@ -13,7 +13,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 			include: {
 				card: {
 					include: {
-						images: true
+						images: true,
+						colors: true,
+						colorIdentity: true
 					}
 				}
 			}
