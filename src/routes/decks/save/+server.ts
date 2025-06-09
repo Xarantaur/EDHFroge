@@ -1,6 +1,7 @@
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/utils/prisma';
 import { json, redirect } from '@sveltejs/kit';
+import type { DeckCardImage } from '$lib/types/DeckCardImage';
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;
@@ -27,47 +28,71 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		const commanderCard = await prisma.deckCard.create({
 			data: {
 				deckId: deck.id,
-					cardName: commander.cardName,
-					 image_uris: {
-						normal: commander.image_uris?.normal,
-						small: commander.image_uris?.small,
-						art_crop: commander.image_uris?.art_crop,
-					},
-					typeLine: commander.typeLine,
-					cmc: commander.cmc,
-					colors: commander.colors,
-					colorIdentity: commander.colorIdentity
-
+				cardName: commander.card.cardName,
+				typeLine: commander.card.typeLine,
+				cmc: commander.card.cmc,
+				 images: {
+					createMany: {
+						data: commander.images.map((img: Omit<DeckCardImage, 'id'>) => ({
+							imageType: img.imageType,
+							uri: img.uri
+						}))
+					}
+				},
+				colors: {
+					createMany: {
+						data: commander.colors
+					}
+				},
+				colorIdentity: {
+					createMany: {
+						data: commander.colorIdentity
+					}
+				}
+			},
+			include: {
+				images: true
 			}
 		});
 
-		if(cards.length > 0 ) {
-			await prisma.deckCard.createMany({
-				data: cards.map(card => ({
-					deckId: deck.id,
-					cardName: card.cardName,
-					 image_uris: {
-						normal: card.image_uris?.normal,
-						small: card.image_uris?.small,
-						art_crop: card.image_uris?.art_crop
-					},
-					typeLine: card.typeLine,
-					cmc: card.cmc,
-					colors: card.colors,
-					colorIdentity: card.colorIdentity,
-					quantity: card.quantity
-				}))
-
-			});
+		if (cards.length > 0) {
+			for (const card of cards) {
+				await prisma.deckCard.create({
+					data: {
+						deckId: deck.id,
+						cardName: card.card.cardName,
+						typeLine: card.card.typeLine,
+						cmc: card.card.cmc,
+						quantity: card.card.quantity ?? 1,
+						images: {
+							createMany: {
+								data: card.images.map((img: Omit<DeckCardImage, 'id'>) => ({
+									imageType: img.imageType,
+									uri: img.uri
+								}))
+							}
+						},
+						colors: {
+							createMany: {
+								data: card.colors
+							}
+						},
+						colorIdentity: {
+							createMany: {
+								data: card.colorIdentity
+							}
+						}
+					}
+				});
+			}
 		}
 
-			await prisma.deck.update({
-				where: { id: deck.id },
-				data: { 
-					commanderId: commanderCard.id
+			await prisma.deckCommander.create({
+					data: {
+						deckId: deck.id,
+						deckCardId: commanderCard.id
 				}
-			});
-
+});
 		return json({ success: true, deckId: deck.id  });
 	} catch (error) {
 		console.error('Transaction failed:', error)

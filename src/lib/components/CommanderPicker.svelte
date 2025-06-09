@@ -1,27 +1,27 @@
 <script lang="ts">
 	import { previewCard } from '$lib/stores/previewCardStore';
-    import type { DeckCard } from '$lib/types/cards'
+    import type { ParsedDeckCard } from '$lib/types/parsedDeckCard'
     import CardSearch from './CardSearch.svelte';
     import Dialog from './Dialog.svelte';
     import { isLegalCommander } from '$lib/utils/legalCommander';
 
 	import TileHeader from './Tile/TileHeader.svelte';
 
-    export let commander: DeckCard | null = null;
-    export let onPick: (card: DeckCard) => void;
+    export let commander: ParsedDeckCard | null = null;
+    export let onPick: (card: ParsedDeckCard) => void;
     
     let open = false;
 
-    function handleSelect(card: DeckCard) {
+    function handleSelect(card: ParsedDeckCard) {
         onPick(card);
         previewCard.set(null)
         open = false;
     }
 </script>
 
-{#snippet CommanderCardPreview(card:DeckCard)}
+{#snippet CommanderCardPreview(card: ParsedDeckCard)}
     <div class="">
-        <img src={card.image_uris?.normal} alt={card.cardName} class="w-64 max-h-[80vh] rounded shadow-lg"/>
+        <img src={card.images.find(img => img.imageType === 'normal')?.uri} alt={card?.card.cardName ?? 'unknown commaner'} class="w-64 max-h-[80vh] rounded shadow-lg"/>
         
     </div>
 {/snippet}

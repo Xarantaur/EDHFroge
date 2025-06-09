@@ -2,7 +2,7 @@
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
-    import type { DeckCard } from '$lib/types/cards';
+    import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
     import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
     import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
@@ -11,21 +11,21 @@
         deck: {
             id: string;
             name: string;
-            commander: DeckCard
-            cards: DeckCard[]; 
+            commander: ParsedDeckCard
+            cards: ParsedDeckCard[]; 
         }
     };
 
-    let deck: DeckCard[] = [...data.deck.cards]
-    let commander: DeckCard = data.deck.commander;
+    let deck: ParsedDeckCard[] = [...data.deck.cards]
+    let commander: ParsedDeckCard = data.deck.commander;
     let name: string = data.deck.name;
 
-    function addCard(card: any) {
+    function addCard(card: ParsedDeckCard) {
         if(!passingSingletonRule(deck, card, commander)) return;
 		deck = addCardToDeck(deck, card)
 	}
 
-    function removeCard( cardToRemove: DeckCard) {
+    function removeCard( cardToRemove: ParsedDeckCard) {
        deck = removeCardFromDeck(deck, cardToRemove)
     } 
 

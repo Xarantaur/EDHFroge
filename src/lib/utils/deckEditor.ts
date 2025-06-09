@@ -1,28 +1,28 @@
 import { BASIC_LAND_TYPES } from "$lib/domain/domainCardTypes";
-import type { DeckCard } from "$lib/types/cards";
+import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 
 
-export function removeCardFromDeck(deck: DeckCard[], cardToRemove: DeckCard): DeckCard[] {
+export function removeCardFromDeck(deck: ParsedDeckCard[], cardToRemove: ParsedDeckCard): ParsedDeckCard[] {
     return deck.flatMap(card => {
-        if (card.cardName !== cardToRemove.cardName) return [card];
+        if (card.card.cardName !== cardToRemove.card.cardName) return [card];
 
-        if(BASIC_LAND_TYPES.includes(card.cardName) && card.quantity && card.quantity > 1 ) {
-            return [{ ...card, quantity: card.quantity - 1}]
+        if(BASIC_LAND_TYPES.includes(card.card.cardName) && card.card.quantity && card.card.quantity > 1 ) {
+            return [{ ...card, card: { ...card.card, quantity: card.card.quantity - 1} }]
         }
 
         return []
     })
 }
 
-export function addCardToDeck(deck: DeckCard[], newCard: DeckCard): DeckCard[] {
-    if (BASIC_LAND_TYPES.includes(newCard.cardName)) {
-        const existing = deck.find(card => card.cardName === newCard.cardName);
+export function addCardToDeck(deck: ParsedDeckCard[], newCard: ParsedDeckCard): ParsedDeckCard[] {
+    if (BASIC_LAND_TYPES.includes(newCard.card.cardName)) {
+        const existing = deck.find(card => card.card.cardName === newCard.card.cardName);
         if(existing) {
             return deck.map(card => 
-                card.cardName === newCard.cardName ? {...card, quantity: (card.quantity ?? 1) + 1} : card
+                card.card.cardName === newCard.card.cardName ? {...card, card: {...card.card, quantity: (card.card.quantity ?? 1) + 1 } } : card
             );
         }
-        return [...deck, {...newCard, quantity: 1}]
+        return [...deck, {...newCard, card: {...newCard.card, quantity: 1}} ]
     }
     return [...deck, newCard]
 }
@@ -36,12 +36,12 @@ export async function saveDeckToServer({
 }:{
     deckId?: string;
     name: string;
-    commander: DeckCard;
-    deck: DeckCard[];
+    commander: ParsedDeckCard;
+    deck: ParsedDeckCard[];
     url: string;
 }): Promise<{ success: boolean; error?: string}> {
-    if(!commander) Promise.resolve({ success: false, error: 'Commander is required'});
-    if (!name || name.trim().length < 1 ) Promise.resolve({ success: false, error: 'Deck must have a name'});
+    if(!commander) return Promise.resolve({ success: false, error: 'Commander is required'});
+    if (!name || name.trim().length < 1 ) return Promise.resolve({ success: false, error: 'Deck must have a name'});
 
     try {
         const response = await fetch(url, {
@@ -51,29 +51,26 @@ export async function saveDeckToServer({
                 ...(deckId ? { id: deckId } : {}),
                 name,
                 commander: {
-                    id: commander.id,
-                    cardName: commander.cardName,
-                    image_uris: {
-						normal: commander.image_uris?.normal,
-						small: commander.image_uris?.small,
-						art_crop: commander.image_uris?.art_crop,
-                },  
-                    typeLine: commander?.typeLine,
-                    cmc: commander?.cmc,
-                    colors: commander?.colors,
-                    colorIdentity: commander?.colorIdentity
-            },
-            cards: deck.map(card => ({
-                id: card.id,
-                cardName: card.cardName,
-                quantity: card.quantity ?? 1,
-                image_uris: card.image_uris,
-                typeLine: card.typeLine,
-                cmc: card.cmc,
-                colorIdentity: card.colorIdentity
+                    card: {
+                        ...commander.card,
+                        typeLine: commander.card.typeLine
+                    },
+                    images: commander.images,
+                    colors: commander.colors,
+                    colorIdentity: commander.colorIdentity,
+                }, 
+                    cards: deck.map(card => ({
+                        card: {
+                            ...card.card,
+                            typeLine: card.card.typeLine
+                        },
+                        images: card.images,
+                        colors: card.colors,
+                        colorIdentity: card.colorIdentity,
             }))
+        }),
         })
-    });
+    
     
     if(!response.ok){
         const errorText = await response.text();

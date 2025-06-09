@@ -1,9 +1,9 @@
 import { toastStore } from "$lib/stores/toast";
-import type { DeckCard } from "$lib/types/cards";
+import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 
-export function totalCardCount(deck: DeckCard[], commander: DeckCard | null): number {
+export function totalCardCount(deck: ParsedDeckCard[], commander: ParsedDeckCard | null): number {
 	const total = deck.reduce((acc, card) => {
-			const qty = card.quantity ?? 1;
+			const qty = card.card.quantity ?? 1;
 			return acc + qty;
 	}, commander ? 1 : 0)
 

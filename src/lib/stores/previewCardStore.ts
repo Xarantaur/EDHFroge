@@ -1,7 +1,7 @@
-import type { DeckCard } from '$lib/types/cards'
-import { writable } from 'svelte/store'
+import { writable } from 'svelte/store';
+import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 
 export const previewCard = writable<{
-    card: DeckCard; 
-    commander: DeckCard | null;
-} | null>(null)
+	card: ParsedDeckCard;
+	commander: ParsedDeckCard | null;
+} | null>(null);

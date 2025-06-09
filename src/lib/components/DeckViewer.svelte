@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { DeckCard } from '$lib/types/cards'
+    import type { ParsedDeckCard } from '$lib/types/parsedDeckCard'
 	import CardTypeSection from './CardTypeSection.svelte';
 	import DeckBoard from './DeckBoard.svelte';
 	import CommanderPicker from './CommanderPicker.svelte';
 	import Button from './Button.svelte';
 	import DeckNameInput from './DeckNameInput.svelte';
 
-	export let deck: DeckCard[] = []
-	export let commander: DeckCard | null = null;
-	export let onPickCommander: (card: DeckCard) => void
-	export let onRemoveCard: (card: DeckCard) => void;
+	export let deck: ParsedDeckCard[] = []
+	export let commander: ParsedDeckCard | null = null;
+	export let onPickCommander: (card: ParsedDeckCard) => void
+	export let onRemoveCard: (card: ParsedDeckCard) => void;
 	export let onSave: () => Promise<void>;
 	export let name: string;
 	export let deckSize: number;

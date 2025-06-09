@@ -1,25 +1,25 @@
 import { BASIC_LAND_TYPES, MAIN_TYPES } from "$lib/domain/domainCardTypes";
-import type { DeckCard } from "$lib/types/cards";
+import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 
-export function groupCardsByType(cards: DeckCard[]): Record<string, DeckCard[]> {
-    const group: Record<string, DeckCard[]> = {};
+export function groupCardsByType(cards: ParsedDeckCard[]): Record<string, ParsedDeckCard[]> {
+    const group: Record<string, ParsedDeckCard[]> = {};
     
     for(const card of cards) {
-        if(!card.typeLine) continue;
+        if(!card.card.typeLine) continue;
 
-        const isCreature = card.typeLine.includes("Creature");
-        const primaryType = isCreature ? "Creature" : MAIN_TYPES.find(type => card.typeLine!.includes(type));
+        const isCreature = card.card.typeLine.includes("Creature");
+        const primaryType = isCreature ? "Creature" : MAIN_TYPES.find(type => card.card.typeLine!.includes(type));
 
         if(!primaryType) continue;
 
         if(!group[primaryType]) group[primaryType] = [];
 
-        if(BASIC_LAND_TYPES.includes(card.cardName)) {
-            const existing = group[primaryType].find((c) => c.cardName === card.cardName);
+        if(BASIC_LAND_TYPES.includes(card.card.cardName)) {
+            const existing = group[primaryType].find((c) => c.card.cardName === card.card.cardName);
             if (existing) {
-                existing.quantity = (existing.quantity ?? 1) + (card.quantity ?? 1)
+                existing.card.quantity = (existing.card.quantity ?? 1) + (card.card.quantity ?? 1)
             } else {
-                group[primaryType].push({...card, quantity: card.quantity ?? 1})
+                group[primaryType].push({...card, card: { ...card.card, quantity: card.card.quantity ?? 1 } })
             }
         } else {
             group[primaryType].push(card);

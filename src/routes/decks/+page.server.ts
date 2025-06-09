@@ -9,9 +9,22 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const decks = await prisma.deck.findMany({
 		where: { userId: locals.user.id },
-		include: { commander: true },
+		include: { commanderEntry: {
+			include: {
+				card: {
+					include: {
+						images: true
+					}
+				}
+			}
+		} },
 		orderBy: { createdAt: 'desc' }
 	});
+
+	const transformedDecks = decks.map(deck => ({
+		...deck,
+		commander: deck.commanderEntry?.card
+	}))
 	
-	return { decks };
+	return { decks: transformedDecks };
 };

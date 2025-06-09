@@ -1,21 +1,21 @@
 <script lang="ts">
     import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import CardSearch from '$lib/components/CardSearch.svelte';
-	import type { DeckCard } from '$lib/types/cards';
+	import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 	import { toastStore } from '$lib/stores/toast';
 	import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
 	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
     let deck: any[] = [];
-    let commander: DeckCard | null = null
+    let commander: ParsedDeckCard | null = null
 	export let name: string = ""
 	
-	function addCard(card: any) {
+	function addCard(card: ParsedDeckCard) {
 		if(!passingSingletonRule(deck, card, commander)) return;
-		deck = addCardToDeck(deck, card)
+		deck = addCardToDeck(deck, card)	
 	}
 
-    function removeCard(cardToRemove: any) {
+    function removeCard(cardToRemove: ParsedDeckCard) {
 		deck = removeCardFromDeck(deck, cardToRemove)
 	}
     

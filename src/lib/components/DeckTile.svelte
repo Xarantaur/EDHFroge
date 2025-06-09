@@ -1,9 +1,10 @@
 <script lang="ts">
+
+	
 	import type { PublicDeck } from "$lib/types/PublicDecks";
     import Button from "./Button.svelte";
 
-		export let deck:PublicDeck;
-
+	export let deck:PublicDeck;
     export let onDelete: (_id: string, e: Event) => void;
     
     function handleFormSubmit(e: Event) {
@@ -20,15 +21,15 @@
     on:click={() => window.location.href = `/decks/update/${deck.id}`}
     >		   		 
 		<div class="relative bg-cover bg-center aspect-[4/3]"
-			style={`background-image: url('${deck.commander?.image_uris.art_crop ?? ''}')`}>
+			style={`background-image: url('${deck.commander?.images.find(img => img.imageType === "art_crop")?.uri ?? ''}')`}>
 			<div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/100 "></div>
 		</div>
 		<div class="bg-black p-1 text-white flex-1 items-center">
 			<div class="flex mb-2 justify-center items-center space-x-2">
 				{#each deck.commander?.colorIdentity ?? [] as color}
 					<img 
-						src={`https://svgs.scryfall.io/card-symbols/${color}.svg`}
-						alt={`${color} mana Symbol`}
+						src={`https://svgs.scryfall.io/card-symbols/${color.color}.svg`}
+						alt={`${color.color} mana Symbol`}
 						width="20"
 						height="20"
 					/>

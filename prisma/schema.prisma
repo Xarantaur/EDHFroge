@@ -25,10 +25,8 @@ model Deck {
   createdAt   DateTime   @default(now())
   user        User       @relation(fields: [userId], references: [id])
   userId      String
-  commanderId String?
-  commander   DeckCard?  @relation("CommanderCard", fields: [commanderId], references: [id])
   cards       DeckCard[]
-
+  commanderEntry DeckCommander? @relation("DeckCommanderRelation")
   @@map("decks")
 }
 
@@ -37,15 +35,54 @@ model DeckCard {
   deck          Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
   deckId        String
   cardName      String
-  image_uris    Json
   typeLine      String
   cmc           Float
   quantity      Int     @default(1)
-  colors        String[]
-  colorIdentity String[]
-  commanderOf   Deck[]   @relation("CommanderCard")
+
+  images         DeckCardImage[]
+  colors         DeckCardColor[]
+  colorIdentity  DeckCardColorIdentity[]
+  commanderIn    DeckCommander[]
 
   @@map("deck_cards")
+}
+
+model DeckCardColor {
+  id         String    @id @default(uuid())
+  deckCard   DeckCard  @relation(fields: [deckCardId], references: [id], onDelete: Cascade)
+  deckCardId String
+  color      String
+
+  @@map("deck_card_colors")
+}
+
+model DeckCommander {
+  id            String    @id @default(uuid())
+  deck          Deck      @relation("DeckCommanderRelation", fields: [deckId], references: [id], onDelete: Cascade)
+  deckId        String    @unique
+  card          DeckCard  @relation(fields:[deckCardId], references: [id], onDelete: Cascade)
+  deckCardId    String    @unique
+
+  @@map("deck_commanders")
+}
+
+model DeckCardImage {
+  id            String   @id @default(uuid())
+  deckCard      DeckCard  @relation(fields:[deckCardId], references: [id], onDelete: Cascade)
+  deckCardId    String
+  imageType     String
+  uri           String
+
+  @@map("deck_card_images")
+}
+
+model DeckCardColorIdentity {
+  id         String    @id @default(uuid())
+  deckCard   DeckCard  @relation(fields: [deckCardId], references: [id], onDelete: Cascade)
+  deckCardId String
+  color      String
+
+  @@map("deck_card_color_identities")
 }
 
 model PasswordReset {

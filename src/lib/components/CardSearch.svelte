@@ -1,16 +1,16 @@
 <script lang="ts">
   import { searchCardByName, autocompleteCardNames } from '$lib/utils/scryfall';
-  import { parseDeckCard } from '$lib/utils/parseDeckCard'
+  import { transformToParsedDeckCard } from '$lib/utils/transformToParsedDeckCard'
   import { clickOutSide } from '$lib/utils/clickOutSide';
-	import type { DeckCard } from '$lib/types/cards';
+	import type { ParsedDeckCard  } from '$lib/types/parsedDeckCard';
 	import CardHoverTrigger from './CardHoverTrigger.svelte';
   import { previewCard } from '$lib/stores/previewCardStore';
 
   export let title = '';
-  export let onAddCard: (card: any) => void;
+  export let onAddCard: (card: ParsedDeckCard) => void;
 
   let query = '';
-  let suggestions: DeckCard[] = [];
+  let suggestions: ParsedDeckCard[] = [];
   let debouncerTimer: NodeJS.Timeout;
   let inputRef: HTMLInputElement;
 
@@ -18,18 +18,17 @@
       const names = await autocompleteCardNames(query);
       suggestions = await Promise.all(names.map(async (name) => {
         const raw = await searchCardByName(name);
-        return parseDeckCard(raw)
+        return transformToParsedDeckCard(raw)
       }))
     }
 
     async function handleAddFirstSuggestion() {
       if(suggestions.length > 0 ) {
         handleAdd(suggestions[0]);
-        
       }
     }
 
-    async function handleAdd(card: DeckCard) {
+    async function handleAdd(card: ParsedDeckCard) {
       onAddCard(card);
       query = '';
       suggestions = [];
@@ -58,7 +57,6 @@ $: if (query.length > 1) {
        on:keydown={(e) => {if(e.key === "Enter")  {e.preventDefault(); handleAddFirstSuggestion()}}}
 		/>
 </div>
-
         {#if suggestions.length > 0}
           <ul class="absolute top-full left-0 right-0 z-10 bg-white border border-gray-300 rounded bg-white shadow max-h-48 overflow-y-auto mt-0">
             {#each suggestions as card }

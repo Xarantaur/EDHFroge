@@ -1,30 +1,31 @@
-import type { DeckCard } from "$lib/types/cards";
+import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 import { bannedCards } from "$lib/domain/banList";
 import { BASIC_LAND_TYPES } from "$lib/domain/domainCardTypes";
 import { toastStore } from "$lib/stores/toast";
-export let commander: DeckCard 
+export let commander: ParsedDeckCard 
 
- function isCardBanned(card: DeckCard): boolean {
-    return bannedCards.includes(card.cardName);
+ function isCardBanned(card: ParsedDeckCard): boolean {
+    return bannedCards.includes(card.card.cardName);
 } 
 
- function respectsColorIdentity(card: DeckCard, identity: string[]): boolean {
-    return card.colorIdentity.every((color) => identity.includes(color));
+ function respectsColorIdentity(card: ParsedDeckCard, identity: string[]): boolean {
+    const cardColors = card.colorIdentity.map((c) => c.color)
+    return cardColors.every((color) => identity.includes(color));
 }
 
-export function passingSingletonRule(deck: DeckCard[], newCard: DeckCard, commander:DeckCard | null): boolean {
-    const name = newCard.cardName;
+export function passingSingletonRule(deck: ParsedDeckCard[], newCard: ParsedDeckCard, commander:ParsedDeckCard | null): boolean {
+    const name = newCard.card.cardName;
     
     if(BASIC_LAND_TYPES.includes(name)) {
         return true;
     }
 
-    if(name === commander?.cardName) {
+    if(commander && name === commander?.card.cardName) {
         toastStore.error("Card is your Commander")
         return false;
     }
     
-    if(deck.some((card) => card.cardName === name)) {
+    if(deck.some((card) => card.card.cardName === name)) {
         toastStore.error("Card is already in deck")
         return false
     }
@@ -32,14 +33,17 @@ export function passingSingletonRule(deck: DeckCard[], newCard: DeckCard, comman
     return true;
 }
 
-export function getCardLegalityReason(card: DeckCard, commander?: DeckCard): 'banned' | 'color-identity' | 'legal' {
+export function getCardLegalityReason(card: ParsedDeckCard, commander?: ParsedDeckCard): 'banned' | 'color-identity' | 'legal' {
     if(!commander) return 'legal';
     if(isCardBanned(card)) return 'banned';
-    if (!respectsColorIdentity(card, commander.colorIdentity)) return 'color-identity';
+
+    const commanderIdentity = commander.colorIdentity.map((c) => c.color)
+
+    if (!respectsColorIdentity(card, commanderIdentity)) return 'color-identity';
     return 'legal'
 }
 
-export function getLegalityClass(card: DeckCard, commander?: DeckCard): string {
+export function getLegalityClass(card: ParsedDeckCard, commander?: ParsedDeckCard): string {
    const reason = getCardLegalityReason(card, commander);
 
    switch (reason) {
@@ -51,7 +55,7 @@ export function getLegalityClass(card: DeckCard, commander?: DeckCard): string {
    }
 } 
 
-export function getLegalityMessage(card: DeckCard, commander?: DeckCard): string | null {
+export function getLegalityMessage(card: ParsedDeckCard, commander?: ParsedDeckCard): string | null {
     const reason = getCardLegalityReason(card, commander)
 
     switch (reason) {

@@ -1,9 +1,9 @@
 <script lang="ts">
 import { previewCard } from '$lib/stores/previewCardStore';
-import type { DeckCard } from '$lib/types/cards'
+import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 
-export let card: DeckCard;
-export let commander: DeckCard | null = null;
+export let card: ParsedDeckCard;
+export let commander: ParsedDeckCard | null = null;
 export let className: string = '';
 </script>
 
@@ -13,5 +13,5 @@ export let className: string = '';
 	on:mouseleave={() => previewCard.set(null)}
 	aria-hidden=true
 >
- {card.cardName}
+ {card.card.cardName}
 </span>
