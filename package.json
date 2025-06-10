@@ -63,9 +63,11 @@
 		"svelte"
 	],
 	"dependencies": {
+		"@carbon/charts": "^1.23.10",
+		"@carbon/charts-svelte": "^1.22.18",
 		"@prisma/client": "^6.7.0",
 		"bcrypt": "^5.1.1",
-		"flowbite": "^3.1.2",
-		"resend": "^4.5.1"
+		"carbon-components": "^10.59.1",
+		"flowbite": "^3.1.2"
 	}
 }
