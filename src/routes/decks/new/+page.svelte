@@ -6,6 +6,7 @@
 	import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
 	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
+	import { goto } from '$app/navigation';
     let deck: any[] = [];
     let commander: ParsedDeckCard | null = null
 	export let name: string = ""
@@ -31,8 +32,13 @@
 		deck,
 		url: '/decks/save'
 		});
+
 	if(result.success){
 		toastStore.success('deck saved successfully')
+		if(result.deckId) {
+			goto(`/decks/update/${result.deckId}`)
+		}
+		goto(`/decks/update/${result.deckId}`);
 	} else {
 		toastStore.error(result.error ?? 'Failed to save deck')
 	}

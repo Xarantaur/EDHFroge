@@ -39,7 +39,7 @@ export async function saveDeckToServer({
     commander: ParsedDeckCard;
     deck: ParsedDeckCard[];
     url: string;
-}): Promise<{ success: boolean; error?: string}> {
+}): Promise<{ success: true; deckId: string } | { success: false; error?: string }> {
     if(!commander) return Promise.resolve({ success: false, error: 'Commander is required'});
     if (!name || name.trim().length < 1 ) return Promise.resolve({ success: false, error: 'Deck must have a name'});
 
@@ -69,14 +69,19 @@ export async function saveDeckToServer({
                         colorIdentity: card.colorIdentity,
             }))
         }),
-        })
-    
-    
-    if(!response.ok){
+    })
+        
+    const result = await response.json();
+        
+    if(!response.ok || !result.success ){
         const errorText = await response.text();
     return { success: false, error: errorText };
 }
-    return { success: true }
+    if(result.deckId){
+        return { success: true, deckId: result.deckId}
+    }
+
+    return { success: true, deckId: deckId ?? '' }
 } catch (error) {
     console.error('Deck Save Error', error)
     return { success: false, error: 'Network or server error'}
