@@ -5,6 +5,7 @@
 	import CommanderPicker from './CommanderPicker.svelte';
 	import Button from './Button.svelte';
 	import DeckNameInput from './DeckNameInput.svelte';
+	import DeckManaCurve from './DeckManaCurve.svelte';
 
 	export let deck: ParsedDeckCard[] = []
 	export let commander: ParsedDeckCard | null = null;
@@ -36,6 +37,7 @@
 	<div class="w-[300px]">
 		<DeckNameInput bind:name />
 <CommanderPicker commander={commander} onPick={onPickCommander} />
+<DeckManaCurve {deck}/>
 </div>
 	<div class="flex-1 max-w-[57%]">
 <DeckBoard deckSize={deckSize} >

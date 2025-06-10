@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import CardHoverPreview from '$lib/components/CardHoverPreview.svelte';
 	import Toaster from '$lib/components/Toaster.svelte'
+	import '../app.css';
 	
 
 	export let data;
@@ -12,11 +13,11 @@
 	onMount(() => {
 		
 		window.addEventListener('mousemove', (e) => {
-		const previewWidth = 256; // or whatever max preview width you allow (e.g. 16rem)
-		const margin = 16; // padding so it's not touching the edge
+		const previewWidth = 256; 
+		const margin = 16; 
 
 		const maxX = window.innerWidth - previewWidth - margin;
-		const maxY = window.innerHeight - 300; // optional for height safety
+		const maxY = window.innerHeight - 300; 
 
 		const clampedX = Math.min(e.pageX, maxX);
 		const clampedY = Math.min(e.pageY, maxY);
