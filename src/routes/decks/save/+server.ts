@@ -95,7 +95,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 });
 		return json({ success: true, deckId: deck.id  });
 	} catch (error) {
-		console.error('Transaction failed:', error)
 		return json({ error: 'Failed to save deck.' }, { status: 500})
 	}
 };

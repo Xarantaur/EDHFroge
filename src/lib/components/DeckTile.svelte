@@ -11,8 +11,6 @@
         e.preventDefault();
         onDelete(deck.id, e)
     } 
-	{console.log(deck)}
-	console.log(deck.commander?.colorIdentity)
 	
 </script>
 
