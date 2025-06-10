@@ -24,7 +24,7 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
  
 <div>
 	<div class="flex flex-wrap gap-6">
-		{#each Object.entries(groupedCards) as [type, cards]}
+		{#each Object.entries(groupedCards).sort() as [type, cards]}
 			<ul class="w-full sm:basis-[45%] md:basis-[30%] lg:basis-[200px] space-y-1">
 				<li class="font-bold text-sm sm:text-base mb-1 sm:mb-2 border-b w-full">
 					{type}s ({cards.length})

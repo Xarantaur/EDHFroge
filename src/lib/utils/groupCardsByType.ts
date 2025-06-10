@@ -19,7 +19,6 @@ export function groupCardsByType(cards: ParsedDeckCard[]): Record<string, Parsed
 			grouped[primaryType].push(card);
 		}
 	}
-
 	return grouped;
 }
 

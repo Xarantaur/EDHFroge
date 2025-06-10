@@ -14,6 +14,11 @@
 	export let name: string;
 	export let deckSize: number;
 
+		function sortedDeck(deck: ParsedDeckCard[])  {
+		const sortedDeck = deck.sort((a, b) => a.card.cardName.localeCompare(b.card.cardName)) 
+		return sortedDeck
+	}
+
 	let saving = false;
 	async function handleSave() {
 		saving = true;
@@ -34,7 +39,7 @@
 </div>
 	<div class="flex-1 max-w-[57%]">
 <DeckBoard deckSize={deckSize} >
-	<CardTypeSection deck={deck} onRemove={onRemoveCard} {commander}/>
+	<CardTypeSection deck={sortedDeck(deck)} onRemove={onRemoveCard} {commander}/>
 </DeckBoard>
 	<div class="flex justify-end p-4">
 	<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
