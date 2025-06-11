@@ -3,7 +3,7 @@
 	import Button from "./Button.svelte";
 
   export const title = "EDH Forge";
-  export let user: PublicUser | null;
+  export let user;
 </script>
 
 <nav class="bg-gray-900 text-white px-6 py-4 shadow-md">

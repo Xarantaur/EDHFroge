@@ -12,12 +12,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const session = await prisma.session.findUnique({
 			where: { token },
 			include: { user: true }
+			
 		})
 
 		if (session && session.expiresAt > new Date()) {
 			event.locals.user = {
 				id: session.user.id,
-				email: session.user.email.toLowerCase()
 			};
 		}
 	}
