@@ -22,8 +22,9 @@
 	export let data: {
 		decks: PublicDeck[];
 	};
+	/* let { data } = $props() */ // this works great
 </script>
-
+	
 <div class="p-6 max-w-7xl mx-auto">
 	<h1 class="text-2xl font-bold mb-4">Your Decks</h1>
 

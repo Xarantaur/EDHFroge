@@ -1,7 +1,5 @@
 import type { Actions, PageServerLoad  } from './$types';
-import { prisma } from '$lib/server/prisma';
 import { redirect } from '@sveltejs/kit';
-import crypto from 'crypto'
 import { loginUser } from '$lib/server/auth';
 
 
@@ -27,13 +25,12 @@ export const actions: Actions = {
 		}
 
 		
-
-			cookies.set('session', session.token, { 
-				path: '/', 
-				sameSite: 'lax', 
-				secure: true,
-				expires: session.expires
-			 });
-			throw redirect(303, '/');
+		cookies.set('session', session.token, { 
+			path: '/', 
+			sameSite: 'lax', 
+			secure: true,
+			expires: session.expires
+		 });
+		throw redirect(303, '/');
 	}
 };

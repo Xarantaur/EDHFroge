@@ -5,6 +5,7 @@
 	import type { ParsedDeckCard  } from '$lib/types/parsedDeckCard';
 	import CardHoverTrigger from './CardHoverTrigger.svelte';
   import { previewCard } from '$lib/stores/previewCardStore';
+  import { debounce } from '$lib/utils/debounce';
 
   export let title = '';
   export let onAddCard: (card: ParsedDeckCard) => void;
@@ -35,10 +36,9 @@
       previewCard.set(null)
       inputRef?.focus();
     }
-
+  const debouncedFetch = debounce(fetchSuggestions, 250)
 $: if (query.length > 1) {
-      clearTimeout(debouncerTimer);
-      debouncerTimer = setTimeout(fetchSuggestions, 250);
+      debouncedFetch();
     }
 
 </script>

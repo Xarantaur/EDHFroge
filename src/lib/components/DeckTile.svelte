@@ -4,7 +4,7 @@
 	import type { PublicDeck } from "$lib/types/PublicDecks";
     import Button from "./Button.svelte";
 
-	export let deck:PublicDeck;
+	export let deck:PublicDeck
     export let onDelete: (_id: string, e: Event) => void;
     
     function handleFormSubmit(e: Event) {

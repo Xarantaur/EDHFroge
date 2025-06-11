@@ -9,8 +9,6 @@
 	$: if (form?.error) {
 		toastStore.error('Wrong email or password')
 	}
-    
-   
 </script>
 
 
