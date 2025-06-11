@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { searchCardByName, autocompleteCardNames } from '$lib/server/utils/scryfall';
-  import { transformToParsedDeckCard } from '$lib/server/utils/transformToParsedDeckCard'
-  import { clickOutSide } from '$lib/server/utils/clickOutSide';
+  import { searchCardByName, autocompleteCardNames } from '$lib/utils/scryfall';
+  import { transformToParsedDeckCard } from '$lib/utils/transformToParsedDeckCard'
+  import { clickOutSide } from '$lib/utils/clickOutSide';
 	import type { ParsedDeckCard  } from '$lib/types/parsedDeckCard';
 	import CardHoverTrigger from './CardHoverTrigger.svelte';
   import { previewCard } from '$lib/stores/previewCardStore';

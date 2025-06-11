@@ -1,6 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
-import { prisma } from '$lib/server/utils/prisma';
+import { prisma } from '$lib/server/prisma';
 
 const protectedRoutes = ['/decks', '/profile'];
 

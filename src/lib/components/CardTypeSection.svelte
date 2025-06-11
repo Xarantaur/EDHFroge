@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 	import CardHoverTrigger from "./CardHoverTrigger.svelte";
-    import { getLegalityClass } from "$lib/server/utils/cardLegality";
-    import { groupCardsByType } from "$lib/server/utils/groupCardsByType";
+    import { getLegalityClass } from "$lib/utils/cardLegality";
+    import { groupCardsByType } from "$lib/utils/groupCardsByType";
 
     export let deck: ParsedDeckCard[] = []
     export let onRemove: (card: ParsedDeckCard) => void;

@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { prisma } from '$lib/server/utils/prisma';
+import { prisma } from '$lib/server/prisma';
 import { redirect } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ params, locals }) => {

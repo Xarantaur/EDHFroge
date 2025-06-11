@@ -1,6 +1,6 @@
 import type { RequestHandler  } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { prisma } from '$lib/server/utils/prisma';
+import { prisma } from '$lib/server/prisma';
 
 export const POST: RequestHandler = async ({ cookies }) => {
 	const token = cookies.get('session')

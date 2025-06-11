@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { previewCard } from "$lib/stores/previewCardStore";
 	import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
-	import { getLegalityMessage } from "$lib/server/utils/cardLegality";
+	import { getLegalityMessage } from "$lib/utils/cardLegality";
 	import { fly } from 'svelte/transition';
 
 	function getImageUri(card: ParsedDeckCard, type = 'normal'): string {

@@ -3,7 +3,7 @@
     import type { ParsedDeckCard } from '$lib/types/parsedDeckCard'
     import CardSearch from './CardSearch.svelte';
     import Dialog from './Dialog.svelte';
-    import { isLegalCommander } from '$lib/server/utils/legalCommander';
+    import { isLegalCommander } from '$lib/utils/legalCommander';
 
 	import TileHeader from './Tile/TileHeader.svelte';
 

@@ -1,5 +1,5 @@
 import type { Actions } from './$types';
-import { prisma } from '$lib/server/utils/prisma'
+import { prisma } from '$lib/server/prisma'
 import { hashPassword } from '$lib/server/auth';
 import crypto from 'crypto'
 
