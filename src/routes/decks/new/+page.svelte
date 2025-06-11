@@ -3,9 +3,9 @@
 	import CardSearch from '$lib/components/CardSearch.svelte';
 	import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 	import { toastStore } from '$lib/stores/toast';
-	import { totalCardCount } from '$lib/utils/cardCountUtility'
-	import { passingSingletonRule } from '$lib/utils/cardLegality';
-	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
+	import { totalCardCount } from '$lib/server/utils/cardCountUtility'
+	import { passingSingletonRule } from '$lib/server/utils/cardLegality';
+	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/server/utils/deckEditor';
 	import { goto } from '$app/navigation';
     let deck: any[] = [];
     let commander: ParsedDeckCard | null = null

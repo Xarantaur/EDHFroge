@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { prisma } from '$lib/utils/prisma'
+import { prisma } from '$lib/server/utils/prisma'
 import crypto from 'crypto'
 
 const SALT_ROUNDS = 10;

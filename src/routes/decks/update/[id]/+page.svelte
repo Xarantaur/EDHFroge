@@ -3,9 +3,9 @@
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
     import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
-    import { totalCardCount } from '$lib/utils/cardCountUtility'
-	import { passingSingletonRule } from '$lib/utils/cardLegality';
-    import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
+    import { totalCardCount } from '$lib/server/utils/cardCountUtility'
+	import { passingSingletonRule } from '$lib/server/utils/cardLegality';
+    import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/server/utils/deckEditor';
 
     export let data: {
         deck: {

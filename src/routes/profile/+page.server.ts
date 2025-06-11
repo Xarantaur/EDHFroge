@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from './$types'
-import { prisma } from '$lib/utils/prisma'
+import { prisma } from '$lib/server/utils/prisma'
 import { redirect, fail } from '@sveltejs/kit'
 import { hashPassword } from '$lib/server/auth';
 

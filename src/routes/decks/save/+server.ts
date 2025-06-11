@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { prisma } from '$lib/utils/prisma';
+import { prisma } from '$lib/server/utils/prisma';
 import { json, redirect } from '@sveltejs/kit';
 import type { DeckCardImage } from '$lib/types/DeckCardImage';
 

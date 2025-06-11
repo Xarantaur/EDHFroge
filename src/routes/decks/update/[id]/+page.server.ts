@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types'
-import { prisma } from '$lib/utils/prisma'
+import { prisma } from '$lib/server/utils/prisma'
 import { error, redirect } from "@sveltejs/kit";
-import { transformToParsedDeckCardFromDb } from '$lib/utils/transformToParsedDeckCardFromDb';
+import { transformToParsedDeckCardFromDb } from '$lib/server/utils/transformToParsedDeckCardFromDb';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
     if (!locals.user) throw redirect(303, '/login');
