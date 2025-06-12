@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { onMount } from 'svelte';
@@ -15,18 +15,32 @@
 		
 		window.addEventListener('mousemove', (e) => {
 		const previewWidth = 256; 
-		const margin = 16; 
+		const previewHeight = 350
+		const offsetX = 16;
+		const offsetY = 16;
 
-		const maxX = window.innerWidth - previewWidth - margin;
-		const maxY = window.innerHeight - 300; 
+		const maxX = window.innerWidth - previewWidth - offsetX;
+		const maxY = window.innerHeight - previewHeight - offsetY;
 
-		const clampedX = Math.min(e.pageX, maxX);
+		let clampedX = e.pageX;
+		let clampedY = e.pageY  - window.scrollY;
+
+		if( clampedX > maxX) {
+			clampedX = window.innerWidth - previewHeight - offsetX
+		}
+		if( clampedY > maxY) {
+			clampedY = window.innerHeight - previewHeight - offsetY
+		}
+
+		/* const clampedX = Math.min(e.pageX, maxX);
 		const clampedY = Math.min(e.pageY, maxY);
-
+ */
 		document.documentElement.style.setProperty('--mouse-x', `${clampedX}px`);
 		document.documentElement.style.setProperty('--mouse-y', `${clampedY}px`);
 	});
 });
+
+	
 </script>
 
 
