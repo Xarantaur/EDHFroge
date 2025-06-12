@@ -26,9 +26,9 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 {/snippet}
  
 <div>
-	<div class="flex flex-wrap gap-6">
+	<div class="sm:columns-1 md:columns-2 lg:columns-3 gap-8">
 		{#each Object.entries(groupedCards) as [type, cards]}
-			<ul class="w-full sm:basis-[45%] md:basis-[30%] lg:basis-[200px] space-y-1">
+			<ul class=" space-y-1 w-full max-w-full px-4">
 				<li class="font-bold text-sm sm:text-base mb-1 sm:mb-2 border-b w-full">
 					{type}s ({cards.length})
 				</li>
@@ -38,13 +38,15 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 				
 					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
 						<CardHoverTrigger card={card} commander={commander} className={getLegalityClass(card, commander ?? undefined)} /> 
+						<div class="flex gap-2">
 						{#if card.card.price}
-								<spanb class="text-gray-500">{card.card.price}£</spanb>
+								<span class="text-gray-500">{card.card.price}£</span>
 							{/if}
 						{#if card.card.quantity && card.card.quantity > 1}
 							<span class="">x{card.card.quantity}</span>
 						{/if}
 						{@render removeButton(() => onRemove(card))}
+					</div>
 				    </li>
 				
 				{/each}

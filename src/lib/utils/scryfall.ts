@@ -16,8 +16,7 @@ export async function searchCardByName(name: string) {
         throw new Error('Card not found')
     }
     const cardData = await res.json();
-    console.log(cardData)
-
+  
     return cardData
 }
 

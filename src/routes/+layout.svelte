@@ -5,6 +5,7 @@
 	import CardHoverPreview from '$lib/components/CardHoverPreview.svelte';
 	import Toaster from '$lib/components/Toaster.svelte'
 	import '../app.css';
+	import Footer from '$lib/components/Footer.svelte'
 	
 
 	export let data;
@@ -28,12 +29,17 @@
 });
 </script>
 
+
+<div class="min-h-screen flex flex-col">
 <NavBar {user}>
 	<img src="/latest-edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
   </NavBar>
 
-
-<slot />
+  <main class="flex-grow pb-24 pt-2">
+    <slot />
+  </main>
 <Toaster />
 <CardHoverPreview />
 
+  <Footer />
+</div>
