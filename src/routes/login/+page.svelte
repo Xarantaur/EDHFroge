@@ -1,15 +1,14 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import { toastStore } from '$lib/stores/toast.js';
 	
 	export let form;
  	let email="";
     let password="";
 
 	$: if (form?.error) {
-		console.error(`❌ ${form.error}`);
+		toastStore.error('Wrong email or password')
 	}
-    
-   
 </script>
 
 

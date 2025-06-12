@@ -56,6 +56,7 @@
  
 }
 </script>
-
+<div class="bg-gray-200">
 <BarChartSimple data={cmcData} options={options} />
 <p>Average Mana Cost: {averageCmc}</p>
+</div>

@@ -5,13 +5,13 @@
 	import type { ParsedDeckCard  } from '$lib/types/parsedDeckCard';
 	import CardHoverTrigger from './CardHoverTrigger.svelte';
   import { previewCard } from '$lib/stores/previewCardStore';
+  import { debounce } from '$lib/utils/debounce';
 
   export let title = '';
   export let onAddCard: (card: ParsedDeckCard) => void;
 
   let query = '';
   let suggestions: ParsedDeckCard[] = [];
-  let debouncerTimer: NodeJS.Timeout;
   let inputRef: HTMLInputElement;
 
     async function fetchSuggestions() {
@@ -35,14 +35,13 @@
       previewCard.set(null)
       inputRef?.focus();
     }
-
+  const debouncedFetch = debounce(fetchSuggestions, 250)
 $: if (query.length > 1) {
-      clearTimeout(debouncerTimer);
-      debouncerTimer = setTimeout(fetchSuggestions, 250);
+      debouncedFetch();
     }
 
 </script>
-
+{console.log()}
 <div class="max-w-md mx-auto p-6">
 	<h2 class="text-2xl font-bold mb-4">{title}</h2>
   

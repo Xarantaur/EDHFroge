@@ -29,7 +29,7 @@
 </script>
 
 <NavBar {user}>
-	<img src="/latest edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
+	<img src="/latest-edhforgelogotrans.png" alt="Logo" class="w-10 h-10" slot="logo" />
   </NavBar>
 
 

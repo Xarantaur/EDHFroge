@@ -1,14 +1,10 @@
 import type { Actions, PageServerLoad  } from './$types';
-import { prisma } from '$lib/utils/prisma';
 import { redirect } from '@sveltejs/kit';
-import { comparePassword } from '$lib/server/auth';
-import crypto from 'crypto'
-
+import { loginUser } from '$lib/server/auth';
 
 
 export const load: PageServerLoad = ({ cookies }) => {
-	const session = cookies.get('session');
-	if (session) {
+	if(cookies.get('session')) {
 		throw redirect(303, '/');
 	}
 };
@@ -22,32 +18,19 @@ export const actions: Actions = {
 		if (!email || !password) {
 			return { error: 'All fields are required.' };
 		}
+		
+		const session = await loginUser(email, password);
+		if(!session) {
+			return { error: 'invalid email or password' };
+		}
 
-		const user = await prisma.user.findUnique({
-			where: { email },
-		});
-			if (!user ) {
-				return { error: 'Invalid email or password'}
-			}
-
-
-			const match = await comparePassword(password, user.password);
-			if(!match) {
-				return { error: 'Invalid email or password'}
-			}
-
-			const token = crypto.randomBytes(32).toString('hex');
-			const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
-
-			await prisma.session.create({
-				data: {
-					token,
-					userId: user.id,
-					expiresAt: expires
-				}
-			})
-
-			cookies.set('session', token, { path: '/', sameSite: 'lax', secure: true });
-			throw redirect(303, '/');
+		
+		cookies.set('session', session.token, { 
+			path: '/', 
+			sameSite: 'lax', 
+			secure: true,
+			expires: session.expires
+		 });
+		throw redirect(303, '/');
 	}
 };

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isValidEmail } from './validators';
+import { isValidEmail } from '../../src/routes/validators';
 
 describe('isValidEmail', () => {
     it('should return true for valid email', () => {

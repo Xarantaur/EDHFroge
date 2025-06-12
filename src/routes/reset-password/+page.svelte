@@ -1,12 +1,14 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
 
-    export let form: any;
+    export let form;
     export let data: { token: string };
   
     let password = '';
     let confirm = '';
     let token = data.token;
+
+
 
   </script>
   

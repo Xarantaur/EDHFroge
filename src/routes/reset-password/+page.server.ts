@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad  } from './$types';
-import { prisma } from '$lib/utils/prisma';
+import { prisma } from '$lib/server/prisma';
 import { hashPassword } from '$lib/server/auth';
 import { redirect, fail } from '@sveltejs/kit';
 
@@ -50,7 +50,7 @@ export const actions: Actions = {
     const hashed = await hashPassword(password)
 
     await prisma.user.update({
-      where: { email: reset.email },
+      where: { id: reset.userId },
       data: { password: hashed }
     });
 

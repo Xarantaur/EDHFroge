@@ -1,5 +1,5 @@
 import type { Actions } from './$types';
-import { prisma } from '$lib/utils/prisma';
+import { prisma } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
 import crypto from 'crypto';
 

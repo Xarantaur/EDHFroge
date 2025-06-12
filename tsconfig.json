@@ -18,6 +18,11 @@
 		"sourceMap": true,
 		"strict": true,
 		"module": "esnext",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+		"types": [
+     	"vite/client",
+      	"vitest",
+      	"@testing-library/jest-dom"
+    ]
 	}
 }
