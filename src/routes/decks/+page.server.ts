@@ -23,10 +23,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 		orderBy: { createdAt: 'desc' }
 	});
 
-	/* const transformedDecks = decks.map(deck => ({
+	const transformedDecks = decks.map(deck => ({
 		...deck,
 		commander: deck.commanderEntry?.card
-	})) */
+	}))
 	
-	return { decks: decks };
+	return { decks: transformedDecks };
 };

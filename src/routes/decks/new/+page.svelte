@@ -7,13 +7,20 @@
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
 	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
 	import { goto } from '$app/navigation';
+	import { withPrice } from '$lib/utils/addPrice';
+	
     let deck: any[] = [];
     let commander: ParsedDeckCard | null = null
 	export let name: string = ""
 	
-	function addCard(card: ParsedDeckCard) {
+	async function addCard(card: ParsedDeckCard) {
 		if(!passingSingletonRule(deck, card, commander)) return;
-		deck = addCardToDeck(deck, card)	
+		const pricedCard = await withPrice(card.card)
+        const updatedCard: ParsedDeckCard = {
+            ...card,
+            card: pricedCard
+        }
+		deck = addCardToDeck(deck, updatedCard)	
 	}
 
     function removeCard(cardToRemove: ParsedDeckCard) {

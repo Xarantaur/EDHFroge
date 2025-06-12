@@ -5,4 +5,5 @@ export interface DeckCard {
 		 typeLine: string;
          cmc: number; 
 		 quantity: number;
+	     price?: string | null;
 }

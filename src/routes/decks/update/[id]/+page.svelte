@@ -3,6 +3,7 @@
 	import DeckViewer from '$lib/components/DeckViewer.svelte';
 	import { toastStore } from '$lib/stores/toast';
     import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
+	import { withPrice } from '$lib/utils/addPrice';
     import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
     import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
@@ -20,9 +21,15 @@
     let commander: ParsedDeckCard = data.deck.commander;
     let name: string = data.deck.name;
 
-    function addCard(card: ParsedDeckCard) {
+    async function addCard(card: ParsedDeckCard) {
         if(!passingSingletonRule(deck, card, commander)) return;
-		deck = addCardToDeck(deck, card)
+
+        const pricedCard = await withPrice(card.card)
+        const updatedCard: ParsedDeckCard = {
+            ...card,
+            card: pricedCard
+        }
+		deck = addCardToDeck(deck, updatedCard)
 	}
 
     function removeCard( cardToRemove: ParsedDeckCard) {

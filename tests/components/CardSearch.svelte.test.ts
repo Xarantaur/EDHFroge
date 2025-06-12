@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, fireEvent, findByText, findAllByText} from '@testing-library/svelte';
 import CardSearch from '../../src/lib/components/CardSearch.svelte';
 import { autocompleteCardNames } from '$lib/utils/scryfall';
+import CardHoverTrigger from '$lib/components/CardHoverTrigger.svelte';
+import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 
 
 vi.mock('$lib/utils/scryfall', () => ({
@@ -24,6 +26,53 @@ vi.mock('$lib/utils/transformToParsedDeckCard', () => ({
     }
   })),
 }));
+
+const mockCard: ParsedDeckCard = {
+  card: {
+    id: 'card-1',
+    deckId: 'deck-1',
+    cardName: 'Lightning Bolt',
+    typeLine: 'Instant',
+    cmc: 1,
+    quantity: 1,
+  },
+  images: [
+    {
+      imageType: 'normal',
+      uri: 'https://example.com/lightning-bolt.jpg',
+    },
+  ],
+  colors: [
+    {
+      color: 'R',
+    },
+  ],
+  colorIdentity: [
+    {
+      color: 'R',
+    },
+  ],
+};
+
+
+describe('CardHoverTrigger', () => {
+  it('sets previewCard on mouseenter and clears on mouseleave', async () => {
+    const { getByText } = render(CardHoverTrigger, {
+      props: {
+        card: mockCard,
+        commander: null
+      }
+    }) ;
+    const span = getByText('Lightning Bolt');
+
+    await fireEvent.mouseEnter(span);
+    const { previewCard } = await import('$lib/stores/previewCardStore');
+    expect(previewCard.set).toHaveBeenCalledWith({ card: mockCard, commander: null });
+
+    await fireEvent.mouseLeave(span)
+    expect(previewCard.set).toHaveBeenCalledWith(null)  
+  })
+})
 
 
 it('calls autocompleteCardNames on input', async () => {
