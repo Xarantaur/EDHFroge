@@ -2,29 +2,39 @@
   import { BarChartSimple } from '@carbon/charts-svelte';
   import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
   import { ScaleTypes } from '@carbon/charts-svelte';
-	import { Tooltip } from '@carbon/charts';
 
   export let deck: ParsedDeckCard[] = [];
   $: filteredDeck = deck.filter(entry => !entry.card.typeLine.includes('Land'))
 
   $: cmcData = (() => {
-    const maxCmc = Math.max(0, ...filteredDeck.map(d => d.card.cmc));
-    return Array.from({ length: maxCmc + 1 }, (_, cmc) => {
-      const count = filteredDeck.reduce(
-        (acc, entry) => entry.card.cmc === cmc ? acc + (entry.card.quantity ?? 1) : acc,
-        0
-      );
-      return { group: cmc.toString(), value: count };
-    }).filter(b => b.value > 0); 
+    const cmcValues = filteredDeck.map(entry => entry.card.cmc ?? 0);
+    const maxCmc = Math.max(0, ...cmcValues);
+
+    const cmcGroups = Array.from ({ length: maxCmc + 1}, (_, cmc) => {
+      const count = filteredDeck.reduce((total, entry) => {
+        const entryCmc = entry.card.cmc ?? 0;
+        const quantity = entry.card.quantity ?? 1;
+        return entryCmc === cmc ? total + quantity : total;
+      }, 0)
+
+      return { group: cmc.toString(), value: count }
+    })
+
+    return cmcGroups.filter(group => group.value > 0);
   })();
 
   $: averageCmc = (() => {
-  const total = filteredDeck.reduce((sum, entry) => {
-    const quantity = entry.card.quantity ?? 1;
-    return sum + (entry.card.cmc * quantity);
-  }, 0);
-  const count = filteredDeck.reduce((sum, entry) => sum + (entry.card.quantity ?? 1), 0);
-  return count > 0 ? (total / count).toFixed(2) : '0.00';
+    const totalCmc = filteredDeck.reduce((sum, entry) => {
+      const cmc = entry.card.cmc ?? 0;
+      const quantity = entry.card.quantity ?? 1;
+      return sum + (cmc * quantity);
+    }, 0)
+
+    const totalCards = filteredDeck.reduce((sum, entry) => {
+      return sum + (entry.card.quantity ?? 1);
+    }, 0)
+
+    return totalCards > 0 ? (totalCmc / totalCards).toFixed(2) : '0.00'
 })();
 
   const options = {

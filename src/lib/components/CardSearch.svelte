@@ -41,7 +41,7 @@ $: if (query.length > 1) {
     }
 
 </script>
-{console.log()}
+
 <div class="max-w-md mx-auto p-6">
 	<h2 class="text-2xl font-bold mb-4">{title}</h2>
   

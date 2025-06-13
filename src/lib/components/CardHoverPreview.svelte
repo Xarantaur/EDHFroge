@@ -11,15 +11,15 @@
 
 {#if $previewCard}
 	<div class="fixed pointer-events-none z-50 top-[var(--mouse-y,0px)] left-[var(--mouse-x,0px)] transform translate-x-4 translate-y-4">
-		<div class="relative w-full max-h-[12rem] sm:max-w-[16rem] max-h-[80vh]">
+		<div class="relative w-[min(90vw,256px)] max-h-[70vh]">
 			<picture>
 				<source srcset={getImageUri($previewCard.card, 'normal')} media="(max-width: 640px)"/>
 				<img
 					src={getImageUri($previewCard.card, 'normal')}
 					alt={$previewCard.card.card.cardName}
-					class="w-auto h-auto max-h-[80vh] rounded shadow-lg"
-					transition:fly={{ y: 8, duration: 150, x:4 }}
-				/>
+					class="w-full h-auto rounded shadow-lg"
+					transition:fly={{ y: 8, duration: 150, x: 4 }}
+					/>
 			</picture>
 
 			{#if getLegalityMessage($previewCard.card, $previewCard.commander ?? undefined)}
