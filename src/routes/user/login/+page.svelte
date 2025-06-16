@@ -38,7 +38,7 @@
 
 			<Button type="submit" variant="primary" >Log In</Button>
 		</form>
-		<a href="/forgot-password" class="block w-full mt-4 flex flex-col">
+		<a href="/user/forgot-password" class="block w-full mt-4 flex flex-col">
 		<Button type="button" variant="secondary">Forgot Password</Button>
 		</a>
 	</div>

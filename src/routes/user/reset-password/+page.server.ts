@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const token = url.searchParams.get('token');
 
 	if (!token) {
-		throw redirect(303, '/reset-link-invalid'); 
+		throw redirect(303, '/user/reset-link-invalid'); 
 	}
 
 	const reset = await prisma.passwordReset.findUnique({
@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	});
 
 	if (!reset || reset.expiresAt < new Date()) {
-		throw redirect(303, '/reset-link-expired'); 
+		throw redirect(303, '/user/reset-link-expired'); 
 	}
 
 	return {
@@ -58,6 +58,6 @@ export const actions: Actions = {
       where: { token }
     });
 
-    throw redirect(303, '/login');
+    throw redirect(303, '/user/login');
   }
 };

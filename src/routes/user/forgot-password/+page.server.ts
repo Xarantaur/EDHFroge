@@ -31,7 +31,7 @@ export const actions: Actions = {
 				}
 			});
 
-			console.log(`Reset link: http://localhost:5173/reset-password?token=${token}`);
+			console.log(`Reset link: http://localhost:5173/user/reset-password?token=${token}`);
 		}
            
         return { success: 'If that email is registered, a reset link has been sent.' };

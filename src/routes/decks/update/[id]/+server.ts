@@ -8,7 +8,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
     const deckId = params.id;
 
     if(!user) {
-        throw redirect( 303, '/login')
+        throw redirect( 303, '/user/login')
     }
 
     const { name, cards, commander } = await request.json();

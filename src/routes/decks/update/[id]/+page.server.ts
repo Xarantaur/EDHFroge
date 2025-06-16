@@ -5,7 +5,7 @@ import { transformToParsedDeckCardFromDb } from '$lib/utils/transformToParsedDec
 import { addPricesToCards, withPrice } from '$lib/utils/addPrice';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-    if (!locals.user) throw redirect(303, '/login');
+    if (!locals.user) throw redirect(303, '/user/login');
     
     const deck = await prisma.deck.findUnique({
         where: {

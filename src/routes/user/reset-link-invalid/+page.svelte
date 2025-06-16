@@ -4,7 +4,7 @@
       <p class="text-gray-700 mb-6">
         The password reset link is invalid or missing. Please try requesting a new one.
       </p>
-      <a href="/forgot-password" class="text-orange-600 hover:underline">Request new reset link</a>
+      <a href="/user/forgot-password" class="text-orange-600 hover:underline">Request new reset link</a>
     </div>
   </div>
   

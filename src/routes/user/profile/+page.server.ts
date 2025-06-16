@@ -5,7 +5,7 @@ import { hashPassword } from '$lib/server/auth';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, '/user/login');
 	}
 	
 	const user = await prisma.user.findUnique({

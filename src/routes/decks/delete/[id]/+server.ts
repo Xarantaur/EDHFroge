@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ params, locals }) => {
     const deckId = params.id
 
     if (!user) {
-        throw redirect(303, '/login');
+        throw redirect(303, '/user/login');
     }
     
    await prisma.deck.delete({

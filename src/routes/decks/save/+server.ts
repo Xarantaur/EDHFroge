@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;
 
 	if (!user) {
-		throw redirect(303, '/login');
+		throw redirect(303, '/user/login');
 	}
 
      const { name, cards, commander } = await request.json();

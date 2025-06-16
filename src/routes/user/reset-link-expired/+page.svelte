@@ -4,7 +4,7 @@
       <p class="text-gray-700 mb-6">
         This reset link has expired or has already been used. For security, links expire after 15 minutes.
       </p>
-      <a href="/forgot-password" class="text-orange-600 hover:underline">Request a new reset link</a>
+      <a href="/user/forgot-password" class="text-orange-600 hover:underline">Request a new reset link</a>
     </div>
   </div>
   

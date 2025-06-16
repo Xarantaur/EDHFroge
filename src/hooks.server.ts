@@ -24,7 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (protectedRoutes.some((route) => event.url.pathname.startsWith(route))) {
 		if (!event.locals.user) {
-			throw redirect(303, '/login');
+			throw redirect(303, '/user/login');
 		}
 	}
     
