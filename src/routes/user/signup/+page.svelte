@@ -1,11 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import { toastStore } from '$lib/stores/toast.js';
 	export let form;
 
-	$: if (form?.success) {
-		toastStore.success('🎉 Signup successful!');
-	}
 	$: if (form?.error) {
 		toastStore.error(`❌ ${form.error}`);
 	}

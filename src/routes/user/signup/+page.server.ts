@@ -2,6 +2,7 @@ import type { Actions } from './$types';
 import { prisma } from '$lib/server/prisma'
 import { hashPassword } from '$lib/server/auth';
 import crypto from 'crypto'
+import { redirect } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
@@ -52,7 +53,7 @@ export const actions: Actions = {
 			secure: true 
 		});
 
-		return { success: true };
+		throw redirect(303, '/user/profile')
 	}
 	
 };
