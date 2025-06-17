@@ -12,7 +12,7 @@
 
   </script>
   
-  <div class="flex items-center justify-center min-h-screen bg-gray-50 pt-32">
+  <div class="flex items-start justify-center min-h-screen bg-gray-50 pt-32">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
       <h1 class="text-2xl font-bold mb-6 text-center">Set a New Password</h1>
   
