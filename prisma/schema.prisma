@@ -11,7 +11,7 @@ model User {
   id             String          @id @default(uuid())
   email          String          @unique
   password       String
-  decks          Deck[]
+  decks          Deck[]          
   createdAt      DateTime        @default(now())
   sessions       Session[]
   passwordResets PasswordReset[]
@@ -23,7 +23,7 @@ model Deck {
   id          String     @id @default(uuid())
   name        String
   createdAt   DateTime   @default(now())
-  user        User       @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   cards       DeckCard[]
   commanderEntry DeckCommander? @relation("DeckCommanderRelation")

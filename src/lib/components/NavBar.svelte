@@ -1,5 +1,5 @@
 <script lang=ts>
-	import type { PublicUser } from "$lib/types/PublicUser";
+
 	import Button from "./Button.svelte";
 
   export const title = "EDH Forge";

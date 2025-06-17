@@ -5,19 +5,35 @@
     import { Tile, TileHeader, TileBody } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
     import { toastStore } from '$lib/stores/toast';
+	import { goto } from '$app/navigation';
+	
 	
 
 	export let data: {
 		user:PublicUser
 	};
+    let openDeleteDialog = false;
+    let openPasswordDialog = false; 
 
-    let openDialog = false; 
+    async function confirmDeleteUser() {
+        const res = await fetch(`/user/delete/${data.user.id}`, {
+            method: 'DELETE'
+        });
+        
+        if(!res.ok){
+            toastStore.error('Failed to Delete Account')
+        }
+
+        toastStore.success('account deleted')
+        window.location.href = '/user/login'
+        /* goto('/user/login', {invalidateAll: true}) */
+    }
 
     export let form: any;
 
     $: if (form?.success) {
 	toastStore.success(' Password changed!')
-    openDialog = false;
+    openPasswordDialog = false;
     }
     $: if (form?.error) {
         toastStore.error('❌ Something went wrong')
@@ -25,7 +41,18 @@
 </script>
 
 <Dialog
-	bind:open={openDialog}
+    bind:open={openDeleteDialog}
+    title="Delete Account"
+    onConfirm={confirmDeleteUser}
+    showFooter={true}
+    >
+    <p>
+        are you sure you want to delete your account? this action is <strong>permanent</strong> and cannot be undone.
+    </p>
+</Dialog>
+
+<Dialog
+	bind:open={openPasswordDialog}
 	title="Change Password"
     showFooter={false}
 >
@@ -49,7 +76,7 @@
             </li>
         </ul>
             <div>
-                <Button type="button" variant="secondary" onClick={() => (openDialog = false)}>cancel</Button>
+                <Button type="button" variant="secondary" onClick={() => (openPasswordDialog = false)}>cancel</Button>
                 <Button type="submit" variant="primary">Submit</Button>
             </div>
     </form>
@@ -71,7 +98,8 @@
         <TileHeader slot="header" title="Security" subtitle="" />
             <TileBody>
                 <ul>
-                    <Button onClick={() => ( openDialog = true )} type="button" variant="primary">Change password</Button>
+                    <Button onClick={() => ( openPasswordDialog = true )} type="button" variant="primary">Change password</Button>
+                    <Button onClick={() => (openDeleteDialog = true) } type="button" variant="primary">Delete Account</Button>
                     <li class={tileStyles.li}> <p>possible delete button</p></li>
                 </ul>
             </TileBody>

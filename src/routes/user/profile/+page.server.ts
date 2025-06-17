@@ -38,7 +38,7 @@ export const actions: Actions = {
 		const hashed = await hashPassword(password);
 
 		await prisma.user.update({
-			where: {id: locals.user!.id },
+			where: {id: locals.user?.id },
 			data: { password: hashed }
 		});
 		

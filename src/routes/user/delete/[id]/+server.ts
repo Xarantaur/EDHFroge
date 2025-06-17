@@ -2,17 +2,18 @@ import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
 import { redirect } from '@sveltejs/kit';
 
- export const POST: RequestHandler = async ({ params, locals }) => {
+export const DELETE: RequestHandler = async ({ locals, cookies }) => {
     const user = locals.user;
-    const deckId = params.id
 
     if (!user) {
         throw redirect(303, '/user/login');
     }
-    
-   await prisma.deck.delete({
-		where: { id: deckId }
+
+     await prisma.user.delete({
+		where: { id: user.id }
 	});
 
-    throw redirect(303, '/decks'); 
+    cookies.delete('session', {path: '/'})
+
+    return new Response(null, { status: 204})
 }
