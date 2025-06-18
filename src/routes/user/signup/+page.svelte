@@ -33,7 +33,6 @@
 	
 	<div class="relative">
 			<input
-
 				type={showPassword ? 'text' : 'password'}
 				name="password"
 				bind:value={password}

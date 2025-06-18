@@ -49,6 +49,7 @@
 		deck,
 		url: data.deck ? `/decks/update/${data.deck.id}` : '/decks/save'
 		});
+
 	if(result.success){
 		toastStore.success('deck saved successfully')
 	} else {
@@ -61,6 +62,13 @@
 
 <CardSearch onAddCard={addCard} />
 
-<DeckViewer {deckSize} bind:name {deck} bind:commander onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)} onSave={saveDeck}/>
+<DeckViewer 
+{deckSize} 
+bind:name 
+{deck} 
+bind:commander 
+onRemoveCard={removeCard} 
+onPickCommander={(card) => (commander = card)}
+onSave={saveDeck}/>
 
    

@@ -2,17 +2,15 @@
 	import Button from "$lib/components/Button.svelte";
   import { Eye, EyeOff } from 'lucide-svelte'
 
-    export let form;
+    export const form = null;
     export let data: { token: string };
-  
+    
     let password = '';
     let showPassword = false;
     let confirm = '';
     let showConfirm = false;
     let token = data.token;
-
-
-
+  
   </script>
   
   <div class="flex items-start justify-center min-h-screen bg-gray-50 pt-32">

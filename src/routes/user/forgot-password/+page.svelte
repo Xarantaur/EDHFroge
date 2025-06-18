@@ -1,11 +1,15 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
+	import { toastStore } from "$lib/stores/toast";
 
     
-	export let form;
+	export let form: { error?: string; success?: string};
 	let email="";
-</script>
 
+	$: if (form?.success) {
+	toastStore.success('If that email exits an email with a resetpassword link has been send to that email.')
+	}
+</script>
 
 <div class="flex items-start justify-center min-h-screen bg-gray-50 pt-32">
     
@@ -21,7 +25,7 @@
 				required
 				class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
 			/>
-			<Button type="submit" variant="primary" >reset password</Button>
+			<Button type="submit" variant="primary">reset password</Button>
 		</form>
 	</div>
 </div>

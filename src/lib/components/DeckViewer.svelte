@@ -6,6 +6,8 @@
 	import Button from './Button.svelte';
 	import DeckNameInput from './DeckNameInput.svelte';
 	import DeckManaCurve from './DeckManaCurve.svelte';
+	import GroupedCardlist from './GroupedCardlist.svelte';
+	import { groupCardsByType } from '$lib/utils/groupCardsByType';
 
 	export let deck: ParsedDeckCard[] = []
 	export let commander: ParsedDeckCard | null = null;
@@ -29,22 +31,37 @@
 			saving = false;
 		}
 	}
+
+	$: groupedCards = groupCardsByType(deck)
+	$: orderedGroupedCards = Object.entries(groupedCards).sort(([typeA], [typeB]) => {
+		if (typeA === "Land" ) return 1;
+		if (typeB === "Land" ) return -1;
+		return 0
+	})
 </script>
 
 
-<div class="flex items-start justify-center gap-10 w-full">
-	
+<div class="flex items-start justify-center gap-10 w-full">	
 	<div class="w-[300px]">
 		<DeckNameInput bind:name />
-<CommanderPicker commander={commander} onPick={onPickCommander} />
-<DeckManaCurve {deck}/>
-</div>
-	<div class="flex-1 max-w-[57%]">
-<DeckBoard deckSize={deckSize} >
-	<CardTypeSection deck={sortedDeck(deck)} onRemove={onRemoveCard} {commander}/>
-</DeckBoard>
-	<div class="flex justify-end p-4">
-	<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
-	</div> 
+			<CommanderPicker commander={commander} onPick={onPickCommander} />
+				<DeckManaCurve {deck}/>
+					</div >
+						<div class="flex-1 max-w-[57%]">
+					<DeckBoard deckSize={deckSize} >
+						<div class="sm:columns-1 md:columns-2 lg:columns-3 gap-8">
+						{#each orderedGroupedCards as [type, cards]}
+						<GroupedCardlist 
+							{type}
+							{cards}
+							{commander}
+							onRemove={onRemoveCard}
+						/>
+						{/each}
+					</div>
+					</DeckBoard>
+						<div class="flex justify-end p-4">
+						<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
+						</div> 
     </div>
 </div>

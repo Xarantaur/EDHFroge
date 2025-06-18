@@ -63,7 +63,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     if(!deck || deck.userId !== locals.user.id ) {
         throw error(404, 'Deck not Found')
     }
-    
+
     const commander = deck.commanderEntry?.card ? transformToParsedDeckCardFromDb(deck.commanderEntry.card) : null
     const regularCards = await addPricesToCards(
         deck.cards

@@ -4,13 +4,16 @@
     import { getLegalityClass } from "$lib/utils/cardLegality";
     import { groupCardsByType } from "$lib/utils/groupCardsByType";
 	
-
-
     export let deck: ParsedDeckCard[] = []
     export let onRemove: (card: ParsedDeckCard) => void;
     export let commander: ParsedDeckCard | null = null
 
     $: groupedCards = groupCardsByType(deck)
+
+	function sumUpBasiclands(cards:ParsedDeckCard[]) {
+		const total = cards.reduce((sum, item) => sum + (item.card.quantity || 1), 0);
+		return total
+	}
 	
 </script>
 
@@ -30,7 +33,7 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 		{#each Object.entries(groupedCards) as [type, cards]}
 			<ul class=" space-y-1 w-full max-w-full px-4">
 				<li class="font-bold text-sm sm:text-base mb-1 sm:mb-2 border-b w-full">
-					{type}s ({cards.length})
+					{type}s {sumUpBasiclands(cards)}
 				</li>
 			
 
@@ -38,7 +41,7 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 				
 					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
 						<CardHoverTrigger card={card} commander={commander} className={getLegalityClass(card, commander ?? undefined)} /> 
-						<div class="flex gap-2">
+						
 						{#if card.card.price}
 								<span class="text-gray-500">{card.card.price}£</span>
 							{/if}
@@ -46,12 +49,10 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 							<span class="">x{card.card.quantity}</span>
 						{/if}
 						{@render removeButton(() => onRemove(card))}
-					</div>
+					
 				    </li>
-				
 				{/each}
 			</ul>
 		{/each}
-
 	</div>
 </div>
