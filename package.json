@@ -70,6 +70,7 @@
 		"bcrypt": "^5.1.1",
 		"carbon-components": "^10.59.1",
 		"flowbite": "^3.1.2",
+		"lucide-svelte": "^0.517.0",
 		"nodemailer": "^7.0.3"
 	}
 }

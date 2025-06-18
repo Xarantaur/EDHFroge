@@ -5,7 +5,7 @@
     import { Tile, TileHeader, TileBody } from '$lib/components/Tile'
 	import { tileStyles } from '$lib/components/Tile/tileStyles';
     import { toastStore } from '$lib/stores/toast';
-	import { goto } from '$app/navigation';
+    import { Eye, EyeOff } from 'lucide-svelte'
 	
 	
 
@@ -26,10 +26,11 @@
 
         toastStore.success('account deleted')
         window.location.href = '/user/login'
-        /* goto('/user/login', {invalidateAll: true}) */
     }
 
     export let form: any;
+    let showPassword = false;
+    let showConfirm = false;
 
     $: if (form?.success) {
 	toastStore.success(' Password changed!')
@@ -57,24 +58,51 @@
     showFooter={false}
 >
     <form method="POST" class="space-y-4">
-        <ul>
-            <li>
-                <input 
-                name="newPassword" 
-                type="password" 
-                placeholder="New Password" 
-                class="w-full p-2 border rounded" 
-                required>
-            </li>
-            <li>
-                <input
-                 name="confirm" 
-                 type="password" 
-                 placeholder="Confirm Password" 
-                 class="w-full p-2 border rounded" 
-                 required>
-            </li>
-        </ul>
+            <div class="relative">
+			<input
+				type={showPassword ? 'text' : 'password'}
+				name="newPassword"
+				
+				placeholder="Password"
+				required
+				class="p-3 pr-10 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+			/>
+					<button
+                        type="button"
+                        class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 focus:outline-none"
+                        on:click={() => (showPassword = !showPassword)}
+                    >
+                        {#if showPassword}
+                            <EyeOff size={20} />
+                        {:else}
+                            <Eye size={20} />
+                        {/if}
+                    </button>
+            </div>
+
+
+           <div class="relative">
+			<input
+				type={showConfirm ? 'text' : 'password'}
+				name="confirm"
+				
+				placeholder="confirm"
+				required
+				class="p-3 pr-10 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+			/>
+			<button
+                type="button"
+                class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 focus:outline-none"
+                on:click={() => (showConfirm = !showConfirm)}
+            >
+                {#if showConfirm}
+                    <EyeOff size={20} />
+                {:else}
+                    <Eye size={20} />
+                {/if}
+	        </button>
+				</div>
+
             <div>
                 <Button type="button" variant="secondary" onClick={() => (openPasswordDialog = false)}>cancel</Button>
                 <Button type="submit" variant="primary">Submit</Button>
@@ -97,10 +125,9 @@
     <Tile>
         <TileHeader slot="header" title="Security" subtitle="" />
             <TileBody>
-                <ul>
+                <ul class="flex flex-col p-4 space-y-4">
                     <Button onClick={() => ( openPasswordDialog = true )} type="button" variant="primary">Change password</Button>
                     <Button onClick={() => (openDeleteDialog = true) } type="button" variant="primary">Delete Account</Button>
-                    <li class={tileStyles.li}> <p>possible delete button</p></li>
                 </ul>
             </TileBody>
             

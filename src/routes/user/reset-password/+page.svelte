@@ -1,11 +1,14 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
+  import { Eye, EyeOff } from 'lucide-svelte'
 
     export let form;
     export let data: { token: string };
   
     let password = '';
+    let showPassword = false;
     let confirm = '';
+    let showConfirm = false;
     let token = data.token;
 
 
@@ -18,24 +21,48 @@
   
       <form method="POST" class="flex flex-col gap-4">
         <input type="hidden" name="token" value={token} />
-  
+        <div class="relative">
         <input
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           bind:value={password}
           placeholder="New Password"
           required
-          class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          class="p-3 pr-10 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
-  
+        <button
+                type="button"
+                class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 focus:outline-none"
+                on:click={() => (showPassword = !showPassword)}
+            >
+                {#if showPassword}
+                    <EyeOff size={20} />
+                {:else}
+                    <Eye size={20} />
+                {/if}
+	        </button>
+        </div>
+        <div class="relative">
         <input
-          type="password"
+          type={showConfirm ? 'text' : 'password'}
           name="confirm"
           bind:value={confirm}
           placeholder="Confirm Password"
           required
-          class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          class="p-3 pr-10 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
+        <button
+                type="button"
+                class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 focus:outline-none"
+                on:click={() => (showConfirm = !showConfirm)}
+            >
+                {#if showConfirm}
+                    <EyeOff size={20} />
+                {:else}
+                    <Eye size={20} />
+                {/if}
+	        </button>
+      </div>
         <Button type="submit" variant="primary">Reset Password</Button>
       </form>
     </div>
