@@ -6,6 +6,7 @@
 	import Toaster from '$lib/components/Toaster.svelte'
 	import '../app.css';
 	import Footer from '$lib/components/Footer.svelte'
+	import CookieBanner from '$lib/components/CookieBanner.svelte';
 	
 
 	export let data;
@@ -54,6 +55,6 @@
   </main>
 <Toaster />
 <CardHoverPreview />
-
+  <CookieBanner />
   <Footer />
 </div>
