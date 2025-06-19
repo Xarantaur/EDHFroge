@@ -29,7 +29,7 @@
     </button> 
 {/snippet}
 
-<div class="flex items-center justify-between w-full">
+<div class="flex items-center justify-between gap-12 w-full">
 <li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
     <CardHoverTrigger
         {card}

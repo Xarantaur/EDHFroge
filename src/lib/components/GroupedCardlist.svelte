@@ -15,7 +15,7 @@
     export let addCard: (card: ParsedDeckCard) => void
 
 </script>
-
+<div class="break-inside-avoid mt-2">
 <ul class="space-y-1 w-full max-w-full px-4">
     <li class="font-bold text-sm sm:text-base mb-1 sm:mb-2 border-b w-full">
         {type}s {sumUpBasiclands(cards)}
@@ -29,3 +29,4 @@
     />
     {/each}
 </ul>
+</div>

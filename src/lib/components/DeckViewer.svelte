@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { ParsedDeckCard } from '$lib/types/parsedDeckCard'
-	import CardTypeSection from './CardTypeSection.svelte';
 	import DeckBoard from './DeckBoard.svelte';
 	import CommanderPicker from './CommanderPicker.svelte';
 	import Button from './Button.svelte';
@@ -9,14 +8,16 @@
 	import GroupedCardlist from './GroupedCardlist.svelte';
 	import { groupCardsByType } from '$lib/utils/groupCardsByType';
 
+
+	export let name: string;
+	export let deckSize: number;
 	export let deck: ParsedDeckCard[] = []
 	export let commander: ParsedDeckCard | null = null;
 	export let onPickCommander: (card: ParsedDeckCard) => void
 	export let removeCard: (card: ParsedDeckCard) => void;
 	export let onSave: () => Promise<void>;
 	export let addCard: (card: ParsedDeckCard) => void;
-	export let name: string;
-	export let deckSize: number;
+	
 
 	let saving = false;
 	async function handleSave() {
@@ -37,17 +38,18 @@
 </script>
 
 
-<div class="flex items-start justify-center gap-10 w-full">	
-	<div class="w-[300px]">
-		<DeckNameInput bind:name />
-			<CommanderPicker commander={commander} onPick={onPickCommander} />
-				<DeckManaCurve {deck}/>
-					</div >
-						<div class="flex-1 max-w-[57%]">
-					<DeckBoard deckSize={deckSize} >
-						<div class="sm:columns-1 md:columns-2 lg:columns-3 gap-8">
-						{#each orderedGroupedCards as [type, cards]}
-						<GroupedCardlist 
+<div class="w-full max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-6 sm:items-center lg:items-start">	
+
+	<div class="flex flex-col gap-4 w-auto lg:w-[300px] px-4">
+		<CommanderPicker commander={commander} onPick={onPickCommander} />
+		<DeckManaCurve {deck}/>
+	</div >
+
+		<div class="flex flex-col flex-1 w-auto justify-center">
+			<DeckBoard bind:name {deckSize} >
+		<div class="columns-1 sm:columns-1 md:columns-2 lg:columns-3 gap-8 ">
+				{#each orderedGroupedCards as [type, cards]}
+					<GroupedCardlist 
 							{type}
 							{cards}
 							{commander}
@@ -57,8 +59,10 @@
 						{/each}
 					</div>
 					</DeckBoard>
+
 						<div class="flex justify-end p-4">
 						<Button onClick={handleSave} type="button" variant="primary" loading={saving}>Save Deck</Button>
 						</div> 
-    </div>
+   				 </div>
+
 </div>

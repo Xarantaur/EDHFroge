@@ -53,4 +53,4 @@
 </script>
 
 <CardSearch onAddCard={addCard} />
-<DeckViewer deckSize={totalCardCount(deck, commander)} bind:name onSave={saveDeck} deck={deck} commander={commander} onRemoveCard={removeCard} onPickCommander={(card) => (commander = card)}/>
+<DeckViewer deckSize={totalCardCount(deck, commander)} bind:name onSave={saveDeck} deck={deck} commander={commander} removeCard={removeCard} addCard={addCard} onPickCommander={(card) => (commander = card)}/>

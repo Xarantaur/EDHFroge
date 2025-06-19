@@ -29,10 +29,10 @@
 <TileHeader title="Commander" subtitle="click to change"></TileHeader>
 <div role="presentation"
 aria-hidden="true" 
-class="bg-gray-200 shadow p-6 cursor-pointer hover:bg-gray-100" on:click={() => (open = true)} >
+class="bg-gray-200 p-3 shadow cursor-pointer hover:bg-gray-100 flex justify-center" on:click={() => (open = true)} >
 
     {#if commander}
-    <div class="relative w-fit">
+    <div class="relative w-fit ">
         {@render CommanderCardPreview(commander)}
         {#if !isLegalCommander(commander)}
             <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded">

@@ -4,6 +4,8 @@
   import { ScaleTypes } from '@carbon/charts-svelte';
 
   export let deck: ParsedDeckCard[] = [];
+
+
   $: filteredDeck = deck.filter(entry => !entry.card.typeLine.includes('Land'))
 
   $: cmcData = (() => {
@@ -66,7 +68,7 @@
  
 }
 </script>
-<div class="bg-gray-200">
+<div class="bg-gray-200 mt-4 rounded">
 <BarChartSimple data={cmcData} options={options} />
-<p>Average Mana Cost: {averageCmc}</p>
+<p class="text-center font-bold">Average Mana Cost: {averageCmc}</p>
 </div>
