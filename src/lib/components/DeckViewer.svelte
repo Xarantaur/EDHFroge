@@ -12,15 +12,11 @@
 	export let deck: ParsedDeckCard[] = []
 	export let commander: ParsedDeckCard | null = null;
 	export let onPickCommander: (card: ParsedDeckCard) => void
-	export let onRemoveCard: (card: ParsedDeckCard) => void;
+	export let removeCard: (card: ParsedDeckCard) => void;
 	export let onSave: () => Promise<void>;
+	export let addCard: (card: ParsedDeckCard) => void;
 	export let name: string;
 	export let deckSize: number;
-
-		function sortedDeck(deck: ParsedDeckCard[])  {
-		const sortedDeck = deck.sort((a, b) => a.card.cardName.localeCompare(b.card.cardName)) 
-		return sortedDeck
-	}
 
 	let saving = false;
 	async function handleSave() {
@@ -55,7 +51,8 @@
 							{type}
 							{cards}
 							{commander}
-							onRemove={onRemoveCard}
+							removeCard={removeCard}
+							addCard={addCard}
 						/>
 						{/each}
 					</div>

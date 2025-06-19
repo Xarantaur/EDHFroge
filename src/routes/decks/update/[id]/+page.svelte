@@ -63,11 +63,12 @@
 <CardSearch onAddCard={addCard} />
 
 <DeckViewer 
+{addCard}
 {deckSize} 
 bind:name 
 {deck} 
 bind:commander 
-onRemoveCard={removeCard} 
+removeCard={removeCard} 
 onPickCommander={(card) => (commander = card)}
 onSave={saveDeck}/>
 

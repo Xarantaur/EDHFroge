@@ -11,7 +11,8 @@
     export let type: String;
     export let cards: ParsedDeckCard[];
     export let commander: ParsedDeckCard | null = null;
-    export let onRemove: (card: ParsedDeckCard ) => void;
+    export let removeCard: (card: ParsedDeckCard ) => void;
+    export let addCard: (card: ParsedDeckCard) => void
 
 </script>
 
@@ -23,7 +24,8 @@
     <DeckCardRow
         {card}
         {commander}
-        onRemove={() => onRemove(card)} 
+        removeCard={() => removeCard(card)} 
+        addCard={() => addCard(card)} 
     />
     {/each}
 </ul>
