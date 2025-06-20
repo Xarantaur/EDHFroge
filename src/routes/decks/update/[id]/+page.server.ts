@@ -67,7 +67,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     const commander = deck.commanderEntry?.card ? transformToParsedDeckCardFromDb(deck.commanderEntry.card) : null
     const regularCards = await addPricesToCards(
         deck.cards
-            .filter((card) => card.id !== commander?.card.id)
+            .filter((card) => card.id !== commander?.id)
             .map(transformToParsedDeckCardFromDb)
     )
        

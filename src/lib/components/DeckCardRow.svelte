@@ -38,13 +38,13 @@
     />
 </li>
 <div class="flex gap-2 text-xs">
-    {#if card.card.price}
-        <span class="px-2 text-gray-500">{card.card.price}£</span>
+    {#if card.price}
+        <span class="px-2 text-gray-500">{card.price}£</span>
         {/if}
-        {#if card.card.quantity && card.card.quantity > 1}
-			<span>x{card.card.quantity}</span>
+        {#if card.quantity && card.quantity > 1}
+			<span>x{card.quantity}</span>
 		{/if}
-        {#if card.card.typeLine.includes('Basic Land') || card.card.typeLine.includes('Basic Snow Land')} 
+        {#if card.typeLine.includes('Basic Land') || card.typeLine.includes('Basic Snow Land')} 
             {@render addButton(addCard)}
         {/if}
 	    {@render removeButton(removeCard)}

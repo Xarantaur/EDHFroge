@@ -3,9 +3,15 @@ import type { DeckCardImage } from "./DeckCardImage";
 import type { DeckCardColor } from "./DeckCardColor";
 import type { DeckCardColorIdentity } from "./DeckCardColorIdentity";
 
-export interface ParsedDeckCard {
+/* export interface ParsedDeckCard {
     card: DeckCard;
     images: Omit<DeckCardImage, 'id' | 'deckCardId'>[];
 	colors: Omit<DeckCardColor, 'id' | 'deckCardId'>[];
 	colorIdentity: Omit<DeckCardColorIdentity, 'id' | 'deckCardId'>[];
+} */
+
+export interface ParsedDeckCard extends DeckCard {
+     images: Omit<DeckCardImage, 'id' | 'deckCardId'>[];
+     colors: Omit<DeckCardColor, 'id' | 'deckCardId'>[];
+     colorIdentity: Omit<DeckCardColorIdentity, 'id' | 'deckCardId'>[];
 }

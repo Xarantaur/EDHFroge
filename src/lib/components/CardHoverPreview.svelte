@@ -16,7 +16,7 @@
 				<source srcset={getImageUri($previewCard.card, 'normal')} media="(max-width: 640px)"/>
 				<img
 					src={getImageUri($previewCard.card, 'normal')}
-					alt={$previewCard.card.card.cardName}
+					alt={$previewCard.card.cardName}
 					class="w-full h-auto rounded shadow-lg"
 					transition:fly={{ y: 8, duration: 150, x: 4 }}
 					/>

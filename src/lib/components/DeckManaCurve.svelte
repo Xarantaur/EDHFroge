@@ -6,16 +6,16 @@
   export let deck: ParsedDeckCard[] = [];
 
 
-  $: filteredDeck = deck.filter(entry => !entry.card.typeLine.includes('Land'))
+  $: filteredDeck = deck.filter(entry => !entry.typeLine.includes('Land'))
 
   $: cmcData = (() => {
-    const cmcValues = filteredDeck.map(entry => entry.card.cmc ?? 0);
+    const cmcValues = filteredDeck.map(entry => entry.cmc ?? 0);
     const maxCmc = Math.max(0, ...cmcValues);
 
     const cmcGroups = Array.from ({ length: maxCmc + 1}, (_, cmc) => {
       const count = filteredDeck.reduce((total, entry) => {
-        const entryCmc = entry.card.cmc ?? 0;
-        const quantity = entry.card.quantity ?? 1;
+        const entryCmc = entry.cmc ?? 0;
+        const quantity = entry.quantity ?? 1;
         return entryCmc === cmc ? total + quantity : total;
       }, 0)
 
@@ -27,13 +27,13 @@
 
   $: averageCmc = (() => {
     const totalCmc = filteredDeck.reduce((sum, entry) => {
-      const cmc = entry.card.cmc ?? 0;
-      const quantity = entry.card.quantity ?? 1;
+      const cmc = entry.cmc ?? 0;
+      const quantity = entry.quantity ?? 1;
       return sum + (cmc * quantity);
     }, 0)
 
     const totalCards = filteredDeck.reduce((sum, entry) => {
-      return sum + (entry.card.quantity ?? 1);
+      return sum + (entry.quantity ?? 1);
     }, 0)
 
     return totalCards > 0 ? (totalCmc / totalCards).toFixed(2) : '0.00'

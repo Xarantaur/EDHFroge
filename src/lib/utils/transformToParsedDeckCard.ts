@@ -38,14 +38,14 @@ export function transformToParsedDeckCard(raw: any): ParsedDeckCard {
 	);
 
         return {
-            card: {
+            
                 id: raw.id,
                 deckId: raw.deckId,
                 cardName: raw.name,
                 typeLine: face?.type_line ?? raw.type_line ?? '',
                 cmc: raw.cmc ?? 0,
                 quantity: raw.quantity ?? 1
-            },
+            ,
             images,
             colors,
             colorIdentity,

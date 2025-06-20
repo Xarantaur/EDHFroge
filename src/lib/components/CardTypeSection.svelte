@@ -11,7 +11,7 @@
     $: groupedCards = groupCardsByType(deck)
 
 	function sumUpBasiclands(cards:ParsedDeckCard[]) {
-		const total = cards.reduce((sum, item) => sum + (item.card.quantity || 1), 0);
+		const total = cards.reduce((sum, item) => sum + (item.quantity || 1), 0);
 		return total
 	}
 	
@@ -42,11 +42,11 @@ class="w-4 h-4 flex items-center justify-center text-sm font-bold text-gray-500 
 					<li class="flex items-center justify-between gap-2 text-xs border-b border-transparent hover:text-orange-500 hover:border-orange-400">
 						<CardHoverTrigger card={card} commander={commander} className={getLegalityClass(card, commander ?? undefined)} /> 
 						
-						{#if card.card.price}
-								<span class="text-gray-500">{card.card.price}£</span>
+						{#if card.price}
+								<span class="text-gray-500">{card.price}£</span>
 							{/if}
-						{#if card.card.quantity && card.card.quantity > 1}
-							<span class="">x{card.card.quantity}</span>
+						{#if card.quantity && card.quantity > 1}
+							<span class="">x{card.quantity}</span>
 						{/if}
 						{@render removeButton(() => onRemove(card))}
 					

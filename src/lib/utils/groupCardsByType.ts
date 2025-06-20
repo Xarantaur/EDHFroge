@@ -5,7 +5,7 @@ export function groupCardsByType(cards: ParsedDeckCard[]): Record<string, Parsed
 	const grouped: Record<string, ParsedDeckCard[]> = {};
 
 	for (const card of cards) {
-		const primaryType = getPrimaryCardType(card.card.typeLine);
+		const primaryType = getPrimaryCardType(card.typeLine);
 		if (!primaryType) continue;
 
 		if (!grouped[primaryType]) {
@@ -30,20 +30,18 @@ function getPrimaryCardType(typeLine: string): string | undefined {
 }
 
 function isBasicLand(card: ParsedDeckCard): boolean {
-	return BASIC_LAND_TYPES.includes(card.card.cardName);
+	return BASIC_LAND_TYPES.includes(card.cardName);
 }
 
 function mergeBasicLandCard(group: ParsedDeckCard[], card: ParsedDeckCard): void {
-	const existing = group.find(c => c.card.cardName === card.card.cardName);
+	const existing = group.find(c => c.cardName === card.cardName);
 	if (existing) {
-		existing.card.quantity = (existing.card.quantity ?? 1) + (card.card.quantity ?? 1);
+		existing.quantity = (existing.quantity ?? 1) + (card.quantity ?? 1);
 	} else {
 		group.push({
-			...card,
-			card: {
-				...card.card,
-				quantity: card.card.quantity ?? 1
-			}
+			
+				...card,
+				quantity: card.quantity ?? 1
 		});
 	}
 }

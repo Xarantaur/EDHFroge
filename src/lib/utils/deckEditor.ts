@@ -4,10 +4,13 @@ import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 
 export function removeCardFromDeck(deck: ParsedDeckCard[], cardToRemove: ParsedDeckCard): ParsedDeckCard[] {
     return deck.flatMap(card => {
-        if (card.card.cardName !== cardToRemove.card.cardName) return [card];
+        const isSameCard = card.cardName === cardToRemove.cardName;
+        const isBasicLand = BASIC_LAND_TYPES.includes(card.cardName)
 
-        if(BASIC_LAND_TYPES.includes(card.card.cardName) && card.card.quantity && card.card.quantity > 1 ) {
-            return [{ ...card, card: { ...card.card, quantity: card.card.quantity - 1} }]
+        if(!isSameCard) return [card];
+
+        if (isBasicLand && card.quantity > 1) {
+            return [{ ...card, quantity: card.quantity - 1}]
         }
 
         return []
@@ -15,16 +18,22 @@ export function removeCardFromDeck(deck: ParsedDeckCard[], cardToRemove: ParsedD
 }
 
 export function addCardToDeck(deck: ParsedDeckCard[], newCard: ParsedDeckCard): ParsedDeckCard[] {
-    if (BASIC_LAND_TYPES.includes(newCard.card.cardName)) {
-        const existing = deck.find(card => card.card.cardName === newCard.card.cardName);
-        if(existing) {
-            return deck.map(card => 
-                card.card.cardName === newCard.card.cardName ? {...card, card: {...card.card, quantity: (card.card.quantity ?? 1) + 1 } } : card
-            );
+    const isBasicLand = BASIC_LAND_TYPES.includes(newCard.cardName);
+    const existingCard = deck.find(card => card.cardName === newCard.cardName)
+
+    if( isBasicLand && existingCard) {
+        return deck.map(card => 
+            card.cardName === newCard.cardName
+            ? {...card, quantity: (card.quantity ?? 1) + 1}
+            : card
+            )
         }
-        return [...deck, {...newCard, card: {...newCard.card, quantity: 1}} ]
-    }
-    return [...deck, newCard]
+
+        if(isBasicLand){
+            return [...deck, { ...newCard, quantity: 1 }]
+        }
+
+        return [...deck, newCard]
 }
 
 export async function saveDeckToServer({
@@ -52,8 +61,8 @@ export async function saveDeckToServer({
                 name,
                 commander: {
                     card: {
-                        ...commander.card,
-                        typeLine: commander.card.typeLine
+                        ...commander,
+                        typeLine: commander.typeLine
                     },
                     images: commander.images,
                     colors: commander.colors,
@@ -61,8 +70,8 @@ export async function saveDeckToServer({
                 }, 
                     cards: deck.map(card => ({
                         card: {
-                            ...card.card,
-                            typeLine: card.card.typeLine
+                            ...card,
+                            typeLine: card.typeLine
                         },
                         images: card.images,
                         colors: card.colors,

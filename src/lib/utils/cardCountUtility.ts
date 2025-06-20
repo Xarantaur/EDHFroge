@@ -2,9 +2,9 @@ import { toastStore } from "$lib/stores/toast";
 import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
 
 export function totalCardCount(deck: ParsedDeckCard[], commander: ParsedDeckCard | null): number {
-	const total = deck.reduce((acc, card) => {
-			const qty = card.card.quantity ?? 1;
-			return acc + qty;
+	const total = deck.reduce((count, card) => {
+			const quantity = card.quantity ?? 1;
+			return count + quantity;
 	}, commander ? 1 : 0)
 
 	if(total > 100) {

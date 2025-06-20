@@ -4,7 +4,7 @@
    
 
    function sumUpBasiclands(cards:ParsedDeckCard[]) {
-		const total = cards.reduce((sum, item) => sum + (item.card.quantity || 1), 0);
+		const total = cards.reduce((sum, item) => sum + (item.quantity || 1), 0);
 		return total
 	}
 

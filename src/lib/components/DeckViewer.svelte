@@ -3,7 +3,6 @@
 	import DeckBoard from './DeckBoard.svelte';
 	import CommanderPicker from './CommanderPicker.svelte';
 	import Button from './Button.svelte';
-	import DeckNameInput from './DeckNameInput.svelte';
 	import DeckManaCurve from './DeckManaCurve.svelte';
 	import GroupedCardlist from './GroupedCardlist.svelte';
 	import { groupCardsByType } from '$lib/utils/groupCardsByType';

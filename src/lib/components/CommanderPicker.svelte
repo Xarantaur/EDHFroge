@@ -21,7 +21,7 @@
 
 {#snippet CommanderCardPreview(card: ParsedDeckCard)}
     <div class="">
-        <img src={card.images.find(img => img.imageType === 'normal')?.uri} alt={card?.card.cardName ?? 'unknown commaner'} class="w-64 max-h-[80vh] rounded shadow-lg"/>
+        <img src={card.images.find(img => img.imageType === 'normal')?.uri} alt={card.cardName ?? 'unknown commaner'} class="w-64 max-h-[80vh] rounded shadow-lg"/>
         
     </div>
 {/snippet}

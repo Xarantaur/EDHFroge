@@ -5,7 +5,7 @@ import { toastStore } from "$lib/stores/toast";
 export let commander: ParsedDeckCard 
 
  function isCardBanned(card: ParsedDeckCard): boolean {
-    return bannedCards.includes(card.card.cardName);
+    return bannedCards.includes(card.cardName);
 } 
 
  function respectsColorIdentity(card: ParsedDeckCard, identity: string[]): boolean {
@@ -14,18 +14,18 @@ export let commander: ParsedDeckCard
 }
 
 export function passingSingletonRule(deck: ParsedDeckCard[], newCard: ParsedDeckCard, commander:ParsedDeckCard | null): boolean {
-    const name = newCard.card.cardName;
+    const name = newCard.cardName;
     
     if(BASIC_LAND_TYPES.includes(name)) {
         return true;
     }
 
-    if(commander && name === commander?.card.cardName) {
+    if(commander && name === commander?.cardName) {
         toastStore.error("Card is your Commander")
         return false;
     }
     
-    if(deck.some((card) => card.card.cardName === name)) {
+    if(deck.some((card) => card.cardName === name)) {
         toastStore.error("Card is already in deck")
         return false
     }
