@@ -15,11 +15,6 @@
 	
 	async function addCard(card: ParsedDeckCard) {
 		if(!passingSingletonRule(deck, card, commander)) return;
-		/* const price = await withPrice(card)
-        const updatedCard: ParsedDeckCard = {
-            ...card,
-            price
-        } */
 		deck = addCardToDeck(deck, await withPrice(card))	
 	}
 
@@ -45,7 +40,6 @@
 		if(result.deckId) {
 			goto(`/decks/update/${result.deckId}`)
 		}
-		goto(`/decks/update/${result.deckId}`);
 	} else {
 		toastStore.error(result.error ?? 'Failed to save deck')
 	}

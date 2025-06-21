@@ -59,32 +59,15 @@ export async function saveDeckToServer({
 			body: JSON.stringify({
                 ...(deckId ? { id: deckId } : {}),
                 name,
-                commander: {
-                    card: {
-                        ...commander,
-                        typeLine: commander.typeLine
-                    },
-                    images: commander.images,
-                    colors: commander.colors,
-                    colorIdentity: commander.colorIdentity,
-                }, 
-                    cards: deck.map(card => ({
-                        card: {
-                            ...card,
-                            typeLine: card.typeLine
-                        },
-                        images: card.images,
-                        colors: card.colors,
-                        colorIdentity: card.colorIdentity,
-            }))
+                commander,
+                cards: deck
         }),
     })
         
     const result = await response.json();
         
     if(!response.ok || !result.success ){
-        const errorText = await response.text();
-    return { success: false, error: errorText };
+    return { success: false, error: result.error ??  'unknow error from server'};
 }
     if(result.deckId){
         return { success: true, deckId: result.deckId}

@@ -15,8 +15,8 @@
             commander: ParsedDeckCard
             cards: ParsedDeckCard[]; 
         }
-    };
-
+    }
+   
     let deck: ParsedDeckCard[] = [...data.deck.cards]
     let commander: ParsedDeckCard = data.deck.commander;
     let name: string = data.deck.name;

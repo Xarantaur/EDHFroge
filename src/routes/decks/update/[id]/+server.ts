@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 import { prisma } from '$lib/server/prisma'
 import { json, redirect } from "@sveltejs/kit"
-import type { DeckCardImage } from "$lib/types/DeckCardImage";
+import { createDeckCard, deleteRemovedCards, findCommanderByDeckAndName, setCommander, updateCardQuantity, updateDeckName } from "$lib/server/prisma/deckRepo";
 
 export const POST: RequestHandler = async ({ request, params, locals }) => {
     const user = locals.user;
@@ -17,79 +17,47 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
         return json({ error: 'Missing or invalid deck data.' }, { status: 400 })
     }
 
+	const idsToKeep = cards.filter(card => card.deckId !== undefined).map(card => card.id);
+	const newCards = cards.filter(card => card.deckId === undefined)
     try {
 
-        await prisma.deckCard.deleteMany({ where: { deckId } });
+		await updateCardQuantity(cards)
+		await deleteRemovedCards(deckId, idsToKeep)
+		
+		let commanderRecord = await findCommanderByDeckAndName(deckId, commander.cardName)
+		
+		if(!commanderRecord){
+			commanderRecord = await setCommander(deckId, commander)
+		}
+			
+		if(!commanderRecord) {
+			return json({ error: 'Commander not found'}, { status: 400 })
+		}
 
-        const commanderRecord = await prisma.deckCard.create({
-            data: {
-                deckId,
-                cardName: commander.card.cardName,
-                typeLine: commander.card.typeLine,
-                cmc: commander.card.cmc,
-                images: {
-                    createMany: {
-						data: commander.images.map((img: Omit<DeckCardImage, 'id'>) => ({
-							imageType: img.imageType,
-							uri: img.uri
-						}))
-					}
-                },
-                colors: {
-					createMany: {
-						data: commander.colors
-					}
-				},
-				colorIdentity: {
-					createMany: {
-						data: commander.colorIdentity
-					}
-				}
-            }
-        });
+       for (const card of newCards) {
+			await createDeckCard(deckId, card)
+		}
 
-       for (const card of cards) {
-			await prisma.deckCard.create({
+        await updateDeckName(deckId, name)
+
+       const existingCommander = await prisma.deckCommander.findUnique({
+			where: { deckId }
+		});
+
+		if (existingCommander) {
+			await prisma.deckCommander.update({
+				where: { id: existingCommander.id },
+				data: { deckCardId: commanderRecord.id }
+			});
+		} else {
+			await prisma.deckCommander.create({
 				data: {
 					deckId,
-					cardName: card.card.cardName,
-					typeLine: card.card.typeLine,
-					cmc: card.card.cmc,
-					quantity: card.card.quantity ?? 1,
-					images: {
-						createMany: {
-							data: card.images.map((img: Omit<DeckCardImage, 'id'>) => ({
-								imageType: img.imageType,
-								uri: img.uri
-							}))
-						}
-					},
-					colors: {
-						createMany: {
-							data: card.colors
-						}
-					},
-					colorIdentity: {
-						createMany: {
-							data: card.colorIdentity
-						}
-					}
+					deckCardId: commanderRecord.id
 				}
 			});
 		}
 
-        await prisma.deck.update({
-            where: { id: deckId },
-            data: { name }
-        });
-
-        await prisma.deckCommander.create({
-                 data: {
-                deckId,
-                deckCardId: commanderRecord.id
-            }
-        });
-    
     return json({ success: true, deckId });
     } catch (error) {
         console.error('Deck Update failed:', error);

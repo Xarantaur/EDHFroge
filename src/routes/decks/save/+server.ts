@@ -2,6 +2,7 @@ import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
 import { json, redirect } from '@sveltejs/kit';
 import type { DeckCardImage } from '$lib/types/DeckCardImage';
+import { saveNewDeck } from '$lib/server/prisma/deckRepo';
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;
@@ -17,84 +18,16 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 	
 	try {
-
-		const deck = await prisma.deck.create({
-			data: {
-				name,
-				userId: user.id
-			}
-		});
-
-		const commanderCard = await prisma.deckCard.create({
-			data: {
-				deckId: deck.id,
-				cardName: commander.card.cardName,
-				typeLine: commander.card.typeLine,
-				cmc: commander.card.cmc,
-				 images: {
-					createMany: {
-						data: commander.images.map((img: Omit<DeckCardImage, 'id'>) => ({
-							imageType: img.imageType,
-							uri: img.uri
-						}))
-					}
-				},
-				colors: {
-					createMany: {
-						data: commander.colors
-					}
-				},
-				colorIdentity: {
-					createMany: {
-						data: commander.colorIdentity
-					}
-				}
-			},
-			include: {
-				images: true
-			}
-		});
-
-		if (cards.length > 0) {
-			for (const card of cards) {
-				await prisma.deckCard.create({
-					data: {
-						deckId: deck.id,
-						cardName: card.card.cardName,
-						typeLine: card.card.typeLine,
-						cmc: card.card.cmc,
-						quantity: card.card.quantity ?? 1,
-						images: {
-							createMany: {
-								data: card.images.map((img: Omit<DeckCardImage, 'id'>) => ({
-									imageType: img.imageType,
-									uri: img.uri
-								}))
-							}
-						},
-						colors: {
-							createMany: {
-								data: card.colors
-							}
-						},
-						colorIdentity: {
-							createMany: {
-								data: card.colorIdentity
-							}
-						}
-					}
-				});
-			}
-		}
-
-			await prisma.deckCommander.create({
-					data: {
-						deckId: deck.id,
-						deckCardId: commanderCard.id
-				}
-});
+		const deck = await saveNewDeck({
+			userId: user.id,
+			name,
+			commander,
+			cards
+		})
+		
 		return json({ success: true, deckId: deck.id  });
 	} catch (error) {
 		return json({ error: 'Failed to save deck.' }, { status: 500})
 	}
+	
 };
