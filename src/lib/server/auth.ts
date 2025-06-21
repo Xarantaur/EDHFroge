@@ -32,3 +32,14 @@ export async function loginUser(email: string, password: string) {
 
 	return { token, expires };
 }
+
+export function validatePassword(password: string) {
+	if (password.length < 8) {
+		return 'Password needs to be at least 8 characters long.'
+	}
+	if(!/[0-9]/.test(password)) {
+		return 'Password skal indeholde mindst ét tal'
+	}
+
+	return null
+}

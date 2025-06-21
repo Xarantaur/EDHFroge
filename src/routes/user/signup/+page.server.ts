@@ -1,8 +1,8 @@
 import type { Actions } from './$types';
 import { prisma } from '$lib/server/prisma'
-import { hashPassword } from '$lib/server/auth';
+import { hashPassword, validatePassword } from '$lib/server/auth';
 import crypto from 'crypto'
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
@@ -11,6 +11,8 @@ export const actions: Actions = {
 		const password = form.get('password')?.toString();
 		const confirm = form.get('confirm')?.toString();
 
+		
+		
 		if (!email || !password || !confirm) {
 			return { error: 'All fields are required.' };
 		}
@@ -18,6 +20,8 @@ export const actions: Actions = {
 		if (password !== confirm) {
 			return { error: 'Passwords do not match.' };
 		}
+		const error = validatePassword(password);
+		if(error) { return fail(400, { error})}
 
 		const existingUser = await prisma.user.findUnique({
 			where: { email }

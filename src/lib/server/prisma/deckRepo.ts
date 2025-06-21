@@ -141,3 +141,55 @@ export async function saveNewDeck({
 
         return deck
 }
+
+export async function updateDeck({
+    deckId,
+    name,
+    cards,
+    commander
+}: {
+    deckId: string;
+    name: string;
+    cards: ParsedDeckCard[];
+    commander: ParsedDeckCard;
+}) {
+        const idsToKeep = cards.filter(card => card.deckId !== undefined).map(card => card.id).filter((id): id is string => typeof id === 'string');
+        const newCards = cards.filter(card => card.deckId === undefined)
+        
+            await updateCardQuantity(cards)
+            await deleteRemovedCards(deckId, idsToKeep)
+            
+            let commanderRecord = await findCommanderByDeckAndName(deckId, commander.cardName)
+            
+            if(!commanderRecord){
+                commanderRecord = await setCommander(deckId, commander)
+            }
+                
+            if(!commanderRecord) {
+                 throw new Error('Commander not found')
+            }
+    
+           for (const card of newCards) {
+                await createDeckCard(deckId, card)
+            }
+    
+            await updateDeckName(deckId, name)
+    
+           const existingCommander = await prisma.deckCommander.findUnique({
+                where: { deckId }
+            });
+    
+            if (existingCommander) {
+                await prisma.deckCommander.update({
+                    where: { id: existingCommander.id },
+                    data: { deckCardId: commanderRecord.id }
+                });
+            } else {
+                await prisma.deckCommander.create({
+                    data: {
+                        deckId,
+                        deckCardId: commanderRecord.id
+                    }
+                });
+            }
+}

@@ -37,7 +37,7 @@
     openPasswordDialog = false;
     }
     $: if (form?.error) {
-        toastStore.error('❌ Something went wrong')
+        toastStore.error(form?.error)
     }
 </script>
 

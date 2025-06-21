@@ -1,7 +1,7 @@
 import type { PageServerLoad, Actions } from './$types'
 import { prisma } from '$lib/server/prisma'
 import { redirect, fail } from '@sveltejs/kit'
-import { hashPassword } from '$lib/server/auth';
+import { hashPassword, validatePassword } from '$lib/server/auth';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
@@ -34,7 +34,10 @@ export const actions: Actions = {
 		if(password !== confirm){
 			return fail(400, {error: 'Password do not match.'});
 		}
-		// implement password requirements
+		
+		const error = validatePassword(password)
+		if(error) { return fail(400, { error})}
+
 		const hashed = await hashPassword(password);
 
 		await prisma.user.update({

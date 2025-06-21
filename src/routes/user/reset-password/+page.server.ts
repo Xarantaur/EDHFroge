@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/server/prisma';
-import { hashPassword } from '$lib/server/auth';
+import { hashPassword, validatePassword } from '$lib/server/auth';
 import { redirect, fail } from '@sveltejs/kit';
 
 
@@ -38,6 +38,8 @@ export const actions: Actions = {
     if (password !== confirm) {
       return fail(400, { error: 'Passwords do not match.' });
     }
+    const error = validatePassword(password);
+        if(error) { return fail(400, { error})}
 
     const reset = await prisma.passwordReset.findUnique({
       where: { token }

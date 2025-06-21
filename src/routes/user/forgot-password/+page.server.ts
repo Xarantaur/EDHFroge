@@ -15,7 +15,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'Email is required.' });
 		}
         
-
         const user = await prisma.user.findUnique({
             where: { email }
         });
