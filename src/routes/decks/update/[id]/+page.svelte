@@ -23,12 +23,6 @@
 
     async function addCard(card: ParsedDeckCard) {
         if(!passingSingletonRule(deck, card, commander)) return;
-
-        /* const pricedCard = await withPrice(card.card)
-        const updatedCard: ParsedDeckCard = {
-            ...card,
-            card: pricedCard
-        } */
 		deck = addCardToDeck(deck, await withPrice(card))
 	}
 

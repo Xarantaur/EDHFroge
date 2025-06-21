@@ -37,3 +37,34 @@ return {
     eur: card.prices.eur ?? null
 }
 }
+
+export async function getCardPricesBatch(names: string[]): Promise<Record<string, string | null>>{
+    const deckChunkSize = 50;
+    const prices: Record<string, string | null> = {}
+    
+
+    for (let i = 0; i < names.length; i += deckChunkSize) {
+        const chunkSize = names.slice(i, i + deckChunkSize)
+        const identifiers = chunkSize.map(cardName => ({ name: cardName }))
+    
+
+    const res = await fetch('https://api.scryfall.com/cards/collection', {
+        method: 'POST',
+        headers: {
+            'Content-type' : 'application/json',
+            'User-Agent' : 'EDH Forge/1.0 not yet launched(finals project, probabely wont ever be launch) I do not intent to break anything. heres the github: https://github.com/Xarantaur/EDHFroge'
+        },
+        body: JSON.stringify({ identifiers })
+    })
+
+    if(!res.ok) {
+        throw new Error('Failed to fetch prices')
+    }
+    const { data } = await res.json();
+
+    for (const card of data) {
+        prices[card.name] = card.prices?.eur ?? null
+    }
+    }
+    return prices
+}
