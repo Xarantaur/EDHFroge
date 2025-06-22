@@ -16,7 +16,7 @@ export async function saveNewDeck({
     commander: ParsedDeckCard;
     cards: ParsedDeckCard[]
 }) {
-    console.time('promise all')
+
     const deck = await deckRepo.createDeck(userId, name)
 
     const commanderCard = await deckCardRepo.setCommander(deck.id, commander);
@@ -24,7 +24,6 @@ export async function saveNewDeck({
         await Promise.all(cards.map(card => deckCardRepo.createDeckCard(deck.id, card)));
 
         await deckCommanderRepo.createDeckCommanderLink(deck.id, commanderCard.id)
-    console.timeEnd('promise all')
         return deck
 }
 
