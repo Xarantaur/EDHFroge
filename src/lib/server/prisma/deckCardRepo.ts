@@ -51,18 +51,17 @@ export async function createDeckCard(deckId: string, card: ParsedDeckCard) {
                         });
             }
 
-
-            export async function findCommanderByDeckAndName(deckId: string, cardName: string){
-                return await prisma.deckCard.findFirst({
-                    where: {
-                        deckId,
+export async function findCommanderByDeckAndName(deckId: string, cardName: string){
+    return await prisma.deckCard.findFirst({
+        where: {
+                     deckId,
                         cardName
                     }
                 });
             }
 
 
-            export async function updateCardQuantity(cards: ParsedDeckCard[]) {
+export async function updateCardQuantity(cards: ParsedDeckCard[]) {
     const updateCards = cards.filter(card => card.deckId !== undefined && card.quantity !== undefined);
 
     for (const card of updateCards) {

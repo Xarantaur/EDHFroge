@@ -16,17 +16,15 @@ export async function saveNewDeck({
     commander: ParsedDeckCard;
     cards: ParsedDeckCard[]
 }) {
+    console.time('promise all')
     const deck = await deckRepo.createDeck(userId, name)
 
     const commanderCard = await deckCardRepo.setCommander(deck.id, commander);
 
-        for (const card of cards) {
-            await deckCardRepo.createDeckCard(deck.id, card);
-
-        }
+        await Promise.all(cards.map(card => deckCardRepo.createDeckCard(deck.id, card)));
 
         await deckCommanderRepo.createDeckCommanderLink(deck.id, commanderCard.id)
-
+    console.timeEnd('promise all')
         return deck
 }
 
@@ -57,9 +55,7 @@ export async function updateDeck({
                  throw new Error('Commander not found')
             }
     
-           for (const card of newCards) {
-                await deckCardRepo.createDeckCard(deckId, card)
-            }
+           await Promise.all(cards.map(card => deckCardRepo.createDeckCard(deckId, card)));
     
             await deckRepo.updateDeckName(deckId, name)
     
