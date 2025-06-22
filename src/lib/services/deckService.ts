@@ -54,7 +54,7 @@ export async function updateDeck({
                  throw new Error('Commander not found')
             }
     
-           await Promise.all(cards.map(card => deckCardRepo.createDeckCard(deckId, card)));
+           await Promise.all(newCards.map(card => deckCardRepo.createDeckCard(deckId, card)));
     
             await deckRepo.updateDeckName(deckId, name)
     
