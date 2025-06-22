@@ -1,6 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { json, redirect } from "@sveltejs/kit"
-import { updateDeck } from "$lib/server/prisma/deckRepo";
+import { updateDeck } from "$lib/services/deckService";
 
 export const POST: RequestHandler = async ({ request, params, locals }) => {
     const user = locals.user;

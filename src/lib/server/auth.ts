@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
-import { prisma } from '$lib/server/prisma'
 import crypto from 'crypto'
+import { findUserByEmail } from './prisma/userRepo';
+import { deleteSessionByToken, findResetPasswordToken, updateUserPassword, createSession } from './prisma/authRepo';
+
 
 const SALT_ROUNDS = 10;
 
@@ -13,7 +15,7 @@ export async function comparePassword(password: string, hash: string){
 }
 
 export async function loginUser(email: string, password: string) {
-	const user = await prisma.user.findUnique({where: { email } });
+	const user = await findUserByEmail(email)
 	if(!user) return null;
 
 	const match = await comparePassword(password, user.password);
@@ -22,15 +24,13 @@ export async function loginUser(email: string, password: string) {
 	const token = crypto.randomBytes(32).toString('hex');
 	const expires = new Date(Date.now() + 1000 * 60 * 60 * 24);
 
-	await prisma.session.create({
-		data: {
-			token,
-			userId: user.id,
-			expiresAt: expires
-		}
-	})
-
+	await createSession(token, user.id, expires)
+		
 	return { token, expires };
+}
+
+export async function logoutUser(token: string) {
+	await deleteSessionByToken(token)
 }
 
 export function validatePassword(password: string) {
@@ -42,4 +42,13 @@ export function validatePassword(password: string) {
 	}
 
 	return null
+}
+
+export async function findPasswordToken(token: string) {
+	return findResetPasswordToken(token)
+}
+
+export async function resetPassword(userId: string, newPassword: string) {
+	const hashed = await hashPassword(newPassword)
+	await updateUserPassword(userId, hashed)
 }

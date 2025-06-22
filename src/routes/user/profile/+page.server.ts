@@ -1,23 +1,15 @@
 import type { PageServerLoad, Actions } from './$types'
-import { prisma } from '$lib/server/prisma'
+import { findUserById } from '$lib/server/prisma/userRepo';
 import { redirect, fail } from '@sveltejs/kit'
 import { hashPassword, validatePassword } from '$lib/server/auth';
+import { updateUserPassword } from '$lib/server/prisma/authRepo';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(303, '/user/login');
 	}
 	
-	const user = await prisma.user.findUnique({
-		where: { id: locals.user.id },
-		select: {
-			id: true,
-			email: true,
-			decks: true,
-			createdAt: true, 
-		}
-	});
-
+	const user = await findUserById( locals.user.id)
 	return { user }
 };
 
@@ -40,10 +32,7 @@ export const actions: Actions = {
 
 		const hashed = await hashPassword(password);
 
-		await prisma.user.update({
-			where: {id: locals.user?.id },
-			data: { password: hashed }
-		});
+		await updateUserPassword(locals.user.id, hashed)
 		
 		return { success: true };
 	}

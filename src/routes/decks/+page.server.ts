@@ -1,27 +1,13 @@
 import type { PageServerLoad } from './$types';
-import { prisma } from '$lib/server/prisma';
 import { redirect } from '@sveltejs/kit';
+import { getDecksByUser } from '$lib/server/prisma/deckRepo';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(303, '/user/login');
 	}
 
-	const decks = await prisma.deck.findMany({
-		where: { userId: locals.user.id },
-		include: { commanderEntry: {
-			include: {
-				card: {
-					include: {
-						images: true,
-						colors: true,
-						colorIdentity: true
-					}
-				}
-			}
-		} },
-		orderBy: { createdAt: 'desc' }
-	});
+	const decks = await getDecksByUser( locals.user.id )
 
 	const transformedDecks = decks.map(deck => ({
 		...deck,

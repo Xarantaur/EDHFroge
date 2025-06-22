@@ -5,7 +5,8 @@
 	import { toastStore } from '$lib/stores/toast';
 	import { totalCardCount } from '$lib/utils/cardCountUtility'
 	import { passingSingletonRule } from '$lib/utils/cardLegality';
-	import { removeCardFromDeck, saveDeckToServer, addCardToDeck } from '$lib/utils/deckEditor';
+	import { removeCardFromDeck, addCardToDeck } from '$lib/utils/deckEditor';
+	import { saveDeckToServer } from '$lib/api/fetch';
 	import { goto } from '$app/navigation';
 	import { withPrice } from '$lib/utils/addPrice';
 	

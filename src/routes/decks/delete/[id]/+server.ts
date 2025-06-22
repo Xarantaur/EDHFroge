@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { prisma } from '$lib/server/prisma';
+import { deleteDeck } from '$lib/services/deckService';
 import { redirect } from '@sveltejs/kit';
 
  export const POST: RequestHandler = async ({ params, locals }) => {
@@ -10,9 +10,7 @@ import { redirect } from '@sveltejs/kit';
         throw redirect(303, '/user/login');
     }
     
-   await prisma.deck.delete({
-		where: { id: deckId }
-	});
+   await deleteDeck(deckId)
 
     throw redirect(303, '/decks'); 
 }

@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad  } from './$types';
 import { prisma } from '$lib/server/prisma';
-import { hashPassword, validatePassword } from '$lib/server/auth';
+import { resetPassword, findPasswordToken, validatePassword } from '$lib/server/auth';
 import { redirect, fail } from '@sveltejs/kit';
 
 
@@ -11,9 +11,7 @@ export const load: PageServerLoad = async ({ url }) => {
 		throw redirect(303, '/user/reset-link-invalid'); 
 	}
 
-	const reset = await prisma.passwordReset.findUnique({
-		where: { token }
-	});
+	const reset = await findPasswordToken(token)
 
 	if (!reset || reset.expiresAt < new Date()) {
 		throw redirect(303, '/user/reset-link-expired'); 
@@ -41,20 +39,13 @@ export const actions: Actions = {
     const error = validatePassword(password);
         if(error) { return fail(400, { error})}
 
-    const reset = await prisma.passwordReset.findUnique({
-      where: { token }
-    });
+    const reset = await findPasswordToken(token)
 
     if (!reset || reset.expiresAt < new Date()) {
       return fail(400, { error: 'Invalid or expired reset link.' });
     }
 
-    const hashed = await hashPassword(password)
-
-    await prisma.user.update({
-      where: { id: reset.userId },
-      data: { password: hashed }
-    });
+    await resetPassword(reset.userId, password)
 
     await prisma.passwordReset.delete({
       where: { token }

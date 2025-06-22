@@ -1,5 +1,5 @@
 import type { ParsedDeckCard } from "$lib/types/parsedDeckCard";
-import { getCardPrice } from "./scryfall";
+import { getCardPrice } from "../api/scryfall";
 
 export async function withPrice<T extends {cardName: string}>(card: T ): Promise<T & {price: string | null}> {
     try {

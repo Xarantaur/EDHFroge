@@ -1,8 +1,6 @@
 import type { RequestHandler } from './$types';
-import { prisma } from '$lib/server/prisma';
 import { json, redirect } from '@sveltejs/kit';
-import type { DeckCardImage } from '$lib/types/DeckCardImage';
-import { saveNewDeck } from '$lib/server/prisma/deckRepo';
+import { saveNewDeck } from '$lib/services/deckService';
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;

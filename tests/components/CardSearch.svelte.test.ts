@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, fireEvent, findByText, findAllByText} from '@testing-library/svelte';
 import CardSearch from '../../src/lib/components/CardSearch.svelte';
-import { autocompleteCardNames } from '$lib/utils/scryfall';
+import { autocompleteCardNames } from '$lib/api/scryfall';
 import CardHoverTrigger from '$lib/components/CardHoverTrigger.svelte';
 import type { ParsedDeckCard } from '$lib/types/parsedDeckCard';
 

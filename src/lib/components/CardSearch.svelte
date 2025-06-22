@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { searchCardByName, autocompleteCardNames } from '$lib/utils/scryfall';
+  import { searchCardByName, autocompleteCardNames } from '$lib/api/scryfall';
   import { transformToParsedDeckCard } from '$lib/utils/transformToParsedDeckCard'
   import { clickOutSide } from '$lib/utils/clickOutSide';
 	import type { ParsedDeckCard  } from '$lib/types/parsedDeckCard';

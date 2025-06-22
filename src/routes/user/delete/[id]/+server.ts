@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { prisma } from '$lib/server/prisma';
+import { deleteUser } from '$lib/services/userServices';
 import { redirect } from '@sveltejs/kit';
 
 export const DELETE: RequestHandler = async ({ locals, cookies }) => {
@@ -9,9 +9,7 @@ export const DELETE: RequestHandler = async ({ locals, cookies }) => {
         throw redirect(303, '/user/login');
     }
 
-     await prisma.user.delete({
-		where: { id: user.id }
-	});
+     await deleteUser(user.id)
 
     cookies.delete('session', {path: '/'})
 
