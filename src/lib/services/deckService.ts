@@ -75,5 +75,5 @@ export async function updateDeck({
 }
 
 export async function deleteDeck(deckId: string) {
-    return deckRepo.DeleteDeck(deckId)
+    return await deckRepo.DeleteDeck(deckId)
 }
