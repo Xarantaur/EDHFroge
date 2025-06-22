@@ -58,7 +58,7 @@ export async function getDecksByUser(userId: string) {
 }
 
 export async function DeleteDeck(deckId:string ) {
-    prisma.deck.delete({
+     return prisma.deck.delete({
 		where: { id: deckId }
 	});
 }
